@@ -62,7 +62,7 @@ export function TextInput({
 
   /**
    * @description Resizes text input if component is defined as multiline.
-   * @param {Object} e - InputEvent.
+   * @param e - InputEvent.
    */
   const resizeContainer = (e: InputEvent): void => {
     if (!multiline) return;
@@ -74,7 +74,7 @@ export function TextInput({
 
   /**
    * @description Stores value into state when switching focus.
-   * @param {FocusEvent} e - Focus event.
+   * @param e - Text input focus/blur event.
    */
   const storeValue = (e: FocusEvent): void => {
     if (!(e.currentTarget instanceof HTMLElement)) return;
