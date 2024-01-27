@@ -6,6 +6,7 @@
   padding: 0;
   overflow: hidden;
   border-color: rgba(var(--bg-color-internal), 100%);
+  vertical-align: top;
 }
 
 .date-input__input:disabled {
