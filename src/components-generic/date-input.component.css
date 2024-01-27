@@ -4,6 +4,12 @@
   --bg-color-internal: var(--bg-color, var(--bg-color-default));
   margin: 0;
   padding: 0;
+  border: none;
+  background: transparent;
+  color: inherit;
+  font-family: inherit;
+  font-size: inherit;
+  font-weight: inherit;
   overflow: hidden;
   border-color: rgba(var(--bg-color-internal), 100%);
   vertical-align: top;
