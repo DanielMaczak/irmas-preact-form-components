@@ -1,3 +1,6 @@
+//  External dependencies
+import { useRef } from 'preact/hooks';
+
 //  Custom component CSS
 import './num-input.component.css';
 
@@ -30,6 +33,7 @@ const KEYS_ALLOWED: string[] = [
  * Included features:
  *    protects from entering values that are not number,
  *    minimum/maximum values with soft and hard enforcement,
+ *    protection from going outside safe INT limits,
  *    customizable class names,
  *    state management for input values,
  *    optional associated label.
@@ -38,9 +42,7 @@ const KEYS_ALLOWED: string[] = [
 export function NumInput({
   value,
   setValue,
-  id = `${COMP_NAME}__${(Math.random() * +new Date() + 1)
-    .toString(36)
-    .slice(-8)}`,
+  id = '',
   className = '',
   label = '',
   enabled = true,
@@ -58,6 +60,14 @@ export function NumInput({
   max?: number;
   invalidClassName?: string;
 }) {
+  //  Prevent native ID from reseting
+  const idRef = useRef(
+    id ||
+      `${COMP_NAME}__${(Math.random() * +new Date() + 1)
+        .toString(36)
+        .slice(-8)}`
+  );
+
   /**
    * @description Composes class name for number-only input component.
    * Requires that component name is part of defaultClass.
@@ -126,20 +136,28 @@ export function NumInput({
       return;
     }
     //  Test against min-max
+    const applyMinMax = (minMax: number) => {
+      //  Ensure we never leave safe INT range
+      if (newValue > Number.MAX_SAFE_INTEGER) {
+        newValue = Number.MAX_SAFE_INTEGER;
+        elem.value = String(newValue);
+      } else if (newValue < Number.MIN_SAFE_INTEGER) {
+        newValue = Number.MIN_SAFE_INTEGER;
+        elem.value = String(newValue);
+        //  Then, if we are, apply local min/max
+      } else if (!invalidClassName) {
+        newValue = minMax;
+        elem.value = String(newValue);
+      }
+      //  Apply formatting
+      if (invalidClassName) {
+        elem.classList.add(invalidClassName);
+      }
+    };
     if (newValue < min) {
-      if (invalidClassName) {
-        elem.classList.add(invalidClassName);
-      } else {
-        newValue = min;
-        elem.value = String(newValue);
-      }
+      applyMinMax(min);
     } else if (newValue > max) {
-      if (invalidClassName) {
-        elem.classList.add(invalidClassName);
-      } else {
-        newValue = max;
-        elem.value = String(newValue);
-      }
+      applyMinMax(max);
     } else if (invalidClassName) {
       elem.classList.remove(invalidClassName);
     }
@@ -157,7 +175,7 @@ export function NumInput({
       <input
         type="text" // prevent nonsensical behavior on number input
         value={value}
-        id={id}
+        id={idRef.current}
         class={composeClassName(COMP_INPUT)}
         disabled={!enabled}
         min={min}
