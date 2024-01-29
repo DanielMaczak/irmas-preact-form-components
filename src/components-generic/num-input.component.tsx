@@ -1,13 +1,8 @@
-//  External dependencies
-import { useRef } from 'preact/hooks';
-
 //  Custom component CSS
-import './num-input.component.css';
+import './style.css';
 
-//  CSS identifiers
-const COMP_NAME: string = 'num-input';
-const COMP_INPUT: string = `${COMP_NAME}__input`;
-const COMP_LABEL: string = `${COMP_NAME}__label`;
+//  Internal dependencies
+import * as c from './constants.service';
 
 //  Key press identifiers
 const KEYS_ALLOWED: string[] = [
@@ -30,13 +25,14 @@ const KEYS_ALLOWED: string[] = [
  * @description Enables creating customizable number-only input components.
  * To disable entering numbers outside min/max range, give only min and/or max.
  * To apply styling to values outside min/max range, give also invalidCLassName.
+ * Value is stored on valid numeric input.
  * Included features:
- *    protects from entering values that are not number,
- *    minimum/maximum values with soft and hard enforcement,
- *    protection from going outside safe INT limits,
- *    customizable class names,
- *    state management for input values,
- *    optional associated label.
+ * -  protects from entering values that are not number,
+ * -  minimum/maximum values with soft and hard enforcement,
+ * -  protection from going outside safe INT limits,
+ * -  customizable class names,
+ * -  state management for input values,
+ * -  optional associated label.
  * @version 1.0.0
  */
 export function NumInput({
@@ -60,32 +56,10 @@ export function NumInput({
   max?: number;
   invalidClassName?: string;
 }) {
-  //  Prevent native ID from reseting
-  const idRef = useRef(
-    id ||
-      `${COMP_NAME}__${(Math.random() * +new Date() + 1)
-        .toString(36)
-        .slice(-8)}`
-  );
-
   /**
-   * @description Composes class name for number-only input component.
-   * Requires that component name is part of defaultClass.
-   * @param defaultClassName - Default class name for element.
-   * @returns Composed class name.
-   */
-  const composeClassName = (defaultClassName: string): string => {
-    const customClassName: string = className
-      ? defaultClassName.replace(COMP_NAME, className)
-      : '';
-    const completeClassName: string[] = [defaultClassName, customClassName];
-    return completeClassName.join(' ').replace(/\s+/g, ' ').trim();
-  };
-
-  /**
-   * @description Filters keyboard input to allow only numeric values,
+   * @description Filters input to allow only values related to numbers,
    * including single decimal point and negative sign.
-   * Does not access element for maximum efficiency,
+   * Does not access element itself for maximum efficiency,
    * this is intended to be handled by storeValue only if passed through here.
    * @param e - Keyboard event to be filtered.
    */
@@ -126,7 +100,7 @@ export function NumInput({
       setValue(0);
       return;
     }
-    //  Test rare cases of wrong number
+    //  Test for wrong number made of allowed characters
     let newValue: number = Number(elem.value);
     if (isNaN(newValue)) {
       const cursorPosition: number = (elem.selectionStart ?? 1) - 1;
@@ -165,10 +139,21 @@ export function NumInput({
     setValue(newValue);
   };
 
+  //  Ensure element has valid static ID
+  const idRef = c.generateElementId(id);
+
+  //  Generate class strings
+  const labelClasses = c.generateInputClasses('label', className);
+  const inputClasses = c.generateInputClasses(
+    'input',
+    className,
+    c.CLASS_NUMINPUT
+  );
+
   return (
     <>
       {label && (
-        <label htmlFor={id} class={composeClassName(COMP_LABEL)}>
+        <label htmlFor={idRef.current} class={labelClasses}>
           {label}
         </label>
       )}
@@ -176,7 +161,7 @@ export function NumInput({
         type="text" // prevent nonsensical behavior on number input
         value={value}
         id={idRef.current}
-        class={composeClassName(COMP_INPUT)}
+        class={inputClasses}
         disabled={!enabled}
         min={min}
         max={max}

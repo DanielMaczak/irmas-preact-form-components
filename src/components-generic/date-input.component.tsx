@@ -1,28 +1,27 @@
+//  Custom component CSS
+import './style.css';
+
 //  External dependencies
 import { ChangeEvent } from 'preact/compat';
 
-//  Custom component CSS
-import './date-input.component.css';
-
-//  CSS identifiers
-const COMP_NAME: string = 'date-input';
-const COMP_INPUT: string = `${COMP_NAME}__input`;
-const COMP_LABEL: string = `${COMP_NAME}__label`;
+//  Internal dependencies
+import * as c from './constants.service';
 
 /**
  * @module date-input.component
  * @description Enables creating customizable date input components.
- * Expects date via value as number in ms.
+ * Expects date via value parameter to be given as number in ms.
+ * Value is stored on valid date input.
  * Included features:
- *    customizable class names,
- *    state management for input values,
- *    optional associated label.
+ * -  customizable class names,
+ * -  state management for input values,
+ * -  optional associated label.
  * @version 1.0.0
  */
 export function DateInput({
   value,
   setValue,
-  id = `${COMP_NAME}__${(+new Date()).toString(36).slice(-8)}`,
+  id = '',
   className = '',
   label = '',
   enabled = true,
@@ -34,20 +33,6 @@ export function DateInput({
   label?: string;
   enabled?: boolean;
 }) {
-  /**
-   * @description Composes class name for date input component.
-   * Requires that component name is part of defaultClass.
-   * @param defaultClass - Default class name for element.
-   * @returns Composed class name.
-   */
-  const composeClassName = (defaultClass: string): string => {
-    const customClassName: string = className
-      ? defaultClass.replace(COMP_NAME, className)
-      : '';
-    const completeClassName: string[] = [defaultClass, customClassName];
-    return completeClassName.join(' ').replace(/\s+/g, ' ').trim();
-  };
-
   /**
    * @description Stores date value into state when changed.
    * @param e - Date input change event.
@@ -61,18 +46,25 @@ export function DateInput({
     setValue(newValue);
   };
 
+  //  Ensure element has valid static ID
+  const idRef = c.generateElementId(id);
+
+  //  Generate class strings
+  const labelClasses = c.generateInputClasses('label', className);
+  const inputClasses = c.generateInputClasses('input', className);
+
   return (
     <>
       {label && (
-        <label htmlFor={id} class={composeClassName(COMP_LABEL)}>
+        <label htmlFor={idRef.current} class={labelClasses}>
           {label}
         </label>
       )}
       <input
         type="date"
         value={new Date(value).toISOString().slice(0, 10)}
-        id={id}
-        class={composeClassName(COMP_INPUT)}
+        id={idRef.current}
+        class={inputClasses}
         disabled={!enabled}
         onChange={storeValue}
       />
