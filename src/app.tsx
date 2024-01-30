@@ -1,11 +1,11 @@
 import { useState } from 'preact/hooks';
 
-import './app.css';
-
 //  DEVELOPMENT OF GENERIC COMPONENTS
 import { TextInput } from './components-generic/text-input.component';
 import { DateInput } from './components-generic/date-input.component';
 import { NumInput } from './components-generic/num-input.component';
+
+import './app.css'; // TODO IMPORTANT to overload styles
 
 //  DEVELOPMENT OF GENERIC COMPONENTS
 const TextInputSample = () => (

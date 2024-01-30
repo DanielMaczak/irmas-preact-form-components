@@ -15,7 +15,8 @@ import * as c from './constants.service';
  * Included features:
  * -  customizable class names,
  * -  state management for input values,
- * -  optional associated label.
+ * -  optional associated label,
+ * -  invalid input protection.
  * @version 1.0.0
  */
 export function DateInput({
@@ -38,6 +39,7 @@ export function DateInput({
    * @param e - Date input change event.
    */
   const storeValue = (e: ChangeEvent): void => {
+    if (!enabled) return;
     if (!(e.currentTarget instanceof HTMLInputElement)) return;
     const elem: HTMLInputElement = e.currentTarget;
     const newValue: number = new Date(elem.value).valueOf();
@@ -46,8 +48,8 @@ export function DateInput({
     setValue(newValue);
   };
 
-  //  Ensure element has valid static ID
-  const idRef = c.generateElementId(id);
+  //  Ensure elements have valid static ID
+  const idRef = id || label ? c.generateElementId(id) : undefined;
 
   //  Generate class strings
   const labelClasses = c.generateInputClasses('label', className);
@@ -56,14 +58,21 @@ export function DateInput({
   return (
     <>
       {label && (
-        <label htmlFor={idRef.current} class={labelClasses}>
+        <label htmlFor={idRef?.current} class={labelClasses}>
           {label}
         </label>
       )}
       <input
         type="date"
-        value={new Date(value).toISOString().slice(0, 10)}
-        id={idRef.current}
+        value={
+          typeof value === 'number' &&
+          !isNaN(value) &&
+          value > -Infinity &&
+          value < Infinity
+            ? new Date(value).toISOString().slice(0, 10)
+            : undefined
+        }
+        {...(idRef ? { id: idRef.current } : {})}
         class={inputClasses}
         disabled={!enabled}
         onChange={storeValue}

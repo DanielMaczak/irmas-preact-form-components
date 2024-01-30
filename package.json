@@ -6,14 +6,20 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "test": "vitest",
+    "coverage": "vitest run --coverage"
   },
   "dependencies": {
     "preact": "^10.19.3"
   },
   "devDependencies": {
     "@preact/preset-vite": "^2.7.0",
+    "@testing-library/preact": "^3.2.3",
+    "jsdom": "^24.0.0",
     "typescript": "^5.2.2",
-    "vite": "^5.0.8"
+    "vite": "^5.0.8",
+    "vitest": "^1.2.2",
+    "vitest-dom": "^0.1.1"
   }
 }
