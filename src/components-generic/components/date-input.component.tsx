@@ -5,7 +5,7 @@ import './style.css';
 import { ChangeEvent } from 'preact/compat';
 
 //  Internal dependencies
-import * as c from './constants.service';
+import * as u from '../services/utilities.service';
 
 /**
  * @module date-input.component
@@ -49,11 +49,11 @@ export function DateInput({
   };
 
   //  Ensure elements have valid static ID
-  const idRef = id || label ? c.generateElementId(id) : undefined;
+  const idRef = id || label ? u.generateElementId(id) : undefined;
 
   //  Generate class strings
-  const labelClasses = c.generateInputClasses('label', className);
-  const inputClasses = c.generateInputClasses('input', className);
+  const labelClasses = u.generateInputClasses('label', className);
+  const inputClasses = u.generateInputClasses('input', className);
 
   return (
     <>

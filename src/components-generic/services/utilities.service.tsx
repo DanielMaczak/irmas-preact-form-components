@@ -1,11 +1,7 @@
 /**
- * @module constants.service
- * @description Hosts general-purpose constants of this project,
- * and provides following utilities for generating constant values:
- * -  CSS classes are generated for input or label elements
- *    with mandatory base class integrated by default.
- * -  Unique element IDs are returned as reference to ensure they don't change.
- * All exported object constants MUST be frozen to ensure immutability.
+ * @module utilities.service
+ * @description Hosts utility function (helpers) of this project.
+ * All functions hosted here are intended to be reused across components.
  * @version 1.0.0
  */
 
@@ -16,10 +12,6 @@ import { MutableRef, useRef } from 'preact/hooks';
 const CLASS_GENERIC: string = 'irmaspfc'; // assigned to all components
 const CLASS_INPUT: string = `__input`; // version for controls (inputs)
 const CLASS_LABEL: string = `__label`; // version for labels
-export const CLASS_TEXTINPUT: string = 'text-input';
-export const CLASS_TEXTSINGLE: string = 'text-single'; // single-line version
-export const CLASS_TEXTMULTI: string = 'text-multi'; // multi-line
-export const CLASS_NUMINPUT: string = 'num-input';
 
 //  ID storage
 const ELEM_ID_LEN: number = 8;
@@ -45,26 +37,30 @@ export const generateInputClasses = (
 };
 
 /**
+ * @description Generates string of 8 random characters.
+ * Resulting ID is almost guaranteed to be unique,
+ * and is guaranteed to never be 0 or less than 8 characters.
+ * @returns String of 8 random characters.
+ */
+const generateRandomId = (): string => {
+  const now: number = Date.now();
+  return (now * (1 - Math.random())) // 0 <= Math.random() < 1
+    .toString(36) // turn to ASCII chars
+    .padStart(ELEM_ID_LEN, now.toString()) // ensure desired length
+    .slice(-ELEM_ID_LEN); // take most variable 8 chars
+};
+
+/**
  * @description Generates reference of element ID.
- * If no ID is provided, generates one using current date and random number.
- * Ensures that generated ID is not already in use
- * and is guaranteed to reach 8 characters.
+ * If no ID is provided, generates new unique ID
+ * that is guaranteed to be unique.
  * @param id - ID provided by user, used without adjustment if given.
  * @returns Mutable reference object containing unique element ID.
  */
 export const generateElementId = (id: string): MutableRef<string> => {
-  //  If ID given by user, reference it without adjustment
   if (id) return useRef(id);
-  //  Generate custom unique ID
-  const getRandomId = (): string => {
-    const now: number = Date.now();
-    return (now * (1 - Math.random())) // 0 <= Math.random() < 1
-      .toString(36) // turn to ASCII chars
-      .padStart(ELEM_ID_LEN, now.toString()) // ensure desired length
-      .slice(-ELEM_ID_LEN); // take most variable 8 chars
-  };
-  let randomId: string = getRandomId();
-  while (!randomId || generatedIds.has(randomId)) randomId = getRandomId();
+  let randomId: string = generateRandomId();
+  while (!randomId || generatedIds.has(randomId)) randomId = generateRandomId();
   generatedIds.add(randomId); // remember new ID
   return useRef(CLASS_GENERIC + '__' + randomId);
 };

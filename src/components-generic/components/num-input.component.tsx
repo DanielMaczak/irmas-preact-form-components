@@ -2,22 +2,23 @@
 import './style.css';
 
 //  Internal dependencies
-import * as c from './constants.service';
+import * as c from '../services/constants.service';
+import * as u from '../services/utilities.service';
 
-//  Key press identifiers
-const KEYS_ALLOWED: string[] = [
-  '0',
-  '1',
-  '2',
-  '3',
-  '4',
-  '5',
-  '6',
-  '7',
-  '8',
-  '9',
-  '.',
-  '-',
+//  Key press identifiers as UTF-16 decimal codes
+const KEYS_ALLOWED: number[] = [
+  48, // 0
+  49, // 1...
+  50,
+  51,
+  52,
+  53,
+  54,
+  55,
+  56,
+  57, // 9
+  46, // .
+  45, // -
 ].sort();
 
 /**
@@ -67,7 +68,7 @@ export function NumInput({
     //  Let through non-character keys
     if (e.key.length > 1) return;
     //  Prevent non-numeric
-    if (!KEYS_ALLOWED.includes(e.key)) {
+    if (!KEYS_ALLOWED.includes(e.key.charCodeAt(0))) {
       e.preventDefault();
       return;
     }
@@ -140,11 +141,11 @@ export function NumInput({
   };
 
   //  Ensure element has valid static ID
-  const idRef = c.generateElementId(id);
+  const idRef = u.generateElementId(id);
 
   //  Generate class strings
-  const labelClasses = c.generateInputClasses('label', className);
-  const inputClasses = c.generateInputClasses(
+  const labelClasses = u.generateInputClasses('label', className);
+  const inputClasses = u.generateInputClasses(
     'input',
     className,
     c.CLASS_NUMINPUT

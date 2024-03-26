@@ -2,7 +2,8 @@
 import './style.css';
 
 //  Internal dependencies
-import * as c from './constants.service';
+import * as c from '../services/constants.service';
+import * as u from '../services/utilities.service';
 
 /**
  * @module text-input.component
@@ -59,11 +60,11 @@ export function TextInput({
   };
 
   //  Ensure element has valid static ID
-  const idRef = c.generateElementId(id);
+  const idRef = u.generateElementId(id);
 
   //  Generate class strings
-  const labelClasses = c.generateInputClasses('label', className);
-  const inputClasses = c.generateInputClasses(
+  const labelClasses = u.generateInputClasses('label', className);
+  const inputClasses = u.generateInputClasses(
     'input',
     className,
     c.CLASS_TEXTINPUT,
