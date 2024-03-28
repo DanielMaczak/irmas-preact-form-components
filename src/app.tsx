@@ -27,6 +27,8 @@ import { DateInput } from './components-generic/components/date-input.component'
 const DateInputSample = () => (
   <DateInput
     value={Date.now()}
+    min={Date.now() - 1000 * 3600 * 24 * 7}
+    max={Date.now() + 1000 * 3600 * 24 * 40}
     setValue={() => {}}
     className="date-class"
     label="date-label:"
