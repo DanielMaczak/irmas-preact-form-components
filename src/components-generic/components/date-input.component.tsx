@@ -1,10 +1,12 @@
 //  Custom component CSS
-import './style.css';
+import '../styles/style.css';
 
 //  External dependencies
-import { ChangeEvent } from 'preact/compat';
+import { Ref } from 'preact';
+import { ForwardedRef, forwardRef, useMemo, ChangeEvent } from 'preact/compat';
 
 //  Internal dependencies
+import * as c from '../services/constants.service';
 import * as u from '../services/utilities.service';
 
 /**
@@ -17,43 +19,60 @@ import * as u from '../services/utilities.service';
  * -  state management for input values,
  * -  optional associated label,
  * -  invalid input protection.
+ * @param value Hook to value displayed in component.
+ * @param setValue Hook to change internal value storage.
+ * @param id Custom ID to override randomly generated.
+ * @param className Custom class list to attach to component.
+ * @param label Text to display in label (otherwise is omitted).
+ * @param enabled Relay standard HTML attribute.
+ * @param ref Forward ref to input element passed from parent.
  * @version 1.0.0
  */
-export function DateInput({
-  value,
-  setValue,
-  id = '',
-  className = '',
-  label = '',
-  enabled = true,
-}: {
-  value: number;
-  setValue: (value: number) => void;
-  id?: string;
-  className?: string;
-  label?: string;
-  enabled?: boolean;
-}) {
+export const DateInput = forwardRef(function DateInput(
+  {
+    value,
+    setValue,
+    id = '',
+    className = '',
+    label = '',
+    enabled = true,
+  }: {
+    value: number;
+    setValue: (value: number) => void;
+    id?: string;
+    className?: string;
+    label?: string;
+    enabled?: boolean;
+  },
+  ref: ForwardedRef<HTMLElement>
+) {
   /**
    * @description Stores date value into state when changed.
-   * @param e - Date input change event.
+   * @param e Date input change event.
    */
   const storeValue = (e: ChangeEvent): void => {
     if (!enabled) return;
     if (!(e.currentTarget instanceof HTMLInputElement)) return;
-    const elem: HTMLInputElement = e.currentTarget;
-    const newValue: number = new Date(elem.value).valueOf();
-    if (isNaN(newValue)) return;
-    if (value === newValue) return;
+    const newValue: number = new Date(e.currentTarget.value).valueOf();
+    if (isNaN(newValue) || value === newValue) return;
     setValue(newValue);
   };
 
-  //  Ensure elements have valid static ID
-  const idRef = id || label ? u.generateElementId(id) : undefined;
+  //  Ensure element has valid static ID
+  const idRef = useMemo(
+    () => (id || label ? u.generateElementId(id) : undefined),
+    [id, label]
+  );
 
   //  Generate class strings
-  const labelClasses = u.generateInputClasses('label', className);
-  const inputClasses = u.generateInputClasses('input', className);
+  const labelClasses = useMemo(
+    () => u.generateInputClasses(c.CLASS_TYPES.CLASS_LABEL, className),
+    [className]
+  );
+  const inputClasses = useMemo(
+    () => u.generateInputClasses(c.CLASS_TYPES.CLASS_INPUT, className),
+    [className]
+  );
 
   return (
     <>
@@ -65,10 +84,7 @@ export function DateInput({
       <input
         type="date"
         value={
-          typeof value === 'number' &&
-          !isNaN(value) &&
-          value > -Infinity &&
-          value < Infinity
+          typeof value === 'number' && Number.isFinite(value)
             ? new Date(value).toISOString().slice(0, 10)
             : undefined
         }
@@ -76,7 +92,8 @@ export function DateInput({
         class={inputClasses}
         disabled={!enabled}
         onChange={storeValue}
+        ref={ref as Ref<HTMLInputElement>}
       />
     </>
   );
-}
+});

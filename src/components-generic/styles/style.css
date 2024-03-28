@@ -5,6 +5,7 @@
   --bg-color-default: 128, 128, 128;
   --bg-color-internal: var(--bg-color, var(--bg-color-default));
   /* Reset formatting look like any other element */
+  display: inline-block;
   margin: 0;
   padding: 0;
   border: none;
@@ -34,6 +35,13 @@
   padding: 0;
   vertical-align: top;
 }
+.irmaspfc__fieldset {
+  display: inline-block;
+  margin: 0;
+  padding: 0;
+  border: none;
+  vertical-align: top;
+}
 
 /* Individual component styling - TextInput */
 
@@ -44,7 +52,8 @@
   white-space: nowrap;
 }
 .text-multi__input {
-  white-space: normal;
+  white-space: pre-wrap;
+  word-wrap: break-word;
 }
 
 /* Individual component styling - NumInput */

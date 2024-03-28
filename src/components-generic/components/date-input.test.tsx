@@ -19,7 +19,7 @@ import * as m from './date-input.mocks';
 /**
  * @description Encapsulates tested component with state.
  * Is intended to be the only gateway of tests to tested component.
- * @param (*) mimicking the params of tested component.
+ * @param (*) Mimicking the params of tested component.
  */
 const TestedComponent = ({
   initialValue,

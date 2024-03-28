@@ -1,54 +1,91 @@
+/**
+ * Module used for testing.
+ */
+
 import { useState } from 'preact/hooks';
+import { ForwardedRef } from 'preact/compat';
 
 //  DEVELOPMENT OF GENERIC COMPONENTS
 import { TextInput } from './components-generic/components/text-input.component';
-import { DateInput } from './components-generic/components/date-input.component';
-import { NumInput } from './components-generic/components/num-input.component';
-
-import './app.css'; // TODO IMPORTANT to overload styles
+// import { DateInput } from './components-generic/components/date-input.component';
+// import { NumInput } from './components-generic/components/num-input.component';
+import { ReplaceInput } from './components-generic/components/replace-input.component';
+// import { Ref } from 'preact';
 
 //  DEVELOPMENT OF GENERIC COMPONENTS
-const TextInputSample = () => (
-  <TextInput
-    value="text-val"
-    setValue={() => {}}
-    className="text-class"
-    label="text-label:"
-    placeholder="text-placeholder"
-    autocapitalize="words"
-    multiline={true}
-  />
-);
-const DateInputSample = () => (
-  <DateInput
-    value={Date.now()}
-    setValue={() => {}}
-    className="date-class"
-    label="date-label:"
-    // enabled={false}
-  />
-);
-const NumInputSample = () => {
-  const [value, setValue] = useState(1234);
+// const TextInputSample = () => (
+//   <TextInput
+//     value="text-val"
+//     setValue={() => {}}
+//     className="text-class"
+//     label="text-label:"
+//     placeholder="text-placeholder"
+//     autocapitalize="words"
+//     multiline={true}
+//   />
+// );
+// const DateInputSample = () => (
+//   <DateInput
+//     value={Date.now()}
+//     setValue={() => {}}
+//     className="date-class"
+//     label="date-label:"
+//     // enabled={false}
+//   />
+// );
+// const NumInputSample = () => {
+//   const [value, setValue] = useState(1234);
+//   return (
+//     <NumInput
+//       value={value}
+//       setValue={setValue}
+//       className="num-class"
+//       label="num-label:"
+//       max={100}
+//       invalidClassName="invalid-value"
+//     />
+//   );
+// };
+
+const ReplaceTextInputSample = () => {
+  const [value, setValue] = useState('text-val');
   return (
-    <NumInput
-      value={value}
-      setValue={setValue}
-      className="num-class"
-      label="num-label:"
-      max={100}
-      invalidClassName="invalid-value"
-    />
+    <ReplaceInput
+    // component={(ref: Ref<HTMLElement>) => (
+    //   <img
+    //     ref={ref as Ref<HTMLImageElement>}
+    //     src="https://cdn-icons-png.flaticon.com/512/347/347052.png"
+    //   />
+    // )}
+    >
+      {(childRef: ForwardedRef<HTMLElement>) => (
+        <TextInput
+          value={value}
+          setValue={setValue}
+          className="text-class"
+          label="text-label:"
+          placeholder="text-placeholder"
+          autocapitalize="words"
+          multiline={true}
+          ref={childRef}
+        />
+      )}
+    </ReplaceInput>
   );
 };
 
 export function App() {
+  const counter: number[] = Array.from(Array(1).keys());
   return (
     <>
       {/* DEVELOPMENT OF GENERIC COMPONENTS */}
-      <TextInputSample />
-      <DateInputSample />
-      <NumInputSample />
+      {/* <TextInputSample /> */}
+      {/* <DateInputSample /> */}
+      {/* <NumInputSample /> */}
+      {counter.map((_: number, i: number) => {
+        return <ReplaceTextInputSample key={i} />;
+        // return <TextInputSample key={i} />;
+      })}
     </>
   );
 }
