@@ -1,10 +1,19 @@
-<p align=center>
-  <img src=https://github.com/DanielMaczak/irmas-preact-form-components/assets/145442574/982da384-52cb-4163-8e2d-b2fd29288987 style=width:1em;padding:0; /> 
-  !!! This is a work in progress. It will become an NPM package once the majority of the features are in. !!!
-  <img src=https://github.com/DanielMaczak/irmas-preact-form-components/assets/145442574/982da384-52cb-4163-8e2d-b2fd29288987 style=width:1em;padding:0; /> 
-</p>
-
 # Irma's Preact form components
+
+> [!WARNING]  
+> This is a work in progress. It will become an NPM package once the majority of the features are in.
+
+## Contents
+
+- [Features](#features)
+- [Installation](#installation)
+- [Requirements](#requirements)
+- [Components](#components)
+  - [Date Input](#date-input)
+  - [Number Input](#number-input)
+  - [Text Input](#text-input)
+
+## Features
 
 Set of minimalistic form components with a simple premise: maximum features in minimum code.
 
@@ -13,6 +22,14 @@ Set of minimalistic form components with a simple premise: maximum features in m
 - Clean: 100% in strict TypeScript.
 - Easy to use: HTML Input features finally working as you would expect.
 - No fighting: Formating reset to 0, ready to be injected with styles.
+
+## Installation
+
+//  Will be added after first full release
+
+## Requirements
+
+I am developing in Preact version 10.19.
 
 ## Components
 
@@ -308,8 +325,4 @@ const TextInputSample = () => {
 ```
   </tr>
 </table>
-
-## Installation
-
-//  Will be added after first full release
 
