@@ -90,6 +90,7 @@ export const NumInput = forwardRef(function NumInput(
       return;
     }
     //  Prevent second decimal point and dash
+    if (e.key.charCodeAt(0) > 47) return; // number
     const valueAsString: string = String(value);
     if (
       (e.key === '.' && valueAsString.includes('.')) ||
@@ -107,54 +108,59 @@ export const NumInput = forwardRef(function NumInput(
    * when minus sign is placed between numbers (dummy user! :).
    * Conversion to number was chosen over parseFloat
    * as parse is less precise in identifying wrong numbers.
+   * Is debounced on input to 50ms to allow key-holding.
    * @param e Number input change event.
    */
+  let timeoutId: NodeJS.Timeout;
   const storeValue = (e: InputEvent): void => {
+    if (timeoutId) clearTimeout(timeoutId);
     //  Access element
     if (!(e.currentTarget instanceof HTMLInputElement)) return;
     const elem: HTMLInputElement = e.currentTarget;
-    //  Allow temporary semi-numeric values
-    if (elem.value === '' || elem.value === '-') {
-      setValue(0);
-      return;
-    }
-    //  Test for wrong number made of allowed characters
-    let newValue: number = Number(elem.value);
-    if (Number.isNaN(newValue)) {
-      const cursorPosition: number = (elem.selectionStart ?? 1) - 1;
-      elem.value = String(value);
-      elem.selectionStart = cursorPosition;
-      elem.selectionEnd = cursorPosition;
-      return;
-    }
-    //  Test against min-max
-    const applyMinMax = (minMax: number) => {
-      //  Ensure we never leave safe INT range
-      if (newValue > Number.MAX_SAFE_INTEGER) {
-        newValue = Number.MAX_SAFE_INTEGER;
-        elem.value = String(newValue);
-      } else if (newValue < Number.MIN_SAFE_INTEGER) {
-        newValue = Number.MIN_SAFE_INTEGER;
-        elem.value = String(newValue);
-        //  Then, if we are, apply local min/max
-      } else if (!invalidClassName) {
-        newValue = minMax;
-        elem.value = String(newValue);
+    timeoutId = setTimeout(() => {
+      //  Allow temporary semi-numeric values
+      if (elem.value === '' || elem.value === '-') {
+        setValue(0);
+        return;
       }
-      //  Apply formatting
-      if (invalidClassName) {
-        elem.classList.add(invalidClassName);
+      //  Test for wrong number made of allowed characters
+      let newValue: number = Number(elem.value);
+      if (Number.isNaN(newValue)) {
+        const cursorPosition: number = (elem.selectionStart ?? 1) - 1;
+        elem.value = String(value);
+        elem.selectionStart = cursorPosition;
+        elem.selectionEnd = cursorPosition;
+        return;
       }
-    };
-    if (newValue < min) {
-      applyMinMax(min);
-    } else if (newValue > max) {
-      applyMinMax(max);
-    } else if (invalidClassName) {
-      elem.classList.remove(invalidClassName);
-    }
-    //  Store new value
-    setValue(newValue);
+      //  Test against min-max
+      const applyMinMax = (minMax: number) => {
+        //  Ensure we never leave safe INT range
+        if (newValue > Number.MAX_SAFE_INTEGER) {
+          newValue = Number.MAX_SAFE_INTEGER;
+          elem.value = String(newValue);
+        } else if (newValue < Number.MIN_SAFE_INTEGER) {
+          newValue = Number.MIN_SAFE_INTEGER;
+          elem.value = String(newValue);
+          //  Then, if we are, apply local min/max
+        } else if (!invalidClassName) {
+          newValue = minMax;
+          elem.value = String(newValue);
+        }
+        //  Apply formatting
+        if (invalidClassName) {
+          elem.classList.add(invalidClassName);
+        }
+      };
+      if (newValue < min) {
+        applyMinMax(min);
+      } else if (newValue > max) {
+        applyMinMax(max);
+      } else if (invalidClassName) {
+        elem.classList.remove(invalidClassName);
+      }
+      //  Store new value
+      setValue(newValue);
+    }, 50);
   };
 
   //  Ensure element has valid static ID
