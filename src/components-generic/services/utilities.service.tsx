@@ -19,7 +19,7 @@ const ELEM_ID_LEN: number = 8;
 const generatedIds: Set<string> = new Set();
 
 /**
- * @description Generates CSS classes for input or label elements.
+ * @description Custom hook generating reference of CSS classes for elements.
  * Mandatory base class is integrated by default.
  * @param classType Type of class to generate, either 'input' or 'label'.
  * @param requestedClasses Additional classes to append to the base class.
@@ -31,12 +31,12 @@ export const generateInputClasses = (
     | c.CLASS_TYPES.CLASS_LABEL
     | c.CLASS_TYPES.CLASS_FIELDSET,
   ...requestedClasses: string[]
-): string => {
+): MutableRef<string> => {
   let classList = CLASS_GENERIC + classType; // minimum required return
   for (let requestedClass of requestedClasses) {
     if (requestedClass) classList += ' ' + requestedClass + classType;
   }
-  return classList;
+  return useRef(classList);
 };
 
 /**
@@ -54,9 +54,8 @@ const generateRandomId = (): string => {
 };
 
 /**
- * @description Generates reference of element ID.
- * If no ID is provided, generates new unique ID
- * that is guaranteed to be unique.
+ * @description Custom hook generating reference of element ID.
+ * If no ID is provided, generates new ID that is guaranteed to be unique.
  * @param id ID provided by user, used without adjustment if given.
  * @returns Mutable reference object containing unique element ID.
  */

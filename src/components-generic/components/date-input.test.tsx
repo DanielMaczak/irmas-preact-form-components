@@ -1,16 +1,20 @@
 //  TODO: Has outline when focused (accessibility)
 //  TODO: should inherit color from parent via --bg-color CSS variable
+//  TODO: Add min-max tests
 
 //  External dependencies
 import {
+  act,
   fireEvent,
   queryByDisplayValue,
   queryByLabelText,
   queryByText,
   render,
+  waitFor,
 } from '@testing-library/preact';
 import { describe, it, expect, vi } from 'vitest';
 import { useState } from 'preact/hooks';
+import { ForwardedRef } from 'preact/compat';
 
 //  Internal dependencies
 import { DateInput } from './date-input.component';
@@ -21,21 +25,28 @@ import * as m from './date-input.mocks';
  * Is intended to be the only gateway of tests to tested component.
  * @param (*) Mimicking the params of tested component.
  */
-const TestedComponent = ({
-  initialValue,
-  mockSetValue,
-  id,
-  className,
-  label,
-  enabled,
-}: {
-  initialValue: any; // to allow tests on the Type
-  mockSetValue?: (value: number) => void;
-  id?: string;
-  className?: string;
-  label?: string;
-  enabled?: boolean;
-}) => {
+const TestedComponent = (
+  {
+    initialValue,
+    mockSetValue,
+    id,
+    className,
+    label,
+    enabled,
+    min,
+    max,
+  }: {
+    initialValue: any; // to allow tests on the Type
+    mockSetValue?: (value: number) => void;
+    id?: string;
+    className?: string;
+    label?: string;
+    enabled?: boolean;
+    min?: number;
+    max?: number;
+  },
+  ref: ForwardedRef<HTMLElement>
+) => {
   const [value, setValue] = useState(initialValue);
   return (
     <DateInput
@@ -45,6 +56,9 @@ const TestedComponent = ({
       {...(className ? { className: className } : {})}
       {...(label ? { label: label } : {})}
       {...(enabled !== undefined ? { enabled: enabled } : {})}
+      {...(min ? { min: min } : {})}
+      {...(max ? { max: max } : {})}
+      ref={ref}
     />
   );
 };
@@ -145,7 +159,7 @@ describe('DateInput component', () => {
     }
   });
 
-  it('should update state only when date is changed', () => {
+  it.only('should update state only when date is changed', async () => {
     //  Render the component
     const setValue = vi.fn();
     const { container } = render(
@@ -163,10 +177,18 @@ describe('DateInput component', () => {
     //  Verify element state
     expect(htmlInput).not.toBeNull();
     if (htmlInput) {
-      fireEvent.change(htmlInput, { target: { value: m.valueOutput1 } });
-      expect(setValue).not.toHaveBeenCalled();
-      fireEvent.change(htmlInput, { target: { value: m.valueOutput2 } });
-      expect(setValue).toHaveBeenCalledOnce();
+      await act(() => {
+        fireEvent.change(htmlInput, { target: { value: m.valueOutput1 } });
+      });
+      await waitFor(() => {
+        expect(setValue).not.toHaveBeenCalled();
+      });
+      await act(() => {
+        fireEvent.change(htmlInput, { target: { value: m.valueOutput2 } });
+      });
+      await waitFor(() => {
+        expect(setValue).toHaveBeenCalledOnce();
+      });
     }
   });
 

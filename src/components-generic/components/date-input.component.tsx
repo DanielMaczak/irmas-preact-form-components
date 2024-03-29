@@ -3,7 +3,7 @@ import '../styles/style.css';
 
 //  External dependencies
 import { Ref } from 'preact';
-import { ForwardedRef, forwardRef, useMemo, ChangeEvent } from 'preact/compat';
+import { ForwardedRef, forwardRef, ChangeEvent } from 'preact/compat';
 
 //  Internal dependencies
 import * as c from '../services/constants.service';
@@ -52,7 +52,7 @@ export const DateInput = forwardRef(function DateInput(
     label = '',
     enabled = true,
     min = 0,
-    max = Infinity,
+    max = 253402214400000, // 9999-12-31
   }: {
     value: number;
     setValue: (value: number) => void;
@@ -65,6 +65,19 @@ export const DateInput = forwardRef(function DateInput(
   },
   ref: ForwardedRef<HTMLElement>
 ) {
+  //  Ensure element has valid static ID
+  const idRef = id || label ? u.generateElementId(id) : undefined;
+
+  //  Generate class strings
+  const labelClasses = u.generateInputClasses(
+    c.CLASS_TYPES.CLASS_LABEL,
+    className
+  );
+  const inputClasses = u.generateInputClasses(
+    c.CLASS_TYPES.CLASS_INPUT,
+    className
+  );
+
   /**
    * @description Stores date value into state when changed.
    * Applies min and max before saving.
@@ -85,26 +98,10 @@ export const DateInput = forwardRef(function DateInput(
     setValue(limitedValue);
   };
 
-  //  Ensure element has valid static ID
-  const idRef = useMemo(
-    () => (id || label ? u.generateElementId(id) : undefined),
-    [id, label]
-  );
-
-  //  Generate class strings
-  const labelClasses = useMemo(
-    () => u.generateInputClasses(c.CLASS_TYPES.CLASS_LABEL, className),
-    [className]
-  );
-  const inputClasses = useMemo(
-    () => u.generateInputClasses(c.CLASS_TYPES.CLASS_INPUT, className),
-    [className]
-  );
-
   return (
     <>
       {label && (
-        <label htmlFor={idRef?.current} class={labelClasses}>
+        <label htmlFor={idRef?.current} class={labelClasses.current}>
           {label}
         </label>
       )}
@@ -114,7 +111,7 @@ export const DateInput = forwardRef(function DateInput(
         min={getDateString(min)}
         max={getDateString(max)}
         {...(idRef ? { id: idRef.current } : {})}
-        class={inputClasses}
+        class={inputClasses.current}
         disabled={!enabled}
         onChange={storeValue}
         ref={ref as Ref<HTMLInputElement>}

@@ -78,8 +78,11 @@ export function ReplaceInput({
   const childRef = useRef<HTMLElement>(null);
   const replaceRef = useRef<HTMLElement>(null);
 
-  //  Component check
+  //  Memoize component check
   const useComponent: boolean = useMemo(() => Boolean(component), [component]);
+
+  //  Generate class strings
+  const fieldsetClasses = u.generateInputClasses(c.CLASS_TYPES.CLASS_FIELDSET);
 
   //  Element switching
   useEffect(() => {
@@ -130,16 +133,10 @@ export function ReplaceInput({
     displayInput && setDisplay(false);
   };
 
-  //  Generate class strings
-  const fieldsetClasses = useMemo(
-    () => u.generateInputClasses(c.CLASS_TYPES.CLASS_FIELDSET),
-    []
-  );
-
   return (
     <>
       <fieldset
-        class={fieldsetClasses}
+        class={fieldsetClasses.current}
         onClick={e => onClickHandler(e)}
         onMouseDown={onMouseDownHandler}
         onBlur={onBlurHandler}

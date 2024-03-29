@@ -7,10 +7,15 @@ yarn-error.log*
 pnpm-debug.log*
 lerna-debug.log*
 
+# Folders
 node_modules
+coverage
 dist
 dist-ssr
 *.local
+
+# Development helper files
+TODO.md
 
 # Editor directories and files
 .vscode/*

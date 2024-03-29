@@ -3,7 +3,7 @@ import '../styles/style.css';
 
 //  External dependencies
 import { Ref } from 'preact';
-import { ForwardedRef, forwardRef, useMemo } from 'preact/compat';
+import { ForwardedRef, forwardRef } from 'preact/compat';
 
 //  Internal dependencies
 import * as c from '../services/constants.service';
@@ -62,6 +62,7 @@ const capitalizeText = (text: string, autocapitalize: CAPS_OPTIONS) => {
  * Value is stored on control exit.
  * Included features:
  * -  auto-resizing for multiline inputs,
+ * -  autocapitalize that works on any device,
  * -  customizable class names,
  * -  state management for input values,
  * -  optional associated label.
@@ -101,6 +102,21 @@ export const TextInput = forwardRef(function TextInput(
   },
   ref: ForwardedRef<HTMLElement>
 ) {
+  //  Ensure element has valid static ID
+  const idRef = id || label ? u.generateElementId(id) : undefined;
+
+  //  Generate class strings
+  const labelClasses = u.generateInputClasses(
+    c.CLASS_TYPES.CLASS_LABEL,
+    className
+  );
+  const inputClasses = u.generateInputClasses(
+    c.CLASS_TYPES.CLASS_INPUT,
+    className,
+    c.CLASS_TEXTINPUT,
+    multiline ? c.CLASS_TEXTMULTI : c.CLASS_TEXTSINGLE
+  );
+
   /**
    * @description Applies autocapitalize to user input.
    * Is debounced on input to 350ms to allow key-holding and touch typing.
@@ -134,38 +150,16 @@ export const TextInput = forwardRef(function TextInput(
     elem.textContent ? setValue(elem.textContent) : setValue('');
   };
 
-  //  Ensure element has valid static ID
-  const idRef = useMemo(
-    () => (id || label ? u.generateElementId(id) : undefined),
-    [id, label]
-  );
-
-  //  Generate class strings
-  const labelClasses = useMemo(
-    () => u.generateInputClasses(c.CLASS_TYPES.CLASS_LABEL, className),
-    [className]
-  );
-  const inputClasses = useMemo(
-    () =>
-      u.generateInputClasses(
-        c.CLASS_TYPES.CLASS_INPUT,
-        className,
-        c.CLASS_TEXTINPUT,
-        multiline ? c.CLASS_TEXTMULTI : c.CLASS_TEXTSINGLE
-      ),
-    [className, multiline]
-  );
-
   return (
     <>
       {label && (
-        <label htmlFor={idRef?.current} class={labelClasses}>
+        <label htmlFor={idRef?.current} class={labelClasses.current}>
           {label}
         </label>
       )}
       <textarea
         {...(idRef ? { id: idRef.current } : {})}
-        class={inputClasses}
+        class={inputClasses.current}
         placeholder={placeholder}
         disabled={!enabled}
         onInput={e => {
@@ -174,6 +168,7 @@ export const TextInput = forwardRef(function TextInput(
         }}
         onBlur={storeValue}
         autocomplete="on"
+        autocapitalize="off" // we provide out own
         rows={1} // set default size
         ref={ref as Ref<HTMLTextAreaElement>}
       >

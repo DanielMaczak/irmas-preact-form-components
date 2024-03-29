@@ -7,6 +7,9 @@ export default defineConfig({
   plugins: [preact()],
   test: {
     include: ['**/*.test.tsx'],
+    coverage: {
+      provider: 'v8',
+    },
     environment: 'jsdom',
     globals: true,
   },

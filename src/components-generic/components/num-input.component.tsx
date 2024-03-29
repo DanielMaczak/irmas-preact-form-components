@@ -3,7 +3,7 @@ import '../styles/style.css';
 
 //  External dependencies
 import { Ref } from 'preact';
-import { ForwardedRef, forwardRef, useMemo } from 'preact/compat';
+import { ForwardedRef, forwardRef } from 'preact/compat';
 
 //  Internal dependencies
 import * as c from '../services/constants.service';
@@ -74,6 +74,20 @@ export const NumInput = forwardRef(function NumInput(
   },
   ref: ForwardedRef<HTMLElement>
 ) {
+  //  Ensure element has valid static ID
+  const idRef = id || label ? u.generateElementId(id) : undefined;
+
+  //  Generate class strings
+  const labelClasses = u.generateInputClasses(
+    c.CLASS_TYPES.CLASS_LABEL,
+    className
+  );
+  const inputClasses = u.generateInputClasses(
+    c.CLASS_TYPES.CLASS_INPUT,
+    className,
+    c.CLASS_NUMINPUT
+  );
+
   /**
    * @description Filters input to allow only values related to numbers,
    * including single decimal point and negative sign.
@@ -163,31 +177,10 @@ export const NumInput = forwardRef(function NumInput(
     }, 50);
   };
 
-  //  Ensure element has valid static ID
-  const idRef = useMemo(
-    () => (id || label ? u.generateElementId(id) : undefined),
-    [id, label]
-  );
-
-  //  Generate class strings
-  const labelClasses = useMemo(
-    () => u.generateInputClasses(c.CLASS_TYPES.CLASS_LABEL, className),
-    [className]
-  );
-  const inputClasses = useMemo(
-    () =>
-      u.generateInputClasses(
-        c.CLASS_TYPES.CLASS_INPUT,
-        className,
-        c.CLASS_NUMINPUT
-      ),
-    [className]
-  );
-
   return (
     <>
       {label && (
-        <label htmlFor={idRef?.current} class={labelClasses}>
+        <label htmlFor={idRef?.current} class={labelClasses.current}>
           {label}
         </label>
       )}
@@ -195,7 +188,7 @@ export const NumInput = forwardRef(function NumInput(
         type="text" // prevent nonsensical behavior on number input
         value={value}
         {...(idRef ? { id: idRef.current } : {})}
-        class={inputClasses}
+        class={inputClasses.current}
         disabled={!enabled}
         min={min}
         max={max}
