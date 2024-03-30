@@ -134,20 +134,20 @@ export const NumInput = forwardRef(function NumInput(
     if (timeoutId) clearTimeout(timeoutId);
     //  Access element
     if (!(e.currentTarget instanceof HTMLInputElement)) return;
-    const elem: HTMLInputElement = e.currentTarget;
+    const input: HTMLInputElement = e.currentTarget;
     timeoutId = setTimeout(() => {
       //  Allow temporary semi-numeric values
-      if (elem.value === '' || elem.value === '-') {
+      if (input.value === '' || input.value === '-') {
         setValue(0);
         return;
       }
       //  Test for wrong number made of allowed characters
-      let newValue: number = Number(elem.value);
+      let newValue: number = Number(input.value);
       if (Number.isNaN(newValue)) {
-        const cursorPosition: number = (elem.selectionStart ?? 1) - 1;
-        elem.value = String(value);
-        elem.selectionStart = cursorPosition;
-        elem.selectionEnd = cursorPosition;
+        const cursorPosition: number = (input.selectionStart ?? 1) - 1;
+        input.value = String(value);
+        input.selectionStart = cursorPosition;
+        input.selectionEnd = cursorPosition;
         return;
       }
       //  Test against min-max
@@ -155,18 +155,18 @@ export const NumInput = forwardRef(function NumInput(
         //  Ensure we never leave safe INT range
         if (newValue > Number.MAX_SAFE_INTEGER) {
           newValue = Number.MAX_SAFE_INTEGER;
-          elem.value = String(newValue);
+          input.value = String(newValue);
         } else if (newValue < Number.MIN_SAFE_INTEGER) {
           newValue = Number.MIN_SAFE_INTEGER;
-          elem.value = String(newValue);
+          input.value = String(newValue);
           //  Then, if we are, apply local min/max
         } else if (!invalidClassName) {
           newValue = minMax;
-          elem.value = String(newValue);
+          input.value = String(newValue);
         }
         //  Apply formatting
         if (invalidClassName) {
-          elem.classList.add(invalidClassName);
+          input.classList.add(invalidClassName);
         }
       };
       if (newValue < min) {
@@ -174,7 +174,7 @@ export const NumInput = forwardRef(function NumInput(
       } else if (newValue > max) {
         applyMinMax(max);
       } else if (invalidClassName) {
-        elem.classList.remove(invalidClassName);
+        input.classList.remove(invalidClassName);
       }
       //  Store new value
       setValue(newValue);
