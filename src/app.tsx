@@ -13,6 +13,7 @@ import { NumInput } from './components-generic/components/num-input.component';
 import { DropdownInput } from './components-generic/components/dropdown-input.component';
 import { ReplaceInput } from './components-generic/components/replace-input.component';
 import * as t from './components-generic/services/types.service';
+import { SwitchInput } from './components-generic/components/switch-input.component';
 
 //  DEVELOPMENT OF GENERIC COMPONENTS
 const TextInputSample = () => {
@@ -78,6 +79,23 @@ const DropdownInputSample = () => {
     />
   );
 };
+const SwitchInputSample = () => {
+  const options: t.Option[] = [
+    { id: '0', value: 'test0' },
+    { id: '1', value: 'test1' },
+    { id: '2', value: 'test2' },
+  ];
+  const [value, setValue] = useState(options[0]);
+  return (
+    <SwitchInput
+      value={value}
+      setValue={setValue}
+      options={options}
+      className="switch-class"
+      label="switch-label:"
+    />
+  );
+};
 
 const ReplaceTextInputSample = () => {
   const [valueText, setValueText] = useState('1234');
@@ -135,6 +153,8 @@ export function App() {
       <NumInputSample />
       <br />
       <DropdownInputSample />
+      <br />
+      <SwitchInputSample />
       <br />
       <ReplaceTextInputSample />
     </>

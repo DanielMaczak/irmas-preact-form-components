@@ -45,8 +45,11 @@ Following is the list of planned features:
 
 - Button: mainly to complete the set, currently I have no special features in mind.
 - Panel Switch: a panel of options to pick (no radio buttons), hopefully fully utilizing current HTML tricks to deliver the functionality.
+- Parent form component: with presets for different use-cases.
 - 100% coverage.
 - Maybe more HTML Input flavors if I see a good case.
+
+If you happen to have any suggestions or ideas for future additions and improvements, please hit me with an email! You can find my address on my GitHub profile.
 
 ## Components
 
@@ -76,7 +79,7 @@ const TextInputSample = () => {
       value={text}
       setValue={setText}
       label="Custom label:"
-      ...
+      // ...
     />
   );
 };
@@ -98,12 +101,12 @@ const TextInputSample = () => {
   const doStuffOnInput = (newText: string) => {
     //  Do stuff here...
     setText(newText);
-  }
+  };
   return (
     <TextInput
       value={text}
       setValue={doStuffOnInput}
-      ...
+      // ...
     />
   );
 };
@@ -133,7 +136,7 @@ const TextInputSample = () => {
       value={text}
       setValue={setText}
       className="custom-class another-class"
-      ...
+      // ...
     />
   );
 };
@@ -164,7 +167,7 @@ const TextInputSample = () => {
         value={text}
         setValue={setText}
         className="custom-class"
-        ...
+        // ...
       />
     </div>
   );
@@ -198,7 +201,7 @@ const ReplaceTextInputSample = () => {
         <TextInput
           value={value}
           setValue={setValue}
-          ...
+          // ...
           ref={childRef}
         />
       )}
@@ -233,7 +236,7 @@ const DateInputSample = () => {
     <DateInput
       value={date}
       setValue={setDate}
-      ...
+      // ...
     />
   );
 };
@@ -257,7 +260,7 @@ const DateInputSample = () => {
       min={Date.now() - 1000 * 3600 * 24 * 7}
       max={Date.now() + 1000 * 3600 * 24 * 40}
       setValue={setDate}
-      ...
+      // ...
     />
   );
 };
@@ -291,7 +294,7 @@ const NumInputSample = () => {
     <NumInput
       value={value}
       setValue={setValue}
-      ...
+      // ...
     />
   );
 };
@@ -319,7 +322,7 @@ const NumInputSample = () => {
       min={-100}
       max={100}
       invalidClassName="invalid-value"
-      ...
+      // ...
     />
   );
 };
@@ -353,7 +356,7 @@ const TextInputSample = () => {
       value={text}
       setValue={setText}
       multiline={true}
-      ...
+      // ...
     />
   );
 };
@@ -378,7 +381,7 @@ const TextInputSample = () => {
       value={text}
       setValue={setText}
       autocapitalize="words"
-      ...
+      // ...
     />
   );
 };
@@ -417,7 +420,7 @@ const DropdownInputSample = () => {
       value={value}
       setValue={setValue}
       options={options}
-      ...
+      // ...
     />
   );
 };
@@ -447,7 +450,7 @@ const DropdownInputSample = () => {
       setValue={setValue}
       options={options}
       showValue={false}
-      ...
+      // ...
     />
   );
 };

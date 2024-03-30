@@ -84,3 +84,12 @@
 .irmaspfc__input[open] .irmaspfc__arrow {
   rotate: 180deg;
 }
+
+/* Individual component styling - SwitchInput */
+
+.irmaspfc__input input[type='radio'] {
+  display: none;
+}
+.irmaspfc__input input[type='radio']:checked + .irmaspfc__option {
+  background-color: rgba(var(--bg-color-internal), 100%);
+}
