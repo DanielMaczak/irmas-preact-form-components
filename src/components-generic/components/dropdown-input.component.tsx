@@ -9,7 +9,11 @@ import * as c from '../services/constants.service';
 import * as u from '../services/utilities.service';
 import * as t from '../services/types.service';
 
-//  Dropdown arrow
+/**
+ * @description Arrow icon for dropdown.
+ * @param className List of classes to assign.
+ * @returns SVG element.
+ */
 const DropdownArrow = ({ className }: { className: string }) => (
   <svg
     width="10"
@@ -89,9 +93,10 @@ export const DropdownInput = forwardRef(function DropdownInput(
   );
 
   /**
-   * @description
-   *
-   * @param e
+   * @description Extracts selected option from interacting element.
+   * Stores option into state when changed.
+   * Is assigned to MouseDown so that it comes before parent's onBlur.
+   * @param e Dropdown option mouse down event.
    */
   const storeValue = (e: MouseEvent): void => {
     if (!enabled) return;
@@ -106,10 +111,22 @@ export const DropdownInput = forwardRef(function DropdownInput(
     option && setValue(option);
   };
 
+  /**
+   * @description Mouse click handlers.
+   * Mimick standard behavior of select element:
+   * -  label click focuses input and opens options,
+   * -  click outside closes options.
+   * @param e Mouse click event.
+   */
   const openDropdown = () => {
-    const summary = dropdownRef.current?.children[0] as HTMLElement | undefined;
-    summary && summary.focus();
-    dropdownRef.current?.toggleAttribute('open');
+    const isOpen = dropdownRef.current?.hasAttribute('open');
+    if (!isOpen) {
+      const summary = dropdownRef.current?.children[0] as
+        | HTMLElement
+        | undefined;
+      summary && summary.focus();
+      dropdownRef.current?.toggleAttribute('open');
+    }
   };
   const closeDropdown = () => {
     dropdownRef.current?.removeAttribute('open');
