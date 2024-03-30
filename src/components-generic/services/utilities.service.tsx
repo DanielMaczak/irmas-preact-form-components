@@ -18,6 +18,7 @@ const generatedIds: Set<string> = new Set();
 /**
  * @description Custom hook generating reference of CSS classes for elements.
  * Mandatory base class is integrated by default.
+ * Also works with multiple classes given in single string.
  * @param classType Type of class to generate, either 'input' or 'label'.
  * @param requestedClasses Additional classes to append to the base class.
  * @returns Concatenated string of CSS classes.
@@ -33,9 +34,12 @@ export const generateInputClasses = (
   ...requestedClasses: string[]
 ): MutableRef<string> => {
   let classList = c.CLASS_GENERIC + classType; // minimum required return
-  for (let requestedClass of requestedClasses) {
-    if (requestedClass) classList += ' ' + requestedClass + classType;
-  }
+  requestedClasses
+    .join(' ')
+    .split(' ')
+    .forEach(className => {
+      className && (classList += ' ' + className + classType);
+    });
   return useRef(classList);
 };
 
