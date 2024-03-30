@@ -78,6 +78,10 @@ export const DateInput = forwardRef(function DateInput(
     className
   );
 
+  //  Ensure value is within min-max
+  const limitedValue: number = Math.max(min, Math.min(max, value));
+  limitedValue !== value && setValue(limitedValue);
+
   /**
    * @description Stores date value into state when changed.
    * Applies min and max before saving.

@@ -44,7 +44,7 @@ const DateInputSample = () => {
   );
 };
 const NumInputSample = () => {
-  const [value, setValue] = useState(0);
+  const [value, setValue] = useState(200);
   return (
     <NumInput
       value={value}

@@ -88,6 +88,10 @@ export const NumInput = forwardRef(function NumInput(
     c.CLASS_NUMINPUT
   );
 
+  //  Ensure value is within min-max
+  const limitedValue: number = Math.max(min, Math.min(max, value));
+  limitedValue !== value && setValue(limitedValue);
+
   /**
    * @description Filters input to allow only values related to numbers,
    * including single decimal point and negative sign.
