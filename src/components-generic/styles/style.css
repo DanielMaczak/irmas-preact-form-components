@@ -61,3 +61,27 @@
 .num-input__input {
   text-align: right;
 }
+
+/* Individual component styling - DropdownInput */
+
+details summary {
+  cursor: pointer;
+  transition: margin 0.2s ease-out;
+}
+details[open] summary {
+  margin-bottom: 0.5rem;
+}
+.irmaspfc__summary {
+  list-style: none;
+}
+.irmaspfc__list {
+  margin: 0;
+  padding: 0;
+  list-style-type: none;
+}
+.irmaspfc__arrow {
+  transition: rotate 0.2s;
+}
+details[open] .irmaspfc__arrow {
+  rotate: 180deg;
+}

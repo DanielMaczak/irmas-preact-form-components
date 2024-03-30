@@ -74,9 +74,9 @@ export function ReplaceInput({
   //  State hooks
   const [displayInput, setDisplay] = useState(false);
 
-  //  Component references
-  const childRef = useRef<HTMLElement>(null);
-  const replaceRef = useRef<HTMLElement>(null);
+  //  Component references (mutable)
+  const childRef = useRef<HTMLElement | null>(null);
+  const replaceRef = useRef<HTMLElement | null>(null);
 
   //  Memoize component check
   const useComponent: boolean = useMemo(() => Boolean(component), [component]);
@@ -134,21 +134,19 @@ export function ReplaceInput({
   };
 
   return (
-    <>
-      <fieldset
-        class={fieldsetClasses.current}
-        onClick={e => onClickHandler(e)}
-        onMouseDown={onMouseDownHandler}
-        onBlur={onBlurHandler}
-      >
-        {children(childRef)}
-        {component !== undefined ? (
-          component(replaceRef)
-        ) : (
-          // TODO replace any with some insane custom type
-          <ReplaceWith ref={replaceRef as any} />
-        )}
-      </fieldset>
-    </>
+    <fieldset
+      class={fieldsetClasses.current}
+      onClick={e => onClickHandler(e)}
+      onMouseDown={onMouseDownHandler}
+      onBlur={onBlurHandler}
+    >
+      {children(childRef)}
+      {component !== undefined ? (
+        component(replaceRef)
+      ) : (
+        // TODO replace any with some insane custom type
+        <ReplaceWith ref={replaceRef as any} />
+      )}
+    </fieldset>
   );
 }

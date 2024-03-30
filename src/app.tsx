@@ -2,6 +2,7 @@
  * Module used for testing.
  */
 
+import { Ref } from 'preact';
 import { useState } from 'preact/hooks';
 import { ForwardedRef } from 'preact/compat';
 
@@ -9,8 +10,9 @@ import { ForwardedRef } from 'preact/compat';
 import { TextInput } from './components-generic/components/text-input.component';
 import { DateInput } from './components-generic/components/date-input.component';
 import { NumInput } from './components-generic/components/num-input.component';
+import { DropdownInput } from './components-generic/components/dropdown-input.component';
 import { ReplaceInput } from './components-generic/components/replace-input.component';
-import { Ref } from 'preact';
+import * as t from './components-generic/services/types.service';
 
 //  DEVELOPMENT OF GENERIC COMPONENTS
 const TextInputSample = () => {
@@ -55,6 +57,23 @@ const NumInputSample = () => {
     />
   );
 };
+const DropdownInputSample = () => {
+  const options: t.Option[] = [
+    { id: '0', value: 'test0' },
+    { id: '1', value: 'test1' },
+    { id: '2', value: 'test2' },
+  ];
+  const [value, setValue] = useState(options[0]);
+  return (
+    <DropdownInput
+      value={value}
+      setValue={setValue}
+      options={options}
+      className="dropdown-class"
+      label="dropdown-label:"
+    />
+  );
+};
 
 const ReplaceTextInputSample = () => {
   const [valueText, setValueText] = useState('1234');
@@ -82,7 +101,7 @@ const ReplaceTextInputSample = () => {
           />
         )}
       </ReplaceInput>
-      // ----------------------------------------------------------
+      <br />
       <ReplaceInput>
         {(childRef: ForwardedRef<HTMLElement>) => (
           <NumInput
@@ -101,16 +120,18 @@ const ReplaceTextInputSample = () => {
 };
 
 export function App() {
-  const counter: number[] = Array.from(Array(1).keys());
   return (
     <>
       {/* DEVELOPMENT OF GENERIC COMPONENTS */}
       <TextInputSample />
+      <br />
       <DateInputSample />
+      <br />
       <NumInputSample />
-      {counter.map((_: number, i: number) => {
-        return <ReplaceTextInputSample key={i} />;
-      })}
+      <br />
+      <DropdownInputSample />
+      <br />
+      <ReplaceTextInputSample />
     </>
   );
 }

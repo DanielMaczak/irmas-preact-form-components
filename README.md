@@ -87,6 +87,10 @@ const TextInputSample = () => {
 
 - The component has a default internal class but can receive any number of classes via the `className` parameter.
 - The default class removes all default component styling (such as border, background-color, padding etc.), and font properties are set to inherit. No more fighting with a complex set of factory styles.
+- The user-defined classes have suffix based on the component they belong to, so that your styling doesn't depend on plugin internals:
+  - `*__input`: the control holding the value.
+  - `*__label`: the label (if displayed).
+  - `*__option`: the dropdown options.
     </td>
     <td valign=top>
 
