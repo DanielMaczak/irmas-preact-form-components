@@ -10,7 +10,12 @@ import * as c from '../services/constants.service';
 import * as u from '../services/utilities.service';
 import * as t from '../services/types.service';
 
-const combineIds = (...ids: string[]) => {
+/**
+ * @description Standardizes approach to combine IDs for this component.
+ * @param ids IDs to combine.
+ * @returns Text from combined IDs.
+ */
+const combineIds = (...ids: string[]): string => {
   return ids.join('__');
 };
 
@@ -73,8 +78,9 @@ export const SwitchInput = forwardRef(function SwitchInput(
   );
 
   /**
-   * @description
-   * @param e
+   * @description Extracts selected option from interacting element.
+   * Stores option into state when changed.
+   * @param e Mouse click event.
    */
   const storeValue = (e: MouseEvent): void => {
     if (!enabled) return;
