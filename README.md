@@ -82,6 +82,33 @@ const TextInputSample = () => {
 
   </tr>
   <tr>
+    <td valign=top>Customizable conditional behavior</td>
+    <td valign=top>
+
+- All components take `setValue` callback parameter that expects new value as it's single input. This callback can be modified to attach any related actions to the update.
+- All the checking for correct input is done within each component, and your callback will always be receiving correct values.
+    </td>
+    <td valign=top>
+
+```javascript
+const TextInputSample = () => {
+  const [text, setText] = useState('');
+  const doStuffOnInput = (newText: string) => {
+    //  Do stuff here...
+    setText(newText);
+  }
+  return (
+    <TextInput
+      value={text}
+      setValue={doStuffOnInput}
+      ...
+    />
+  );
+};
+```
+
+  </tr>
+  <tr>
     <td valign=top>Customizable class list</td>
     <td valign=top>
 

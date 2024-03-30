@@ -17,10 +17,14 @@ import * as t from './components-generic/services/types.service';
 //  DEVELOPMENT OF GENERIC COMPONENTS
 const TextInputSample = () => {
   const [text, setText] = useState('');
+  const doStuffOnInput = (newText: string) => {
+    console.log('storing new text');
+    setText(newText);
+  };
   return (
     <TextInput
       value={text}
-      setValue={setText}
+      setValue={doStuffOnInput}
       className="custom-class-name another-class-name"
       label="Custom label:"
       placeholder="Insert your text here..."
