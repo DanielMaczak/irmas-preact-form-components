@@ -3,7 +3,7 @@ import '../styles/style.css';
 
 //  External dependencies
 import { Ref } from 'preact';
-import { ForwardedRef, forwardRef } from 'preact/compat';
+import { ForwardedRef, forwardRef, useRef } from 'preact/compat';
 
 //  Internal dependencies
 import * as c from '../services/constants.service';
@@ -117,20 +117,22 @@ export const TextInput = forwardRef(function TextInput(
     multiline ? c.CLASS_TEXTMULTI : c.CLASS_TEXTSINGLE
   );
 
+  //  Value references (mutable)
+  const timeoutId = useRef<NodeJS.Timeout | null>(null);
+
   /**
    * @description Applies autocapitalize to user input.
    * Is debounced on input to 350ms to allow key-holding and touch typing.
    * Ensures control retains cursor position.
    * @param e InputEvent.
    */
-  let timeoutId: NodeJS.Timeout;
   const autocapitalizeInput = (e: InputEvent) => {
-    if (timeoutId) clearTimeout(timeoutId);
+    timeoutId.current && clearTimeout(timeoutId.current);
     //  Access element
     if (!(e.currentTarget instanceof HTMLTextAreaElement)) return;
     const textArea: HTMLTextAreaElement = e.currentTarget;
     //  Capitalize while retaining cursor position
-    timeoutId = setTimeout(() => {
+    timeoutId.current = setTimeout(() => {
       const cursorPosition: number = textArea.selectionStart;
       textArea.value = capitalizeText(textArea.value, autocapitalize);
       textArea.selectionStart = cursorPosition;

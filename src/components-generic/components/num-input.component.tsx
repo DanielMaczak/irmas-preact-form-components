@@ -3,7 +3,7 @@ import '../styles/style.css';
 
 //  External dependencies
 import { Ref } from 'preact';
-import { ForwardedRef, forwardRef } from 'preact/compat';
+import { ForwardedRef, forwardRef, useRef } from 'preact/compat';
 
 //  Internal dependencies
 import * as c from '../services/constants.service';
@@ -88,6 +88,9 @@ export const NumInput = forwardRef(function NumInput(
     c.CLASS_NUMINPUT
   );
 
+  //  Value references (mutable)
+  const timeoutId = useRef<NodeJS.Timeout | null>(null);
+
   //  Ensure value is within min-max
   const limitedValue: number = Math.max(min, Math.min(max, value));
   limitedValue !== value && setValue(limitedValue);
@@ -129,13 +132,12 @@ export const NumInput = forwardRef(function NumInput(
    * Is debounced on input to 50ms to allow key-holding.
    * @param e Number input change event.
    */
-  let timeoutId: NodeJS.Timeout;
   const storeValue = (e: InputEvent): void => {
-    if (timeoutId) clearTimeout(timeoutId);
+    timeoutId.current && clearTimeout(timeoutId.current);
     //  Access element
     if (!(e.currentTarget instanceof HTMLInputElement)) return;
     const input: HTMLInputElement = e.currentTarget;
-    timeoutId = setTimeout(() => {
+    timeoutId.current = setTimeout(() => {
       //  Allow temporary semi-numeric values
       if (input.value === '' || input.value === '-') {
         setValue(0);
