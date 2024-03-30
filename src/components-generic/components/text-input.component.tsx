@@ -22,10 +22,10 @@ export enum CAPS_OPTIONS {
  * @param e InputEvent.
  */
 const resizeContainer = (e: InputEvent): void => {
-  if (!(e.currentTarget instanceof HTMLElement)) return;
-  const elem: HTMLElement = e.currentTarget;
-  elem.style.height = '1px'; // ensure resize to smaller
-  elem.style.height = `${elem.scrollHeight}px`;
+  if (!(e.currentTarget instanceof HTMLTextAreaElement)) return;
+  const textArea: HTMLTextAreaElement = e.currentTarget;
+  textArea.style.height = '1px'; // ensure resize to smaller
+  textArea.style.height = `${textArea.scrollHeight}px`;
 };
 
 /**
@@ -128,13 +128,13 @@ export const TextInput = forwardRef(function TextInput(
     if (timeoutId) clearTimeout(timeoutId);
     //  Access element
     if (!(e.currentTarget instanceof HTMLTextAreaElement)) return;
-    const elem: HTMLTextAreaElement = e.currentTarget;
+    const textArea: HTMLTextAreaElement = e.currentTarget;
     //  Capitalize while retaining cursor position
     timeoutId = setTimeout(() => {
-      const cursorPosition: number = elem.selectionStart;
-      elem.value = capitalizeText(elem.value, autocapitalize);
-      elem.selectionStart = cursorPosition;
-      elem.selectionEnd = cursorPosition;
+      const cursorPosition: number = textArea.selectionStart;
+      textArea.value = capitalizeText(textArea.value, autocapitalize);
+      textArea.selectionStart = cursorPosition;
+      textArea.selectionEnd = cursorPosition;
       return;
     }, 350);
   };
@@ -144,10 +144,10 @@ export const TextInput = forwardRef(function TextInput(
    * @param e Text input focus/blur event.
    */
   const storeValue = (e: FocusEvent): void => {
-    if (!(e.currentTarget instanceof HTMLElement)) return;
-    const elem: HTMLElement = e.currentTarget;
-    if (value === elem.textContent) return;
-    elem.textContent ? setValue(elem.textContent) : setValue('');
+    if (!(e.currentTarget instanceof HTMLTextAreaElement)) return;
+    const textArea: HTMLTextAreaElement = e.currentTarget;
+    if (value === textArea.value) return;
+    textArea.value ? setValue(textArea.value) : setValue('');
   };
 
   return (
@@ -158,6 +158,7 @@ export const TextInput = forwardRef(function TextInput(
         </label>
       )}
       <textarea
+        value={value}
         {...(idRef ? { id: idRef.current } : {})}
         class={inputClasses.current}
         placeholder={placeholder}
@@ -171,9 +172,7 @@ export const TextInput = forwardRef(function TextInput(
         autocapitalize="off" // we provide out own
         rows={1} // set default size
         ref={ref as Ref<HTMLTextAreaElement>}
-      >
-        {value}
-      </textarea>
+      />
     </>
   );
 });
