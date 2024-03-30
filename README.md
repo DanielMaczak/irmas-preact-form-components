@@ -16,6 +16,8 @@
   - [Number Input](#number-input)
   - [Text Input](#text-input)
   - [Dropdown Input](#dropdown-input)
+  - [Switch Input](#switch-input)
+- [Types and where to find them](#types-and-where-to-find-them)
 
 ## Features
 
@@ -43,8 +45,8 @@ I am developing in Preact version 10.19.
 
 Following is the list of planned features:
 
+- Multi-select: list of clickable options to toggle on/off, powered mostly by raw HTML+CSS.
 - Button: mainly to complete the set, currently I have no special features in mind.
-- Panel Switch: a panel of options to pick (no radio buttons), hopefully fully utilizing current HTML tricks to deliver the functionality.
 - Parent form component: with presets for different use-cases.
 - 100% coverage.
 - Maybe more HTML Input flavors if I see a good case.
@@ -458,3 +460,46 @@ const DropdownInputSample = () => {
 
   </tr>
 </table>
+
+### Switch Input
+
+<table>
+  <tr>
+    <th>Feature<img style=width:20em;height:1px; /></th>
+    <th>Description<img style=width:40em;height:1px; /></th>
+    <th>Code sample<img style=width:40em;height:1px; /></th>
+  </tr>
+  <tr>
+    <td valign=top>Powered by HTML + CSS</td>
+    <td valign=top>
+
+- Turns your `options` into a set of labels that change color on click (and obviously store the selected option).
+- The highlighting is handled via the assignment of `--bg-color` CSS variable to the selected option. You can learn how to apply this variable correctly [in the main feature list (> Color inheritance)](#components).
+    </td>
+    <td valign=top>
+
+```javascript
+const SwitchInputSample = () => {
+  const options: t.Option[] = [
+    { id: '0', value: 'test0' },
+    { id: '1', value: 'test1' },
+    { id: '2', value: 'test2' },
+  ];
+  const [value, setValue] = useState(options[0]);
+  return (
+    <SwitchInput
+      value={value}
+      setValue={setValue}
+      options={options}
+      // ...
+    />
+  );
+};
+```
+
+  </tr>
+</table>
+
+## Types and where to find them
+
+// Will be added after first full release
