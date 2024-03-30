@@ -84,8 +84,8 @@ export const NumInput = forwardRef(function NumInput(
   );
   const inputClasses = u.generateInputClasses(
     c.CLASS_TYPES.CLASS_INPUT,
-    className,
-    c.CLASS_NUMINPUT
+    c.CLASS_NUM,
+    className
   );
 
   //  Value references (mutable)

@@ -112,9 +112,9 @@ export const TextInput = forwardRef(function TextInput(
   );
   const inputClasses = u.generateInputClasses(
     c.CLASS_TYPES.CLASS_INPUT,
-    className,
-    c.CLASS_TEXTINPUT,
-    multiline ? c.CLASS_TEXTMULTI : c.CLASS_TEXTSINGLE
+    c.CLASS_TEXT,
+    multiline ? c.CLASS_TEXTMULTI : c.CLASS_TEXTSINGLE,
+    className
   );
 
   //  Value references (mutable)

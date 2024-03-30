@@ -14,7 +14,10 @@ export enum CLASS_TYPES {
   CLASS_ARROW = `__arrow`, // dropdown arrow icon
   CLASS_FIELDSET = `__fieldset`, // grouping into ReplaceInput
 }
-export const CLASS_TEXTINPUT: string = 'text-input';
-export const CLASS_TEXTSINGLE: string = 'text-single'; // single-line
-export const CLASS_TEXTMULTI: string = 'text-multi'; // multi-line
-export const CLASS_NUMINPUT: string = 'num-input';
+export const CLASS_GENERIC: string = 'irmaspfc'; // assigned to all components
+export const CLASS_TEXT: string = CLASS_GENERIC + '__text';
+export const CLASS_TEXTSINGLE: string = CLASS_GENERIC + '__text-single'; // single-line
+export const CLASS_TEXTMULTI: string = CLASS_GENERIC + '__text-multi'; // multi-line
+export const CLASS_NUM: string = CLASS_GENERIC + '__num';
+export const CLASS_DROPDOWN: string = CLASS_GENERIC + '__dropdown';
+export const CLASS_SWITCH: string = CLASS_GENERIC + '__switch';

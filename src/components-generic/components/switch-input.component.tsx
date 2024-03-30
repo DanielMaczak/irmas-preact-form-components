@@ -70,6 +70,7 @@ export const SwitchInput = forwardRef(function SwitchInput(
   );
   const inputClasses = u.generateInputClasses(
     c.CLASS_TYPES.CLASS_INPUT,
+    c.CLASS_SWITCH,
     className
   );
   const optionClasses = u.generateInputClasses(

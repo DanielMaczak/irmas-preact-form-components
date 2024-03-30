@@ -11,9 +11,6 @@ import { MutableRef, useRef } from 'preact/hooks';
 //  Internal dependencies
 import * as c from './constants.service';
 
-//  CSS identifiers
-const CLASS_GENERIC: string = 'irmaspfc'; // assigned to all components
-
 //  ID storage
 const ELEM_ID_LEN: number = 8;
 const generatedIds: Set<string> = new Set();
@@ -35,7 +32,7 @@ export const generateInputClasses = (
     | c.CLASS_TYPES.CLASS_FIELDSET,
   ...requestedClasses: string[]
 ): MutableRef<string> => {
-  let classList = CLASS_GENERIC + classType; // minimum required return
+  let classList = c.CLASS_GENERIC + classType; // minimum required return
   for (let requestedClass of requestedClasses) {
     if (requestedClass) classList += ' ' + requestedClass + classType;
   }
@@ -67,5 +64,5 @@ export const generateElementId = (id: string): MutableRef<string> => {
   let randomId: string = generateRandomId();
   while (!randomId || generatedIds.has(randomId)) randomId = generateRandomId();
   generatedIds.add(randomId); // remember new ID
-  return useRef(CLASS_GENERIC + '__' + randomId);
+  return useRef(c.CLASS_GENERIC + '__' + randomId);
 };

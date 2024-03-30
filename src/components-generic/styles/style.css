@@ -1,6 +1,11 @@
 /* General component styling */
 
-.irmaspfc__input {
+.irmaspfc__input,
+.irmaspfc__label,
+.irmaspfc__list,
+.irmaspfc__option,
+.irmaspfc__fieldset,
+.irmaspfc__arrow {
   /* Fallback color in case parent didn't define it */
   --bg-color-default: 128, 128, 128;
   --bg-color-internal: var(--bg-color, var(--bg-color-default));
@@ -8,8 +13,8 @@
   display: inline-block;
   margin: 0;
   padding: 0;
+  background: inherit;
   border: none;
-  background: transparent;
   color: inherit;
   font-family: inherit;
   font-size: inherit;
@@ -30,66 +35,54 @@
   outline-width: 2px;
   outline-style: dotted;
 }
-.irmaspfc__label {
-  margin: 0;
-  padding: 0;
-  vertical-align: top;
-}
-.irmaspfc__fieldset {
-  display: inline-block;
-  margin: 0;
-  padding: 0;
-  border: none;
-  vertical-align: top;
-}
-
-/* Individual component styling - TextInput */
-
-.text-input__input {
-  resize: none;
-}
-.text-single__input {
-  white-space: nowrap;
-}
-.text-multi__input {
-  white-space: pre-wrap;
-  word-wrap: break-word;
-}
-
-/* Individual component styling - NumInput */
-
-.num-input__input {
-  text-align: right;
-}
-
-/* Individual component styling - DropdownInput */
-
-.irmaspfc__input summary {
-  cursor: pointer;
-  transition: margin 0.2s ease-out;
-}
-.irmaspfc__input[open] summary {
-  margin-bottom: 0.5rem;
-}
 .irmaspfc__list {
   position: absolute;
-  margin: 0;
-  padding: 0;
+  display: flex;
+  flex-direction: column;
   cursor: default;
   list-style-type: none;
 }
 .irmaspfc__arrow {
   transition: rotate 0.2s;
 }
-.irmaspfc__input[open] .irmaspfc__arrow {
+
+/* Individual component styling - TextInput */
+
+.irmaspfc__text__input {
+  resize: none;
+}
+.irmaspfc__text-single__input {
+  white-space: nowrap;
+}
+.irmaspfc__text-multi__input {
+  white-space: pre-wrap;
+  word-wrap: break-word;
+}
+
+/* Individual component styling - NumInput */
+
+.irmaspfc__num__input {
+  text-align: right;
+}
+
+/* Individual component styling - DropdownInput */
+
+.irmaspfc__dropdown__input summary {
+  cursor: pointer;
+  transition: margin 0.2s ease-out;
+}
+.irmaspfc__dropdown__input[open] summary {
+  margin-bottom: 0.5rem;
+}
+.irmaspfc__dropdown__input[open] .irmaspfc__arrow {
   rotate: 180deg;
 }
 
 /* Individual component styling - SwitchInput */
 
-.irmaspfc__input input[type='radio'] {
+.irmaspfc__switch__input input[type='radio'] {
   display: none;
 }
-.irmaspfc__input input[type='radio']:checked + .irmaspfc__option {
+.irmaspfc__switch__input input[type='radio']:checked + .irmaspfc__option {
   background-color: rgba(var(--bg-color-internal), 100%);
 }
