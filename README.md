@@ -15,6 +15,7 @@
   - [Date Input](#date-input)
   - [Number Input](#number-input)
   - [Text Input](#text-input)
+  - [Dropdown Input](#dropdown-input)
 
 ## Features
 
@@ -23,7 +24,7 @@ Set of minimalistic form components with a simple premise: maximum features in m
 - Independent: Preact is the only dependency.
 - Modern: ES6 modules only.
 - Clean: 100% in strict TypeScript.
-- Easy to use: HTML Input features finally working as you would expect.
+- Easy to use: HTML components finally working as you would expect.
 - No fighting: Formating reset to 0, ready to be injected with styles.
 
 ## Installation
@@ -42,9 +43,10 @@ I am developing in Preact version 10.19.
 
 Following is the list of planned features:
 
-- Dropdown Input: options selector, potentially heavily based on current HTML tricks for the best performance.
 - Button: mainly to complete the set, currently I have no special features in mind.
 - Panel Switch: a panel of options to pick (no radio buttons), hopefully fully utilizing current HTML tricks to deliver the functionality.
+- 100% coverage.
+- Maybe more HTML Input flavors if I see a good case.
 
 ## Components
 
@@ -117,7 +119,9 @@ const TextInputSample = () => {
 - The user-defined classes have suffix based on the component they belong to, so that your styling doesn't depend on plugin internals:
   - `*__input`: the control holding the value.
   - `*__label`: the label (if displayed).
-  - `*__option`: the dropdown options.
+  - `*__option`: the individual dropdown options.
+  - `*__list`: the dropdown options container.
+  - `*__arrow`: the arrow inside the dropdown control.
     </td>
     <td valign=top>
 
@@ -374,6 +378,75 @@ const TextInputSample = () => {
       value={text}
       setValue={setText}
       autocapitalize="words"
+      ...
+    />
+  );
+};
+```
+
+  </tr>
+</table>
+
+### Dropdown Input
+
+<table>
+  <tr>
+    <th>Feature<img style=width:20em;height:1px; /></th>
+    <th>Description<img style=width:40em;height:1px; /></th>
+    <th>Code sample<img style=width:40em;height:1px; /></th>
+  </tr>
+  <tr>
+    <td valign=top>Powered by HTML + CSS</td>
+    <td valign=top>
+
+- The hide and unhide operation is powered by the native behavior of HTML `details` elements. Control animations are all handled via CSS, resulting in very little calculation overhead.
+- All the individual components of this control receive custom CSS classes so that you can comfortably add/override their behaviors.
+    </td>
+    <td valign=top>
+
+```javascript
+const DropdownInputSample = () => {
+  const options: t.Option[] = [
+    { id: '0', value: 'test0' },
+    { id: '1', value: 'test1' },
+    { id: '2', value: 'test2' },
+  ];
+  const [value, setValue] = useState(options[0]);
+  return (
+    <DropdownInput
+      value={value}
+      setValue={setValue}
+      options={options}
+      ...
+    />
+  );
+};
+```
+
+  </tr>
+  <tr>
+    <td valign=top>Can be used for color selection</td>
+    <td valign=top>
+
+- The `options` array takes an optional `color` value. This color will be displayed inside a `span` element following the option `value`.
+- The `value` can also be completely ignored via the `showValue` parameter, effectively turning this component into a color-picker!
+    </td>
+    <td valign=top>
+
+```javascript
+const DropdownInputSample = () => {
+  const options: t.Option[] = [
+    { id: '0', value: 'red', color: '#ff0000' },
+    { id: '1', value: 'green', color: '#00ff00' },
+    { id: '2', value: 'blue', color: '#0000ff' },
+  ];
+  const [value, setValue] = useState(options[0]);
+  return (
+    <DropdownInput
+      value={value}
+      setValue={setValue}
+      options={options}
+      showValue={false}
       ...
     />
   );
