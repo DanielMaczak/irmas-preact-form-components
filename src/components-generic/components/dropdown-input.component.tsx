@@ -29,11 +29,18 @@ const DropdownArrow = ({ className }: { className: string }) => (
 
 /**
  * @module dropdown-input.component
- * @description
- *
+ * @description Enables creating dropdown control with hidden options list.
+ * Uses HTML mechanisms to show/hide options.
+ * Value is stored on clicking it.
+ * Included features:
+ * -  allows dropdown selection from provided options,
+ * -  can be used as color-picker (via options),
+ * -  customizable class names,
+ * -  state management for input values,
+ * -  optional associated label.
  * @param value Hook to value displayed in component.
  * @param setValue Hook to change internal value storage.
- * @param options List of options and associated IDs.
+ * @param options List of options and associated IDs (optionally hex colors).
  * @param id Custom ID to override randomly generated.
  * @param className Custom class list to attach to component.
  * @param label Text to display in label (otherwise is omitted).
@@ -103,7 +110,7 @@ export const DropdownInput = forwardRef(function DropdownInput(
     if (!(e.currentTarget instanceof HTMLLIElement)) return;
     //  Extract option
     const li: HTMLLIElement = e.currentTarget;
-    const id: string = String(li.value);
+    const id: string = String(li.dataset.id);
     const option: t.Option | undefined = options.find(
       option => option.id === id
     );
@@ -163,7 +170,7 @@ export const DropdownInput = forwardRef(function DropdownInput(
           {options.map(option => (
             <li
               key={option.id}
-              value={option.id}
+              data-id={option.id}
               onMouseDown={storeValue}
               class={optionClasses.current}
             >
