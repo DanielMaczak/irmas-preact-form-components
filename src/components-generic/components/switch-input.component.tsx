@@ -10,17 +10,27 @@ import * as c from '../services/constants.service';
 import * as u from '../services/utilities.service';
 import * as t from '../services/types.service';
 
+const combineIds = (...ids: string[]) => {
+  return ids.join('__');
+};
+
 /**
  * @module switch-input.component
- * @description
- *
+ * @description Enables creating switch control with no radio buttons.
+ * Selected option is highlighted via label background.
+ * Uses HTML+CSS mechanisms to visualize selected option.
+ * Value is stored on clicking it.
+ * Included features:
+ * -  allows single-selection from provided options,
+ * -  customizable class names,
+ * -  state management for input values,
+ * -  optional associated label.
  * @param value Hook to value displayed in component.
  * @param setValue Hook to change internal value storage.
  * @param options List of options and associated IDs.
  * @param id Custom ID to override randomly generated.
  * @param className Custom class list to attach to component.
  * @param label Text to display in label (otherwise is omitted).
- * @param placeholder Relay standard HTML attribute.
  * @param enabled Relay standard HTML attribute.
  * @param ref Forward ref to input element passed from parent.
  * @version 1.0.0
@@ -96,13 +106,13 @@ export const SwitchInput = forwardRef(function SwitchInput(
           <>
             <input
               type="radio"
-              id={id + option.id}
+              id={combineIds(idRef.current, option.id)}
               disabled={!enabled}
               {...(value.id === option.id ? { checked: true } : {})}
             />
             <label
               data-id={option.id}
-              htmlFor={id + option.id}
+              htmlFor={combineIds(idRef.current, option.id)}
               class={optionClasses.current}
               onClick={storeValue}
             >
