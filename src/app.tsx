@@ -85,6 +85,7 @@ const ReplaceTextInputSample = () => {
           <img
             ref={ref as Ref<HTMLImageElement>}
             src="https://cdn-icons-png.flaticon.com/512/347/347052.png"
+            width="16"
           />
         )}
       >

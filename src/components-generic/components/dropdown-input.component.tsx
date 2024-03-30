@@ -79,16 +79,16 @@ export const DropdownInput = forwardRef(function DropdownInput(
     c.CLASS_TYPES.CLASS_INPUT,
     className
   );
-  const optionClasses = u.generateInputClasses(
-    c.CLASS_TYPES.CLASS_OPTION,
+  const arrowClasses = u.generateInputClasses(
+    c.CLASS_TYPES.CLASS_ARROW,
     className
   );
   const listClasses = u.generateInputClasses(
     c.CLASS_TYPES.CLASS_LIST,
     className
   );
-  const arrowClasses = u.generateInputClasses(
-    c.CLASS_TYPES.CLASS_ARROW,
+  const optionClasses = u.generateInputClasses(
+    c.CLASS_TYPES.CLASS_OPTION,
     className
   );
 
