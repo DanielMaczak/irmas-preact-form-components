@@ -12,6 +12,7 @@ export enum CLASS_TYPES {
   CLASS_OPTION = `__option`, // individual dropdown options
   CLASS_LIST = `__list`, // dropdown options container
   CLASS_ARROW = `__arrow`, // dropdown arrow icon
+  CLASS_BUTTON = `__button`, // button
   CLASS_FIELDSET = `__fieldset`, // grouping into ReplaceInput
 }
 export const CLASS_GENERIC: string = 'irmaspfc'; // assigned to all components

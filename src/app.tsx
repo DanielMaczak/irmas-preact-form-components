@@ -14,6 +14,7 @@ import { DropdownInput } from './components-generic/components/dropdown-input.co
 import { ReplaceInput } from './components-generic/components/replace-input.component';
 import * as t from './components-generic/services/types.service';
 import { SwitchInput } from './components-generic/components/switch-input.component';
+import { Button } from './components-generic/components/button.component';
 
 //  DEVELOPMENT OF GENERIC COMPONENTS
 const TextInputSample = () => {
@@ -96,6 +97,21 @@ const SwitchInputSample = () => {
     />
   );
 };
+const ButtonSample = () => {
+  const [value, setValue] = useState('fancy button');
+  const changeText = () => {
+    setValue('stop touching my buttons!');
+  };
+  return (
+    <Button
+      value={value}
+      action={() => console.log('button clicked')}
+      setValue={changeText}
+      className="button-class"
+      inactiveAfterClickFor={1000}
+    />
+  );
+};
 
 const ReplaceTextInputSample = () => {
   const [valueText, setValueText] = useState('1234');
@@ -155,6 +171,8 @@ export function App() {
       <DropdownInputSample />
       <br />
       <SwitchInputSample />
+      <br />
+      <ButtonSample />
       <br />
       <ReplaceTextInputSample />
     </>

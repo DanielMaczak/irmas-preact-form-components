@@ -30,6 +30,7 @@ export const generateInputClasses = (
     | c.CLASS_TYPES.CLASS_OPTION
     | c.CLASS_TYPES.CLASS_LIST
     | c.CLASS_TYPES.CLASS_ARROW
+    | c.CLASS_TYPES.CLASS_BUTTON
     | c.CLASS_TYPES.CLASS_FIELDSET,
   ...requestedClasses: string[]
 ): MutableRef<string> => {
