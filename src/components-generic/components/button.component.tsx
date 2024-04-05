@@ -3,7 +3,7 @@ import '../styles/style.css';
 
 //  External dependencies
 import { Ref } from 'preact';
-import { ForwardedRef, forwardRef } from 'preact/compat';
+import { ForwardedRef, forwardRef, useState } from 'preact/compat';
 
 //  Internal dependencies
 import * as c from '../services/constants.service';
@@ -27,8 +27,9 @@ import * as u from '../services/utilities.service';
  * @param id Custom ID to override randomly generated.
  * @param className Custom class list to attach to component
  * @param enabled Relay standard HTML attribute.
- * @param singleClick True if button can be clicked only once.
+ * @param singleClick Makes button permanently inactive after first click.
  * @param inactiveAfterClickFor Makes button inactive for X ms after each click.
+ * @param inactiveValue Displayed text during inactive period.
  * @param ref Forward ref to input element passed from parent.
  * @version 1.0.0
  */
@@ -42,6 +43,7 @@ export const Button = forwardRef(function Button(
     enabled = true,
     singleClick = false,
     inactiveAfterClickFor = 0,
+    inactiveValue = '',
   }: {
     value: string;
     action: () => void;
@@ -51,9 +53,13 @@ export const Button = forwardRef(function Button(
     enabled?: boolean;
     singleClick?: boolean;
     inactiveAfterClickFor?: number;
+    inactiveValue?: string;
   },
   ref: ForwardedRef<HTMLElement>
 ) {
+  //  State hooks
+  const [isActive, activate] = useState<boolean>(true);
+
   //  Ensure element has valid static ID
   const idRef = id ? u.generateElementId(id) : undefined;
 
@@ -71,17 +77,22 @@ export const Button = forwardRef(function Button(
    * This way ensures needless checks won't run on every click.
    */
   const getClickAction = (): (() => void) => {
-    let lastClicked: number = 0;
     const runClickActions = (): void => {
       action();
       setValue !== undefined && setValue();
-      lastClicked = Date.now();
     };
     const handleInactiveAfterClick = (): void => {
-      if (Date.now() - lastClicked >= inactiveAfterClickFor) runClickActions();
+      if (isActive) {
+        runClickActions();
+        activate(false);
+        setTimeout(() => activate(true), inactiveAfterClickFor);
+      }
     };
     const handleSingleClick = (): void => {
-      if (!lastClicked) runClickActions();
+      if (isActive) {
+        runClickActions();
+        activate(false);
+      }
     };
     return singleClick
       ? handleSingleClick
@@ -95,11 +106,11 @@ export const Button = forwardRef(function Button(
       type="button"
       {...(idRef ? { id: idRef.current } : {})}
       class={buttonClasses.current}
-      disabled={!enabled}
+      disabled={!isActive || !enabled}
       onClick={getClickAction()}
       ref={ref as Ref<HTMLButtonElement>}
     >
-      {value}
+      {isActive ? value : inactiveValue || value}
     </button>
   );
 });

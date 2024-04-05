@@ -109,6 +109,7 @@ const ButtonSample = () => {
       setValue={changeText}
       className="button-class"
       inactiveAfterClickFor={1000}
+      inactiveValue={'waiting...'}
     />
   );
 };
