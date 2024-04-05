@@ -5,7 +5,8 @@
 .irmaspfc__list,
 .irmaspfc__option,
 .irmaspfc__fieldset,
-.irmaspfc__arrow {
+.irmaspfc__arrow,
+.irmaspfc__button {
   /* Fallback color in case parent didn't define it */
   --bg-color-default: 128, 128, 128;
   --bg-color-internal: var(--bg-color, var(--bg-color-default));
