@@ -38,7 +38,7 @@ const resizeContainer = (e: InputEvent): void => {
  * @param autocapitalize One of capitalization options.
  * @returns Capitalized text.
  */
-const capitalizeText = (text: string, autocapitalize: CAPS_OPTIONS) => {
+const capitalizeText = (text: string, autocapitalize: CAPS_OPTIONS): string => {
   switch (autocapitalize) {
     case CAPS_OPTIONS.CHARS:
       return text.toUpperCase();
@@ -126,7 +126,7 @@ export const TextInput = forwardRef(function TextInput(
    * Ensures control retains cursor position.
    * @param e InputEvent.
    */
-  const autocapitalizeInput = (e: InputEvent) => {
+  const autocapitalizeInput = (e: InputEvent): void => {
     timeoutId.current && clearTimeout(timeoutId.current);
     //  Access element
     if (!(e.currentTarget instanceof HTMLTextAreaElement)) return;
@@ -137,7 +137,6 @@ export const TextInput = forwardRef(function TextInput(
       textArea.value = capitalizeText(textArea.value, autocapitalize);
       textArea.selectionStart = cursorPosition;
       textArea.selectionEnd = cursorPosition;
-      return;
     }, 350);
   };
 

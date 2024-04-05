@@ -153,7 +153,7 @@ export const NumInput = forwardRef(function NumInput(
         return;
       }
       //  Test against min-max
-      const applyMinMax = (minMax: number) => {
+      const applyMinMax = (minMax: number): void => {
         //  Ensure we never leave safe INT range
         if (newValue > Number.MAX_SAFE_INTEGER) {
           newValue = Number.MAX_SAFE_INTEGER;

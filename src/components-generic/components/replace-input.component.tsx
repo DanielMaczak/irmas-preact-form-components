@@ -116,19 +116,19 @@ export function ReplaceInput({
    * @param e Mouse click event.
    */
   let mouseDown: boolean = false;
-  const onClickHandler = (e: MouseEvent) => {
+  const onClickHandler = (e: MouseEvent): void => {
     e.preventDefault(); // prevent label triggering twice
     mouseDown = false; // click finished
     if (Object.is(e.target, childRef.current)) return; // click inside input
     !displayInput && setDisplay(true);
     childRef.current?.focus();
   };
-  const onMouseDownHandler = () => {
+  const onMouseDownHandler = (): void => {
     mouseDown = true; // click initiated
     !displayInput && setDisplay(true);
     childRef.current?.focus();
   };
-  const onBlurHandler = () => {
+  const onBlurHandler = (): void => {
     if (mouseDown) return; // prevent repeated label click to be taken as blur
     displayInput && setDisplay(false);
   };

@@ -126,7 +126,7 @@ export const DropdownInput = forwardRef(function DropdownInput(
    * -  click outside closes options.
    * @param e Mouse click event.
    */
-  const openDropdown = () => {
+  const openDropdown = (): void => {
     const isOpen = dropdownRef.current?.hasAttribute('open');
     if (!isOpen) {
       const summary = dropdownRef.current?.children[0] as
@@ -136,7 +136,7 @@ export const DropdownInput = forwardRef(function DropdownInput(
       dropdownRef.current?.toggleAttribute('open');
     }
   };
-  const closeDropdown = () => {
+  const closeDropdown = (): void => {
     dropdownRef.current?.removeAttribute('open');
   };
 
