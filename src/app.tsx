@@ -86,7 +86,8 @@ const SwitchInputSample = () => {
     { id: '1', value: 'test1' },
     { id: '2', value: 'test2' },
   ];
-  const [value, setValue] = useState(options[0]);
+  const [value, setValue] = useState(new Set(['0', '2']));
+  // const [value, setValue] = useState('0');
   return (
     <SwitchInput
       value={value}

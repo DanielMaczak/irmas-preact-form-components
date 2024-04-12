@@ -23,6 +23,7 @@
   /* General tweaks to basic appearance */
   overflow: hidden;
   vertical-align: top;
+  user-select: none;
   border-color: rgba(var(--bg-color-internal), 100%);
 }
 .irmaspfc__input:disabled {
@@ -81,9 +82,11 @@
 
 /* Individual component styling - SwitchInput */
 
-.irmaspfc__switch__input input[type='radio'] {
+.irmaspfc__switch__input input[type='radio'],
+.irmaspfc__switch__input input[type='checkbox'] {
   display: none;
 }
-.irmaspfc__switch__input input[type='radio']:checked + .irmaspfc__option {
+.irmaspfc__option:has(input[type='radio']:checked),
+.irmaspfc__option:has(input[type='checkbox']:checked) {
   background-color: rgba(var(--bg-color-internal), 100%);
 }

@@ -11,29 +11,22 @@ import * as u from '../services/utilities.service';
 import * as t from '../services/types.service';
 
 /**
- * @description Standardizes approach to combine IDs for this component.
- * @param ids IDs to combine.
- * @returns Text from combined IDs.
- */
-const combineIds = (...ids: string[]): string => {
-  return ids.join('__');
-};
-
-/**
  * @module switch-input.component
- * @description Enables creating switch control with no radio buttons.
+ * @description Enables creating switch control composed of labels.
  * Selected option is highlighted via label background.
  * Uses HTML+CSS mechanisms to visualize selected option.
+ * Allows multi-select if value is passed as Set.
  * Value is stored on clicking it.
  * Included features:
  * -  allows single-selection from provided options,
+ * -  allows multi-selection from provided options,
  * -  customizable class names,
  * -  state management for input values,
  * -  optional associated label.
- * @param value Hook to value displayed in component.
- * @param setValue Hook to change internal value storage.
+ * @param value Hook to ID(s) of value(s) selected in component.
+ * @param setValue Hook to change internal value (option ID) storage.
  * @param options List of options and associated IDs.
- * @param id Custom ID to override randomly generated.
+ * @param id Custom {HTML} ID to override randomly generated.
  * @param className Custom class list to attach to component.
  * @param label Text to display in label (otherwise is omitted).
  * @param enabled Relay standard HTML attribute.
@@ -50,8 +43,8 @@ export const SwitchInput = forwardRef(function SwitchInput(
     label = '',
     enabled = true,
   }: {
-    value: t.Option;
-    setValue: (value: t.Option) => void;
+    value: string | Set<string>;
+    setValue: (id: string | Set<string>) => void;
     options: t.Option[];
     id?: string;
     className?: string;
@@ -61,7 +54,7 @@ export const SwitchInput = forwardRef(function SwitchInput(
   ref: ForwardedRef<HTMLElement>
 ) {
   //  Ensure element has valid static ID
-  const idRef = u.generateElementId(id);
+  const idRef = id || label ? u.generateElementId(id) : undefined;
 
   //  Generate class strings
   const labelClasses = u.generateInputClasses(
@@ -78,6 +71,9 @@ export const SwitchInput = forwardRef(function SwitchInput(
     className
   );
 
+  //  Determine switch type
+  const isMultiSwitch = typeof value != 'string';
+
   /**
    * @description Extracts selected option from interacting element.
    * Stores option into state when changed.
@@ -85,44 +81,51 @@ export const SwitchInput = forwardRef(function SwitchInput(
    */
   const storeValue = (e: MouseEvent): void => {
     if (!enabled) return;
-    if (!(e.currentTarget instanceof HTMLLabelElement)) return;
+    if (!(e.currentTarget instanceof HTMLInputElement)) return;
     //  Extract option
-    const label: HTMLLabelElement = e.currentTarget;
-    const id: string = String(label.dataset['id']);
+    const input: HTMLInputElement = e.currentTarget;
+    const id: string = String(input.dataset['id']);
     const option: t.Option | undefined = options.find(
       option => option.id === id
     );
     //  Store final value
-    option && setValue(option);
-    console.log(option);
+    if (option) {
+      if (isMultiSwitch) {
+        const newValue: Set<string> = new Set(value);
+        newValue.delete(option.id) || newValue.add(option.id);
+        setValue(newValue);
+      } else {
+        setValue(option.id);
+      }
+    }
   };
 
   return (
     <>
       {label && (
-        <label htmlFor={idRef.current} class={labelClasses.current}>
+        <label htmlFor={idRef?.current} class={labelClasses.current}>
           {label}
         </label>
       )}
       <fieldset
-        id={idRef.current}
+        {...(idRef ? { id: idRef.current } : {})}
         class={inputClasses.current}
         ref={ref as Ref<HTMLFieldSetElement>}
       >
         {options.map(option => (
           <>
-            <input
-              type="radio"
-              id={combineIds(idRef.current, option.id)}
-              disabled={!enabled}
-              {...(value.id === option.id ? { checked: true } : {})}
-            />
-            <label
-              data-id={option.id}
-              htmlFor={combineIds(idRef.current, option.id)}
-              class={optionClasses.current}
-              onClick={storeValue}
-            >
+            <label class={optionClasses.current}>
+              <input
+                type={isMultiSwitch ? 'checkbox' : 'radio'}
+                disabled={!enabled}
+                data-id={option.id}
+                onClick={storeValue}
+                {...((
+                  isMultiSwitch ? value.has(option.id) : value === option.id
+                )
+                  ? { checked: true }
+                  : {})}
+              />
               {option.value}
             </label>
           </>

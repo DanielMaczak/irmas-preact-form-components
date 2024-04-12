@@ -42,8 +42,6 @@ I am developing in Preact version 10.19.
 
 Following is the list of planned features:
 
-- Multi-select: list of clickable options to toggle on/off, powered mostly by raw HTML+CSS.
-- Button: mainly to complete the set, currently I have no special features in mind.
 - Parent form component: with presets for different use-cases.
 - Let the real fun begin:
   - Performance optimization: as part of this hobby project I want to explore how to write the fastest components possible.
