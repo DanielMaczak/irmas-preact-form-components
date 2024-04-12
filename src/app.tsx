@@ -7,9 +7,15 @@ import { useState } from 'preact/hooks';
 import { ForwardedRef } from 'preact/compat';
 
 //  DEVELOPMENT OF GENERIC COMPONENTS
-import { TextInput } from './components-generic/components/text-input.component';
+import {
+  TextInput,
+  TextInputRef,
+} from './components-generic/components/text-input.component';
 import { DateInput } from './components-generic/components/date-input.component';
-import { NumInput } from './components-generic/components/num-input.component';
+import {
+  NumInput,
+  NumInputRef,
+} from './components-generic/components/num-input.component';
 import { DropdownInput } from './components-generic/components/dropdown-input.component';
 import { ReplaceInput } from './components-generic/components/replace-input.component';
 import * as t from './components-generic/services/types.service';
@@ -86,8 +92,8 @@ const SwitchInputSample = () => {
     { id: '1', value: 'test1' },
     { id: '2', value: 'test2' },
   ];
-  const [value, setValue] = useState(new Set(['0', '2']));
-  // const [value, setValue] = useState('0');
+  // const [value, setValue] = useState(new Set(['0', '2']));
+  const [value, setValue] = useState<string | Set<string>>('0');
   return (
     <SwitchInput
       value={value}
@@ -130,7 +136,7 @@ const ReplaceTextInputSample = () => {
         )}
       >
         {(childRef: ForwardedRef<HTMLElement>) => (
-          <TextInput
+          <TextInputRef
             value={valueText}
             setValue={setValueText}
             className="text-class"
@@ -145,7 +151,7 @@ const ReplaceTextInputSample = () => {
       <br />
       <ReplaceInput>
         {(childRef: ForwardedRef<HTMLElement>) => (
-          <NumInput
+          <NumInputRef
             value={valueNum}
             setValue={setValueNum}
             className="num-class"

@@ -62,7 +62,7 @@ const copyElementProps = (copyFrom: HTMLElement, copyTo: HTMLElement): void => {
  * @param children Input to be replaced.
  * @version 1.0.0
  */
-export function ReplaceInput({
+export const ReplaceInput = ({
   ReplaceWith = 'div',
   component,
   children,
@@ -70,7 +70,7 @@ export function ReplaceInput({
   ReplaceWith?: 'div' | 'span' | 'td' | 'li';
   component?: (ref: Ref<HTMLElement>) => ComponentChild;
   children: (childRef: ForwardedRef<HTMLElement>) => ComponentChild;
-}) {
+}) => {
   //  State hooks
   const [displayInput, setDisplay] = useState(false);
 
@@ -149,4 +149,4 @@ export function ReplaceInput({
       )}
     </fieldset>
   );
-}
+};

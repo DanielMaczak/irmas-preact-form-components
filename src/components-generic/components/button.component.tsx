@@ -2,8 +2,7 @@
 import '../styles/style.css';
 
 //  External dependencies
-import { Ref } from 'preact';
-import { ForwardedRef, forwardRef, useState } from 'preact/compat';
+import { useState } from 'preact/compat';
 
 //  Internal dependencies
 import * as c from '../services/constants.service';
@@ -30,33 +29,29 @@ import * as u from '../services/utilities.service';
  * @param singleClick Makes button permanently inactive after first click.
  * @param inactiveAfterClickFor Makes button inactive for X ms after each click.
  * @param inactiveValue Displayed text during inactive period.
- * @param ref Forward ref to input element passed from parent.
  * @version 1.0.0
  */
-export const Button = forwardRef(function Button(
-  {
-    value,
-    action,
-    setValue,
-    id = '',
-    className = '',
-    enabled = true,
-    singleClick = false,
-    inactiveAfterClickFor = 0,
-    inactiveValue = '',
-  }: {
-    value: string;
-    action: () => void;
-    setValue?: () => void;
-    id?: string;
-    className?: string;
-    enabled?: boolean;
-    singleClick?: boolean;
-    inactiveAfterClickFor?: number;
-    inactiveValue?: string;
-  },
-  ref: ForwardedRef<HTMLElement>
-) {
+export const Button = ({
+  value,
+  action,
+  setValue,
+  id = '',
+  className = '',
+  enabled = true,
+  singleClick = false,
+  inactiveAfterClickFor = 0,
+  inactiveValue = '',
+}: {
+  value: string;
+  action: () => void;
+  setValue?: () => void;
+  id?: string;
+  className?: string;
+  enabled?: boolean;
+  singleClick?: boolean;
+  inactiveAfterClickFor?: number;
+  inactiveValue?: string;
+}) => {
   //  State hooks
   const [isActive, activate] = useState<boolean>(true);
 
@@ -108,9 +103,8 @@ export const Button = forwardRef(function Button(
       class={buttonClasses.current}
       disabled={!isActive || !enabled}
       onClick={getClickAction()}
-      ref={ref as Ref<HTMLButtonElement>}
     >
       {isActive ? value : inactiveValue || value}
     </button>
   );
-});
+};

@@ -50,7 +50,7 @@ const KEYS_ALLOWED: number[] = [
  * @param ref Forward ref to input element passed from parent.
  * @version 1.0.0
  */
-export const NumInput = forwardRef(function NumInput(
+export const NumInput = (
   {
     value,
     setValue,
@@ -73,7 +73,7 @@ export const NumInput = forwardRef(function NumInput(
     invalidClassName?: string;
   },
   ref: ForwardedRef<HTMLElement>
-) {
+) => {
   //  Ensure element has valid static ID
   const idRef = id || label ? u.generateElementId(id) : undefined;
 
@@ -205,4 +205,10 @@ export const NumInput = forwardRef(function NumInput(
       />
     </>
   );
-});
+};
+
+/**
+ * @description Provides forwarded reference to internal input component.
+ * Intended for use with Replace Input component.
+ */
+export const NumInputRef = forwardRef(NumInput);

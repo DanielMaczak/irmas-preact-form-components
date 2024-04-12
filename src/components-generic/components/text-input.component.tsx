@@ -78,7 +78,7 @@ const capitalizeText = (text: string, autocapitalize: CAPS_OPTIONS): string => {
  * @param ref Forward ref to input element passed from parent.
  * @version 1.0.0
  */
-export const TextInput = forwardRef(function TextInput(
+export const TextInput = (
   {
     value,
     setValue,
@@ -101,7 +101,7 @@ export const TextInput = forwardRef(function TextInput(
     multiline?: boolean;
   },
   ref: ForwardedRef<HTMLElement>
-) {
+) => {
   //  Ensure element has valid static ID
   const idRef = id || label ? u.generateElementId(id) : undefined;
 
@@ -176,4 +176,10 @@ export const TextInput = forwardRef(function TextInput(
       />
     </>
   );
-});
+};
+
+/**
+ * @description Provides forwarded reference to internal input component.
+ * Intended for use with Replace Input component.
+ */
+export const TextInputRef = forwardRef(TextInput);

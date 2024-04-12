@@ -43,7 +43,7 @@ const getDateString = (value: number): string | undefined => {
  * @param ref Forward ref to input element passed from parent.
  * @version 1.0.0
  */
-export const DateInput = forwardRef(function DateInput(
+export const DateInput = (
   {
     value,
     setValue,
@@ -64,7 +64,7 @@ export const DateInput = forwardRef(function DateInput(
     max?: number;
   },
   ref: ForwardedRef<HTMLElement>
-) {
+) => {
   //  Ensure element has valid static ID
   const idRef = id || label ? u.generateElementId(id) : undefined;
 
@@ -122,4 +122,10 @@ export const DateInput = forwardRef(function DateInput(
       />
     </>
   );
-});
+};
+
+/**
+ * @description Provides forwarded reference to internal input component.
+ * Intended for use with Replace Input component.
+ */
+export const DateInputRef = forwardRef(DateInput);

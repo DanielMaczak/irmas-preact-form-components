@@ -33,7 +33,7 @@ import * as t from '../services/types.service';
  * @param ref Forward ref to input element passed from parent.
  * @version 1.0.0
  */
-export const SwitchInput = forwardRef(function SwitchInput(
+export const SwitchInput = (
   {
     value,
     setValue,
@@ -44,7 +44,7 @@ export const SwitchInput = forwardRef(function SwitchInput(
     enabled = true,
   }: {
     value: string | Set<string>;
-    setValue: (id: string | Set<string>) => void;
+    setValue: (value: string | Set<string>) => void;
     options: t.Option[];
     id?: string;
     className?: string;
@@ -52,7 +52,7 @@ export const SwitchInput = forwardRef(function SwitchInput(
     enabled?: boolean;
   },
   ref: ForwardedRef<HTMLElement>
-) {
+) => {
   //  Ensure element has valid static ID
   const idRef = id || label ? u.generateElementId(id) : undefined;
 
@@ -113,24 +113,26 @@ export const SwitchInput = forwardRef(function SwitchInput(
         ref={ref as Ref<HTMLFieldSetElement>}
       >
         {options.map(option => (
-          <>
-            <label class={optionClasses.current}>
-              <input
-                type={isMultiSwitch ? 'checkbox' : 'radio'}
-                disabled={!enabled}
-                data-id={option.id}
-                onClick={storeValue}
-                {...((
-                  isMultiSwitch ? value.has(option.id) : value === option.id
-                )
-                  ? { checked: true }
-                  : {})}
-              />
-              {option.value}
-            </label>
-          </>
+          <label class={optionClasses.current}>
+            <input
+              type={isMultiSwitch ? 'checkbox' : 'radio'}
+              disabled={!enabled}
+              data-id={option.id}
+              onClick={storeValue}
+              {...((isMultiSwitch ? value.has(option.id) : value === option.id)
+                ? { checked: true }
+                : {})}
+            />
+            {option.value}
+          </label>
         ))}
       </fieldset>
     </>
   );
-});
+};
+
+/**
+ * @description Provides forwarded reference to internal input component.
+ * Intended for use with Replace Input component.
+ */
+export const SwitchInputRef = forwardRef(SwitchInput);

@@ -49,7 +49,7 @@ const DropdownArrow = ({ className }: { className: string }) => (
  * @param ref Forward ref to input element passed from parent.
  * @version 1.0.0
  */
-export const DropdownInput = forwardRef(function DropdownInput(
+export const DropdownInput = (
   {
     value,
     setValue,
@@ -70,7 +70,7 @@ export const DropdownInput = forwardRef(function DropdownInput(
     showValue?: boolean;
   },
   ref: ForwardedRef<HTMLElement>
-) {
+) => {
   //  Component references (mutable)
   const dropdownRef = useRef<HTMLDetailsElement | null>(null);
 
@@ -185,4 +185,10 @@ export const DropdownInput = forwardRef(function DropdownInput(
       </details>
     </>
   );
-});
+};
+
+/**
+ * @description Provides forwarded reference to internal input component.
+ * Intended for use with Replace Input component.
+ */
+export const DropdownInputRef = forwardRef(DropdownInput);
