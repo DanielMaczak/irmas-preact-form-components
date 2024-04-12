@@ -23,12 +23,13 @@ Set of minimalistic form components with a simple premise: maximum features in m
 - Clean: 100% in strict TypeScript.
 - Easy to use: HTML components finally working as you would expect.
 - No fighting: Formating reset to 0, ready to be injected with styles.
-- _(Planned) Fast: Each added feature ridiculously over-optimized._
+- _(Planned) Fast: Each added feature is micro-optimized._
 - _(Planned) Tiny: Smallest build size achievable._
 
 ## Installation
 
-// Will be added after first full release
+> [!NOTE]
+> Will be added after first full release
 
 ## Requirements
 
@@ -36,7 +37,8 @@ I am developing in Preact version 10.19.
 
 ## Use case
 
-// Will be added after first full release
+> [!NOTE]
+> Will be added after first full release
 
 ## Planned additions
 
@@ -58,4 +60,5 @@ Description and usage details for all the components is available in [Wiki](http
 
 ## Types and where to find them
 
-// Will be added after first full release
+> [!NOTE]
+> Will be added after first full release

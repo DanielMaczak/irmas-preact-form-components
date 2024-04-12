@@ -163,20 +163,22 @@ const ReplaceTextInputSample = () => {
 export function App() {
   return (
     <>
-      {/* DEVELOPMENT OF GENERIC COMPONENTS */}
-      <TextInputSample />
-      <br />
-      <DateInputSample />
-      <br />
-      <NumInputSample />
-      <br />
-      <DropdownInputSample />
-      <br />
-      <SwitchInputSample />
-      <br />
-      <ButtonSample />
-      <br />
-      <ReplaceTextInputSample />
+      <div style="color: #00f;--bg-color: 255, 0, 0;--font-color: 0, 255, 0;">
+        {/* DEVELOPMENT OF GENERIC COMPONENTS */}
+        <TextInputSample />
+        <br />
+        <DateInputSample />
+        <br />
+        <NumInputSample />
+        <br />
+        <DropdownInputSample />
+        <br />
+        <SwitchInputSample />
+        <br />
+        <ButtonSample />
+        <br />
+        <ReplaceTextInputSample />
+      </div>
     </>
   );
 }

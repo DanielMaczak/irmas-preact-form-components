@@ -10,13 +10,14 @@
   /* Fallback color in case parent didn't define it */
   --bg-color-default: 128, 128, 128;
   --bg-color-internal: var(--bg-color, var(--bg-color-default));
+  --font-color-default: inherit;
+  --font-color-internal: var(--font-color, var(--font-color-default));
   /* Reset formatting look like any other element */
   display: inline-block;
   margin: 0;
   padding: 0;
   background: inherit;
   border: none;
-  color: inherit;
   font-family: inherit;
   font-size: inherit;
   font-weight: inherit;
@@ -24,6 +25,7 @@
   overflow: hidden;
   vertical-align: top;
   user-select: none;
+  color: rgba(var(--font-color-internal), 100%);
   border-color: rgba(var(--bg-color-internal), 100%);
 }
 .irmaspfc__input:disabled {
@@ -36,6 +38,10 @@
   outline-color: transparent;
   outline-width: 2px;
   outline-style: dotted;
+}
+.irmaspfc__fieldset,
+.irmaspfc__label {
+  color: inherit;
 }
 .irmaspfc__list {
   position: absolute;
