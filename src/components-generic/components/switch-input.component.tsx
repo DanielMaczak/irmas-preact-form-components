@@ -88,7 +88,7 @@ export const SwitchInput = forwardRef(function SwitchInput(
     if (!(e.currentTarget instanceof HTMLLabelElement)) return;
     //  Extract option
     const label: HTMLLabelElement = e.currentTarget;
-    const id: string = String(label.dataset.id);
+    const id: string = String(label.dataset['id']);
     const option: t.Option | undefined = options.find(
       option => option.id === id
     );

@@ -111,7 +111,7 @@ export const DropdownInput = forwardRef(function DropdownInput(
     if (!(e.currentTarget instanceof HTMLLIElement)) return;
     //  Extract option
     const li: HTMLLIElement = e.currentTarget;
-    const id: string = String(li.dataset.id);
+    const id: string = String(li.dataset['id']);
     const option: t.Option | undefined = options.find(
       option => option.id === id
     );
