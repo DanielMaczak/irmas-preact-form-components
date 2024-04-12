@@ -56,7 +56,7 @@ If you happen to have any suggestions or ideas for future additions and improvem
 
 ## Documentation
 
-Description and usage details for all the components is available in [Wiki](https://github.com/DanielMaczak/irmas-preact-form-components/wiki/Irma's-Preact-form-components)
+Description and usage details for all the components is available in [Wiki](https://github.com/DanielMaczak/irmas-preact-form-components/wiki/)
 
 ## Types and where to find them
 
