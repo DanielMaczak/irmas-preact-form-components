@@ -23,7 +23,6 @@ Set of minimalistic form components with a simple premise: maximum features in m
 - Clean: 100% in strict TypeScript.
 - Easy to use: HTML components finally working as you would expect.
 - No fighting: Formating reset to 0, ready to be injected with styles.
-- _(Planned) Fast: Each added feature is micro-optimized._
 - _(Planned) Tiny: Smallest build size achievable._
 
 ## Installation
@@ -45,11 +44,9 @@ I am developing in Preact version 10.19.
 Following is the list of planned features:
 
 - Parent form component: with presets for different use-cases.
-- Let the real fun begin:
-  - Performance optimization: as part of this hobby project I want to explore how to write the fastest components possible.
-  - Size optimization: in the spirit of Preact I want to push the build size to the absolute minimum.
-  - Testing: 100% coverage is the way to go (but currently is on hold because of a potential Preact bug: https://github.com/preactjs/preact/issues/4332).
-  - Browser compatibility and accessibility: ensure uniform functionality across all major browsers.
+- Size optimization: in the spirit of Preact push the build size to the absolute minimum.
+- Testing: 100% coverage.
+- Browser compatibility and accessibility: ensure uniform functionality across all major browsers.
 - Maybe more HTML Input flavors if I see a good case for improvement.
 
 If you happen to have any suggestions or ideas for future additions and improvements, please hit me with an email! You can find my address on my GitHub profile.
