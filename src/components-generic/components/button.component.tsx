@@ -24,6 +24,7 @@ import * as u from '../services/utilities.service';
  * @oaram action Operation when button is clicked.
  * @param setValue Hook to change internal value storage.
  * @param id Custom ID to override randomly generated.
+ * @param name Name for submit function.
  * @param className Custom class list to attach to component
  * @param enabled Relay standard HTML attribute.
  * @param singleClick Makes button permanently inactive after first click.
@@ -36,6 +37,7 @@ export const Button = ({
   action,
   setValue,
   id = '',
+  name = '',
   className = '',
   enabled = true,
   singleClick = false,
@@ -46,6 +48,7 @@ export const Button = ({
   action: () => void;
   setValue?: () => void;
   id?: string;
+  name?: string;
   className?: string;
   enabled?: boolean;
   singleClick?: boolean;
@@ -100,6 +103,7 @@ export const Button = ({
     <button
       type="button"
       {...(idRef ? { id: idRef.current } : {})}
+      {...(name ? { name: name } : {})}
       class={buttonClasses.current}
       disabled={!isActive || !enabled}
       onClick={getClickAction()}

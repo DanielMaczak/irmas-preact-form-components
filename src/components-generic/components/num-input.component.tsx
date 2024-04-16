@@ -41,6 +41,7 @@ const KEYS_ALLOWED: number[] = [
  * @param value Hook to value displayed in component.
  * @param setValue Hook to change internal value storage.
  * @param id Custom ID to override randomly generated.
+ * @param name Name for submit function.
  * @param className Custom class list to attach to component.
  * @param label Text to display in label (otherwise is omitted).
  * @param enabled Relay standard HTML attribute.
@@ -55,6 +56,7 @@ export const NumInput = (
     value,
     setValue,
     id = '',
+    name = '',
     className = '',
     label = '',
     enabled = true,
@@ -65,6 +67,7 @@ export const NumInput = (
     value: number;
     setValue: (value: number) => void;
     id?: string;
+    name?: string;
     className?: string;
     label?: string;
     enabled?: boolean;
@@ -194,6 +197,7 @@ export const NumInput = (
         type="text" // prevent nonsensical behavior on number input
         value={value}
         {...(idRef ? { id: idRef.current } : {})}
+        {...(name ? { name: name } : {})}
         class={inputClasses.current}
         disabled={!enabled}
         min={min}

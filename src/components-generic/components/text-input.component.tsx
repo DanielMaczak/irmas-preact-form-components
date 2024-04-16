@@ -69,6 +69,7 @@ const capitalizeText = (text: string, autocapitalize: CAPS_OPTIONS): string => {
  * @param value Hook to value displayed in component.
  * @param setValue Hook to change internal value storage.
  * @param id Custom ID to override randomly generated.
+ * @param name Name for submit function.
  * @param className Custom class list to attach to component.
  * @param label Text to display in label (otherwise is omitted).
  * @param placeholder Relay standard HTML attribute.
@@ -83,6 +84,7 @@ export const TextInput = (
     value,
     setValue,
     id = '',
+    name = '',
     className = '',
     label = '',
     placeholder = '',
@@ -93,6 +95,7 @@ export const TextInput = (
     value: string;
     setValue: (value: string) => void;
     id?: string;
+    name?: string;
     className?: string;
     label?: string;
     placeholder?: string;
@@ -161,6 +164,7 @@ export const TextInput = (
       <textarea
         value={value}
         {...(idRef ? { id: idRef.current } : {})}
+        {...(name ? { name: name } : {})}
         class={inputClasses.current}
         placeholder={placeholder}
         disabled={!enabled}

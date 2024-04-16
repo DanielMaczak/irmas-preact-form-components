@@ -1,6 +1,8 @@
 //  TODO: Has outline when focused (accessibility)
 //  TODO: should inherit color from parent via --bg-color CSS variable
 //  TODO: Add min-max tests
+//  TODO: Add name tests
+//  TODO: Verify all props have tests
 
 //  External dependencies
 import {

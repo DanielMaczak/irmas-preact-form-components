@@ -42,6 +42,7 @@ const DropdownArrow = ({ className }: { className: string }) => (
  * @param setValue Hook to change internal value storage.
  * @param options List of options and associated IDs (optionally hex colors).
  * @param id Custom ID to override randomly generated.
+ * @param name Name for submit function.
  * @param className Custom class list to attach to component.
  * @param label Text to display in label (otherwise is omitted).
  * @param enabled Relay standard HTML attribute.
@@ -55,6 +56,7 @@ export const DropdownInput = (
     setValue,
     options,
     id = '',
+    name = '',
     className = '',
     label = '',
     enabled = true,
@@ -64,6 +66,7 @@ export const DropdownInput = (
     setValue: (option: t.Option) => void;
     options: t.Option[];
     id?: string;
+    name?: string;
     className?: string;
     label?: string;
     enabled?: boolean;
@@ -150,6 +153,15 @@ export const DropdownInput = (
         >
           {label}
         </label>
+      )}
+      {name && (
+        <input
+          type="text"
+          value={value.value}
+          name={name}
+          style={{ display: 'none' }}
+          disabled
+        />
       )}
       <details
         {...(idRef ? { id: idRef.current } : {})}
