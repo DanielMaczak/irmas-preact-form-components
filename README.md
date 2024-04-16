@@ -32,7 +32,7 @@ Set of minimalistic form components with a simple premise: maximum features in m
 
 ## Requirements
 
-I am developing in Preact version 10.19.
+Preact 10.16+.
 
 ## Use case
 
