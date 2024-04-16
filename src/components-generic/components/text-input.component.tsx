@@ -21,7 +21,7 @@ export enum CAPS_OPTIONS {
  * @description Resizes text input if component is defined as multiline.
  * @param e InputEvent.
  */
-const resizeContainer = (e: InputEvent): void => {
+const resizeContainer = (e: Event): void => {
   if (!(e.currentTarget instanceof HTMLTextAreaElement)) return;
   const textArea: HTMLTextAreaElement = e.currentTarget;
   textArea.style.height = '1px'; // ensure resize to smaller
@@ -129,7 +129,7 @@ export const TextInput = (
    * Ensures control retains cursor position.
    * @param e InputEvent.
    */
-  const autocapitalizeInput = (e: InputEvent): void => {
+  const autocapitalizeInput = (e: Event): void => {
     timeoutId.current && clearTimeout(timeoutId.current);
     //  Access element
     if (!(e.currentTarget instanceof HTMLTextAreaElement)) return;

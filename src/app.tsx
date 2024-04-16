@@ -46,8 +46,9 @@ const DateInputSample = () => {
   return (
     <DateInput
       value={date}
-      min={Date.now() + 1000 * 3600 * 24 * 7}
-      max={Date.now() + 1000 * 3600 * 24 * 40}
+      name="asdf sadf df fds fg f .a;s.sfa;"
+      // min={Date.now() + 1000 * 3600 * 24 * 7}
+      // max={Date.now() + 1000 * 3600 * 24 * 40}
       setValue={setDate}
       className="date-class"
       label="date-label:"

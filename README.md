@@ -25,6 +25,18 @@ Set of minimalistic form components with a simple premise: maximum features in m
 - No fighting: Formating reset to 0, ready to be injected with styles.
 - _(Planned) Tiny: Smallest build size achievable._
 
+### Progress
+
+| Component      | Build size | Coverage |
+| -------------- | ---------- | -------- |
+| Button         |            | 0%       |
+| Date Input     | 1KB        | 100%     |
+| Dropdown Input |            | 0%       |
+| Number Input   |            | 0%       |
+| Switch Input   |            | 0%       |
+| Text Input     |            | 0%       |
+| Replace Input  |            | 0%       |
+
 ## Installation
 
 > [!NOTE]

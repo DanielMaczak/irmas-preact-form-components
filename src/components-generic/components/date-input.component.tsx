@@ -3,7 +3,7 @@ import '../styles/style.css';
 
 //  External dependencies
 import { Ref } from 'preact';
-import { ForwardedRef, forwardRef, ChangeEvent } from 'preact/compat';
+import { ForwardedRef, forwardRef } from 'preact/compat';
 
 //  Internal dependencies
 import * as c from '../services/constants.service';
@@ -17,12 +17,10 @@ const MAX_DATE: number = 253402214400000; // 9999-12-31
  * @description Converts time in standard JS number of ms
  * into date format required by date input control (YYYY-MM-DD).
  * @param value Time in number form.
- * @returns Date in string or undefined if conversion fails.
+ * @returns Date in string.
  */
-const getDateString = (value: number): string | undefined => {
-  return typeof value === 'number' && Number.isFinite(value)
-    ? new Date(value).toISOString().slice(0, 10)
-    : undefined;
+const getDateString = (value: number): string => {
+  return new Date(value).toISOString().slice(0, 10);
 };
 
 /**
@@ -85,8 +83,11 @@ export const DateInput = (
     className
   );
 
-  //  Ensure value is within min-max
-  if (typeof value === 'number' && Number.isFinite(value)) {
+  //  Ensure value is within valid min-max
+  if (!Number.isFinite(min)) min = MIN_DATE;
+  if (!Number.isFinite(max)) max = MAX_DATE;
+  min > max && (max = MAX_DATE) && (min = MIN_DATE); // MIN_DATE = false
+  if (Number.isFinite(value)) {
     const limitedValue: number = Math.max(min, Math.min(max, value));
     limitedValue !== value && setValue(limitedValue);
   }
@@ -96,19 +97,19 @@ export const DateInput = (
    * Applies min and max before saving.
    * @param e Date input change event.
    */
-  const storeValue = (e: ChangeEvent): void => {
+  const storeValue = (e: Event): void => {
     if (!enabled) return;
-    if (!(e.currentTarget instanceof HTMLInputElement)) return;
-    //  Convert to number
-    const newValue: number = new Date(e.currentTarget.value).valueOf();
-    if (isNaN(newValue) || value === newValue) return;
-    //  Limit to min-max
-    const limitedValue: number = Math.max(min, Math.min(max, newValue));
-    const stringValue: string | undefined = getDateString(limitedValue);
-    if (!stringValue) return;
-    //  Store final value
-    e.currentTarget.value = stringValue;
-    setValue(limitedValue);
+    if (e.currentTarget instanceof HTMLInputElement) {
+      //  Convert to number
+      const newValue: number = new Date(e.currentTarget.value).valueOf();
+      if (Number.isNaN(newValue) || value === newValue) return;
+      //  Limit to min-max
+      const limitedValue: number = Math.max(min, Math.min(max, newValue));
+      const stringValue: string = getDateString(limitedValue);
+      //  Store final value
+      e.currentTarget.value = stringValue;
+      setValue(limitedValue);
+    }
   };
 
   return (
@@ -120,7 +121,7 @@ export const DateInput = (
       )}
       <input
         type="date"
-        value={getDateString(value)}
+        value={Number.isFinite(value) ? getDateString(value) : ''}
         min={getDateString(min)}
         max={getDateString(max)}
         {...(idRef ? { id: idRef.current } : {})}

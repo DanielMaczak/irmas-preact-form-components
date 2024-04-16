@@ -1,8 +1,5 @@
 //  TODO: Has outline when focused (accessibility)
 //  TODO: should inherit color from parent via --bg-color CSS variable
-//  TODO: Add min-max tests
-//  TODO: Add name tests
-//  TODO: Verify all props have tests
 
 //  External dependencies
 import {
@@ -28,6 +25,7 @@ const TestedComponent = ({
   initialValue,
   mockSetValue,
   id,
+  name,
   className,
   label,
   enabled,
@@ -37,6 +35,7 @@ const TestedComponent = ({
   initialValue: any; // to allow tests on the Type
   mockSetValue?: (value: number) => void;
   id?: string;
+  name?: string;
   className?: string;
   label?: string;
   enabled?: boolean;
@@ -49,6 +48,7 @@ const TestedComponent = ({
       value={value}
       setValue={mockSetValue || setValue}
       {...(id ? { id: id } : {})}
+      {...(name ? { name: name } : {})}
       {...(className ? { className: className } : {})}
       {...(label ? { label: label } : {})}
       {...(enabled !== undefined ? { enabled: enabled } : {})}
@@ -57,6 +57,12 @@ const TestedComponent = ({
     />
   );
 };
+
+/**
+ * @description Quick way to obtain ms from date string.
+ * @param date In format: YYYY-MM-DD.
+ */
+const getMs = (date: string): number => new Date(date).valueOf();
 
 /**
  * @module date-input.test
@@ -69,24 +75,28 @@ describe('DateInput component', () => {
   it('should render correctly with default props', () => {
     //  Render the component
     const { container } = render(
-      <TestedComponent initialValue={m.valueInput1} />
+      <TestedComponent initialValue={getMs(m.value1Date)} />
     );
     //  Search for input element
     const htmlInput: HTMLInputElement | null = queryByDisplayValue(
       container as HTMLElement,
-      m.valueOutput1
+      m.value1Date
     );
     //  Verify element state
     expect(htmlInput).not.toBeNull();
     expect(htmlInput?.id).toEqual('');
+    expect(htmlInput?.name).toEqual('');
+    expect(htmlInput?.classList).toContain(m.defaultClassInput);
+    expect(htmlInput?.getAttribute('disabled')).toBeNull();
   });
 
   it('should render correctly with custom props', () => {
     //  Render the component
     const { container } = render(
       <TestedComponent
-        initialValue={m.valueInput1}
+        initialValue={getMs(m.value1Date)}
         id={m.customId}
+        name={m.customName}
         className={m.customClassInput}
         label={m.customLabel}
         enabled={false}
@@ -101,8 +111,9 @@ describe('DateInput component', () => {
     //  Verify element state
     expect(htmlLabel).not.toBeNull();
     expect(htmlInput).not.toBeNull();
-    expect(htmlInput?.value).toEqual(m.valueOutput1);
+    expect(htmlInput?.value).toEqual(m.value1Date);
     expect(htmlInput?.id).toEqual(m.customId);
+    expect(htmlInput?.name).toEqual(m.customName);
     expect(htmlLabel?.classList).toContain(m.customClassOutputLabel);
     expect(htmlInput?.classList).toContain(m.customClassOutputInput);
     expect(htmlInput?.getAttribute('disabled')).not.toBeNull();
@@ -111,7 +122,10 @@ describe('DateInput component', () => {
   it('should autogenerate ID for label if none provided', () => {
     //  Render the component
     const { container } = render(
-      <TestedComponent initialValue={m.valueInput1} label={m.customLabel} />
+      <TestedComponent
+        initialValue={getMs(m.value1Date)}
+        label={m.customLabel}
+      />
     );
     //  Search for input elements
     const htmlLabel = queryByText(container as HTMLElement, m.customLabel);
@@ -129,7 +143,7 @@ describe('DateInput component', () => {
   it('should not render label if none requested', () => {
     //  Render the component
     const { container } = render(
-      <TestedComponent initialValue={m.valueInput1} />
+      <TestedComponent initialValue={getMs(m.value1Date)} />
     );
     //  Search for label elements
     const htmlLabels: HTMLCollection = container.getElementsByTagName('label');
@@ -149,8 +163,30 @@ describe('DateInput component', () => {
         m.customLabel
       );
       //  Verify element state
-      expect(htmlInput).not.toBeNull();
       expect(htmlInput?.value).toEqual('');
+    }
+  });
+
+  it('should update state to new given date', () => {
+    //  Render the component
+    let testValue: number = getMs(m.value1Date);
+    const setValue = (value: number) => (testValue = value);
+    const { container } = render(
+      <TestedComponent
+        initialValue={getMs(m.value1Date)}
+        mockSetValue={setValue}
+      />
+    );
+    //  Search for input element
+    const htmlInput: HTMLInputElement | null = queryByDisplayValue(
+      container as HTMLElement,
+      m.value1Date
+    );
+    //  Verify element state
+    expect(htmlInput).not.toBeNull();
+    if (htmlInput) {
+      fireEvent.input(htmlInput, { target: { value: m.value2Date } });
+      expect(testValue).toEqual(getMs(m.value2Date));
     }
   });
 
@@ -159,22 +195,21 @@ describe('DateInput component', () => {
     const setValue = vi.fn();
     const { container } = render(
       <TestedComponent
-        initialValue={m.valueInput1}
+        initialValue={getMs(m.value1Date)}
         mockSetValue={setValue}
-        label={m.customLabel}
       />
     );
     //  Search for input element
-    const htmlInput: HTMLInputElement | null = queryByLabelText(
+    const htmlInput: HTMLInputElement | null = queryByDisplayValue(
       container as HTMLElement,
-      m.customLabel
+      m.value1Date
     );
     //  Verify element state
     expect(htmlInput).not.toBeNull();
     if (htmlInput) {
-      fireEvent.input(htmlInput, { target: { value: m.valueOutput1 } });
+      fireEvent.input(htmlInput, { target: { value: m.value1Date } });
       expect(setValue).not.toHaveBeenCalled();
-      fireEvent.input(htmlInput, { target: { value: m.valueOutput2 } });
+      fireEvent.input(htmlInput, { target: { value: m.value2Date } });
       expect(setValue).toHaveBeenCalledOnce();
     }
   });
@@ -185,15 +220,14 @@ describe('DateInput component', () => {
       const setValue = vi.fn();
       const { container } = render(
         <TestedComponent
-          initialValue={m.valueInput1}
+          initialValue={getMs(m.value1Date)}
           mockSetValue={setValue}
-          label={m.customLabel}
         />
       );
       //  Search for input element
-      const htmlInput: HTMLInputElement | null = queryByLabelText(
+      const htmlInput: HTMLInputElement | null = queryByDisplayValue(
         container as HTMLElement,
-        m.customLabel
+        m.value1Date
       );
       //  Verify element state
       expect(htmlInput).not.toBeNull();
@@ -209,10 +243,33 @@ describe('DateInput component', () => {
     const setValue = vi.fn();
     const { container } = render(
       <TestedComponent
-        initialValue={m.valueInput1}
+        initialValue={getMs(m.value1Date)}
+        mockSetValue={setValue}
+        enabled={false}
+      />
+    );
+    //  Search for input element
+    const htmlInput: HTMLInputElement | null = queryByDisplayValue(
+      container as HTMLElement,
+      m.value1Date
+    );
+    //  Verify element state
+    expect(htmlInput).not.toBeNull();
+    if (htmlInput) {
+      fireEvent.input(htmlInput, { target: { value: m.value2Date } });
+      expect(setValue).not.toHaveBeenCalled();
+    }
+  });
+
+  it('should render correctly with default min-max props', () => {
+    //  Render the component
+    let testValue: number = getMs(m.value1Date);
+    const setValue = (value: number) => (testValue = value);
+    const { container } = render(
+      <TestedComponent
+        initialValue={getMs(m.value1Date)}
         mockSetValue={setValue}
         label={m.customLabel}
-        enabled={false}
       />
     );
     //  Search for input element
@@ -223,8 +280,103 @@ describe('DateInput component', () => {
     //  Verify element state
     expect(htmlInput).not.toBeNull();
     if (htmlInput) {
-      fireEvent.input(htmlInput, { target: { value: m.valueOutput2 } });
-      expect(setValue).not.toHaveBeenCalled();
+      fireEvent.input(htmlInput, { target: { value: m.beforeDefaultMinDate } });
+      expect(testValue).toEqual(getMs(m.defaultMinDate));
+      fireEvent.input(htmlInput, { target: { value: m.afterDefaultMaxDate } });
+      expect(testValue).toEqual(getMs(m.defaultMaxDate));
+    }
+  });
+
+  it('should render correctly with custom min-max props', () => {
+    for (let customRange of m.customRanges) {
+      //  Render the component
+      let testValue: number = getMs(m.value1Date);
+      const setValue = (value: number) => (testValue = value);
+      const { container } = render(
+        <TestedComponent
+          initialValue={getMs(m.value1Date)}
+          mockSetValue={setValue}
+          min={getMs(customRange.minDate)}
+          max={getMs(customRange.maxDate)}
+          label={m.customLabel}
+        />
+      );
+      //  Search for input element
+      const htmlInput: HTMLInputElement | null = queryByLabelText(
+        container as HTMLElement,
+        m.customLabel
+      );
+      //  Verify element state
+      expect(htmlInput).not.toBeNull();
+      if (htmlInput) {
+        expect(testValue).toBe(getMs(customRange.expected));
+        fireEvent.input(htmlInput, { target: { value: m.defaultMinDate } });
+        expect(testValue).toBe(getMs(customRange.minDate));
+        fireEvent.input(htmlInput, { target: { value: m.defaultMaxDate } });
+        expect(testValue).toBe(getMs(customRange.maxDate));
+      }
+    }
+  });
+
+  it('should reset to default min-max if min > max', () => {
+    //  Render the component
+    let testValue: number = getMs(m.value1Date);
+    const setValue = (value: number) => (testValue = value);
+    const { container } = render(
+      <TestedComponent
+        initialValue={getMs(m.value1Date)}
+        mockSetValue={setValue}
+        min={getMs(m.greaterMinDate)}
+        max={getMs(m.smallerMaxDate)}
+        label={m.customLabel}
+      />
+    );
+    //  Search for input element
+    const htmlInput: HTMLInputElement | null = queryByLabelText(
+      container as HTMLElement,
+      m.customLabel
+    );
+    //  Verify element state
+    expect(htmlInput).not.toBeNull();
+    if (htmlInput) {
+      fireEvent.input(htmlInput, { target: { value: m.beforeDefaultMinDate } });
+      expect(testValue).toEqual(getMs(m.defaultMinDate));
+      fireEvent.input(htmlInput, { target: { value: m.afterDefaultMaxDate } });
+      expect(testValue).toEqual(getMs(m.defaultMaxDate));
+    }
+  });
+
+  it('should reset to default min-max if given invalid values', () => {
+    for (let invalidValue of m.invalidValues) {
+      //  Render the component
+      let testValue: number = getMs(m.value1Date);
+      const setValue = (value: number) => (testValue = value);
+      const { container } = render(
+        <TestedComponent
+          initialValue={getMs(m.value1Date)}
+          mockSetValue={setValue}
+          min={invalidValue}
+          max={invalidValue}
+          label={m.customLabel}
+        />
+      );
+      //  Search for input element
+      const htmlInput: HTMLInputElement | null = queryByLabelText(
+        container as HTMLElement,
+        m.customLabel
+      );
+      //  Verify element state
+      expect(htmlInput).not.toBeNull();
+      if (htmlInput) {
+        fireEvent.input(htmlInput, {
+          target: { value: m.beforeDefaultMinDate },
+        });
+        expect(testValue).toEqual(getMs(m.defaultMinDate));
+        fireEvent.input(htmlInput, {
+          target: { value: m.afterDefaultMaxDate },
+        });
+        expect(testValue).toEqual(getMs(m.defaultMaxDate));
+      }
     }
   });
 });

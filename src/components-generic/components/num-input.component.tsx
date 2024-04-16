@@ -135,7 +135,7 @@ export const NumInput = (
    * Is debounced on input to 50ms to allow key-holding.
    * @param e Number input change event.
    */
-  const storeValue = (e: InputEvent): void => {
+  const storeValue = (e: Event): void => {
     timeoutId.current && clearTimeout(timeoutId.current);
     //  Access element
     if (!(e.currentTarget instanceof HTMLInputElement)) return;
@@ -204,7 +204,7 @@ export const NumInput = (
         max={max}
         onKeyDown={filterNumeric}
         onInput={storeValue}
-        inputmode="decimal" // support for phones
+        inputMode="decimal" // support for phones
         ref={ref as Ref<HTMLInputElement>}
       />
     </>
