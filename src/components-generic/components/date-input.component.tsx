@@ -9,6 +9,10 @@ import { ForwardedRef, forwardRef, ChangeEvent } from 'preact/compat';
 import * as c from '../services/constants.service';
 import * as u from '../services/utilities.service';
 
+//  Internal constants
+const MIN_DATE: number = 0;
+const MAX_DATE: number = 253402214400000; // 9999-12-31
+
 /**
  * @description Converts time in standard JS number of ms
  * into date format required by date input control (YYYY-MM-DD).
@@ -51,8 +55,8 @@ export const DateInput = (
     className = '',
     label = '',
     enabled = true,
-    min = 0,
-    max = 253402214400000, // 9999-12-31
+    min = MIN_DATE,
+    max = MAX_DATE,
   }: {
     value: number;
     setValue: (value: number) => void;
@@ -79,8 +83,10 @@ export const DateInput = (
   );
 
   //  Ensure value is within min-max
-  const limitedValue: number = Math.max(min, Math.min(max, value));
-  limitedValue !== value && setValue(limitedValue);
+  if (typeof value === 'number' && Number.isFinite(value)) {
+    const limitedValue: number = Math.max(min, Math.min(max, value));
+    limitedValue !== value && setValue(limitedValue);
+  }
 
   /**
    * @description Stores date value into state when changed.
@@ -117,7 +123,7 @@ export const DateInput = (
         {...(idRef ? { id: idRef.current } : {})}
         class={inputClasses.current}
         disabled={!enabled}
-        onChange={storeValue}
+        onInput={storeValue}
         ref={ref as Ref<HTMLInputElement>}
       />
     </>

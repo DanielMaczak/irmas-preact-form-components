@@ -4,17 +4,14 @@
 
 //  External dependencies
 import {
-  act,
   fireEvent,
   queryByDisplayValue,
   queryByLabelText,
   queryByText,
   render,
-  waitFor,
 } from '@testing-library/preact';
 import { describe, it, expect, vi } from 'vitest';
 import { useState } from 'preact/hooks';
-import { ForwardedRef } from 'preact/compat';
 
 //  Internal dependencies
 import { DateInput } from './date-input.component';
@@ -25,28 +22,25 @@ import * as m from './date-input.mocks';
  * Is intended to be the only gateway of tests to tested component.
  * @param (*) Mimicking the params of tested component.
  */
-const TestedComponent = (
-  {
-    initialValue,
-    mockSetValue,
-    id,
-    className,
-    label,
-    enabled,
-    min,
-    max,
-  }: {
-    initialValue: any; // to allow tests on the Type
-    mockSetValue?: (value: number) => void;
-    id?: string;
-    className?: string;
-    label?: string;
-    enabled?: boolean;
-    min?: number;
-    max?: number;
-  },
-  ref: ForwardedRef<HTMLElement>
-) => {
+const TestedComponent = ({
+  initialValue,
+  mockSetValue,
+  id,
+  className,
+  label,
+  enabled,
+  min,
+  max,
+}: {
+  initialValue: any; // to allow tests on the Type
+  mockSetValue?: (value: number) => void;
+  id?: string;
+  className?: string;
+  label?: string;
+  enabled?: boolean;
+  min?: number;
+  max?: number;
+}) => {
   const [value, setValue] = useState(initialValue);
   return (
     <DateInput
@@ -58,7 +52,6 @@ const TestedComponent = (
       {...(enabled !== undefined ? { enabled: enabled } : {})}
       {...(min ? { min: min } : {})}
       {...(max ? { max: max } : {})}
-      ref={ref}
     />
   );
 };
@@ -159,7 +152,7 @@ describe('DateInput component', () => {
     }
   });
 
-  it.only('should update state only when date is changed', async () => {
+  it('should update state only when date is changed', () => {
     //  Render the component
     const setValue = vi.fn();
     const { container } = render(
@@ -177,18 +170,10 @@ describe('DateInput component', () => {
     //  Verify element state
     expect(htmlInput).not.toBeNull();
     if (htmlInput) {
-      await act(() => {
-        fireEvent.change(htmlInput, { target: { value: m.valueOutput1 } });
-      });
-      await waitFor(() => {
-        expect(setValue).not.toHaveBeenCalled();
-      });
-      await act(() => {
-        fireEvent.change(htmlInput, { target: { value: m.valueOutput2 } });
-      });
-      await waitFor(() => {
-        expect(setValue).toHaveBeenCalledOnce();
-      });
+      fireEvent.input(htmlInput, { target: { value: m.valueOutput1 } });
+      expect(setValue).not.toHaveBeenCalled();
+      fireEvent.input(htmlInput, { target: { value: m.valueOutput2 } });
+      expect(setValue).toHaveBeenCalledOnce();
     }
   });
 
@@ -211,7 +196,7 @@ describe('DateInput component', () => {
       //  Verify element state
       expect(htmlInput).not.toBeNull();
       if (htmlInput) {
-        fireEvent.change(htmlInput, { target: { value: invalidValue } });
+        fireEvent.input(htmlInput, { target: { value: invalidValue } });
         expect(setValue).not.toHaveBeenCalled();
       }
     }
@@ -236,7 +221,7 @@ describe('DateInput component', () => {
     //  Verify element state
     expect(htmlInput).not.toBeNull();
     if (htmlInput) {
-      fireEvent.change(htmlInput, { target: { value: m.valueOutput2 } });
+      fireEvent.input(htmlInput, { target: { value: m.valueOutput2 } });
       expect(setValue).not.toHaveBeenCalled();
     }
   });
