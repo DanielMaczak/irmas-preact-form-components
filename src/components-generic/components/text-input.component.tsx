@@ -48,7 +48,7 @@ const capitalizeText = (text: string, autocapitalize: CAPS_OPTIONS): string => {
         word => word[0].toUpperCase() + word.slice(1)
       );
     case CAPS_OPTIONS.SENTENCES:
-      return text.replace(/^\w|\.\s+\w/g, startOfSentence =>
+      return text.replace(/^\s*\w|\.\s+\w/g, startOfSentence =>
         startOfSentence.toUpperCase()
       );
     default:

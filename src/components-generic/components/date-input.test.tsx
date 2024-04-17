@@ -140,6 +140,30 @@ describe('DateInput component', () => {
     expect(htmlLabel?.getAttribute('for')).toEqual(htmlInput?.id);
   });
 
+  // TODO: figure out why following code doesn't focus
+  // it('should focus input when label is clicked', () => {
+  //   //  Render the component
+  //   const { container } = render(
+  //     <TestedComponent
+  //       initialValue={getMs(m.value1Date)}
+  //       label={m.customLabel}
+  //     />
+  //   );
+  //   //  Search for input elements
+  //   const htmlLabel = queryByText(container as HTMLElement, m.customLabel);
+  //   const htmlInput: HTMLInputElement | null = queryByLabelText(
+  //     container as HTMLElement,
+  //     m.customLabel
+  //   );
+  //   //  Verify element state
+  //   expect(htmlLabel).not.toBeNull();
+  //   expect(htmlInput).not.toBeNull();
+  //   if (htmlLabel) {
+  //     fireEvent.click(htmlLabel);
+  //     expect(htmlInput?.isEqualNode(document.activeElement)).toBe(true);
+  //   }
+  // });
+
   it('should not render label if none requested', () => {
     //  Render the component
     const { container } = render(
