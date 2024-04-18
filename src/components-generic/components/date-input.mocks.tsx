@@ -55,3 +55,4 @@ export const inheritedColor: string = 'red';
 
 //  Freeze constant objects
 Object.freeze(invalidValues);
+Object.freeze(customRanges);

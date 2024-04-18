@@ -11,10 +11,10 @@ import * as u from '../services/utilities.service';
 
 //  Internal constants
 export enum CAPS_OPTIONS {
-  NONE = 'none',
-  CHARS = 'characters',
-  WORDS = 'words',
-  SENTENCES = 'sentences',
+  NONE, // keep at 0 === false
+  CHARS,
+  WORDS,
+  SENTENCES,
 }
 
 /**
@@ -22,10 +22,11 @@ export enum CAPS_OPTIONS {
  * @param e InputEvent.
  */
 const resizeContainer = (e: Event): void => {
-  if (!(e.currentTarget instanceof HTMLTextAreaElement)) return;
-  const textArea: HTMLTextAreaElement = e.currentTarget;
-  textArea.style.height = '1px'; // ensure resize to smaller
-  textArea.style.height = `${textArea.scrollHeight}px`;
+  if (e.currentTarget instanceof HTMLTextAreaElement) {
+    const textArea: HTMLTextAreaElement = e.currentTarget;
+    textArea.style.height = '1px'; // ensure resize to smaller
+    textArea.style.height = `${textArea.scrollHeight}px`;
+  }
 };
 
 /**
@@ -44,11 +45,11 @@ const capitalizeText = (text: string, autocapitalize: CAPS_OPTIONS): string => {
       return text.toUpperCase();
     case CAPS_OPTIONS.WORDS:
       return text.replace(
-        /\w+/g,
+        /\p{L}+(?:'\p{L}+)*/gu,
         word => word[0].toUpperCase() + word.slice(1)
       );
     case CAPS_OPTIONS.SENTENCES:
-      return text.replace(/^\s*\w|\.\s+\w/g, startOfSentence =>
+      return text.replace(/^\s*\p{L}|\.\s+\p{L}/gu, startOfSentence =>
         startOfSentence.toUpperCase()
       );
     default:
@@ -148,10 +149,12 @@ export const TextInput = (
    * @param e Text input focus/blur event.
    */
   const storeValue = (e: FocusEvent): void => {
-    if (!(e.currentTarget instanceof HTMLTextAreaElement)) return;
-    const textArea: HTMLTextAreaElement = e.currentTarget;
-    if (value === textArea.value) return;
-    textArea.value ? setValue(textArea.value) : setValue('');
+    if (!enabled) return;
+    if (e.currentTarget instanceof HTMLTextAreaElement) {
+      const textArea: HTMLTextAreaElement = e.currentTarget;
+      if (value === textArea.value) return;
+      setValue(textArea.value);
+    }
   };
 
   return (
@@ -162,7 +165,13 @@ export const TextInput = (
         </label>
       )}
       <textarea
-        value={value}
+        value={
+          typeof value !== 'string'
+            ? ''
+            : autocapitalize
+            ? capitalizeText(value, autocapitalize)
+            : value
+        }
         {...(idRef ? { id: idRef.current } : {})}
         {...(name ? { name: name } : {})}
         class={inputClasses.current}
@@ -170,11 +179,11 @@ export const TextInput = (
         disabled={!enabled}
         onInput={e => {
           multiline && resizeContainer(e);
-          autocapitalize !== CAPS_OPTIONS.NONE && autocapitalizeInput(e);
+          autocapitalize && autocapitalizeInput(e);
         }}
         onBlur={storeValue}
         autocomplete="on"
-        autocapitalize="off" // we provide out own
+        autocapitalize="off" // we provide our own
         rows={1} // set default size
         ref={ref as Ref<HTMLTextAreaElement>}
       />

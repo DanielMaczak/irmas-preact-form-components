@@ -1,5 +1,6 @@
-//  TODO: Has outline when focused (accessibility)
-//  TODO: should inherit color from parent via --bg-color CSS variable
+//  TODO: handle with Cypress:
+//  has outline when focused (accessibility)
+//  should inherit color from parent via --bg-color CSS variable
 
 //  External dependencies
 import {
@@ -88,6 +89,7 @@ describe('DateInput component', () => {
     expect(htmlInput?.name).toEqual('');
     expect(htmlInput?.classList).toContain(m.defaultClassInput);
     expect(htmlInput?.getAttribute('disabled')).toBeNull();
+    expect(container.textContent).toEqual('');
   });
 
   it('should render correctly with custom props', () => {
@@ -117,6 +119,7 @@ describe('DateInput component', () => {
     expect(htmlLabel?.classList).toContain(m.customClassOutputLabel);
     expect(htmlInput?.classList).toContain(m.customClassOutputInput);
     expect(htmlInput?.getAttribute('disabled')).not.toBeNull();
+    expect(container.textContent).toEqual(m.customLabel);
   });
 
   it('should autogenerate ID for label if none provided', () => {
@@ -140,7 +143,7 @@ describe('DateInput component', () => {
     expect(htmlLabel?.getAttribute('for')).toEqual(htmlInput?.id);
   });
 
-  // TODO: figure out why following code doesn't focus
+  //  TODO: handle with Cypress
   // it('should focus input when label is clicked', () => {
   //   //  Render the component
   //   const { container } = render(
@@ -187,6 +190,7 @@ describe('DateInput component', () => {
         m.customLabel
       );
       //  Verify element state
+      expect(htmlInput).not.toBeNull();
       expect(htmlInput?.value).toEqual('');
     }
   });
@@ -196,10 +200,7 @@ describe('DateInput component', () => {
     let testValue: number = getMs(m.value1Date);
     const setValue = (value: number) => (testValue = value);
     const { container } = render(
-      <TestedComponent
-        initialValue={getMs(m.value1Date)}
-        mockSetValue={setValue}
-      />
+      <TestedComponent initialValue={testValue} mockSetValue={setValue} />
     );
     //  Search for input element
     const htmlInput: HTMLInputElement | null = queryByDisplayValue(
@@ -291,7 +292,7 @@ describe('DateInput component', () => {
     const setValue = (value: number) => (testValue = value);
     const { container } = render(
       <TestedComponent
-        initialValue={getMs(m.value1Date)}
+        initialValue={testValue}
         mockSetValue={setValue}
         label={m.customLabel}
       />
@@ -318,7 +319,7 @@ describe('DateInput component', () => {
       const setValue = (value: number) => (testValue = value);
       const { container } = render(
         <TestedComponent
-          initialValue={getMs(m.value1Date)}
+          initialValue={testValue}
           mockSetValue={setValue}
           min={getMs(customRange.minDate)}
           max={getMs(customRange.maxDate)}
@@ -348,7 +349,7 @@ describe('DateInput component', () => {
     const setValue = (value: number) => (testValue = value);
     const { container } = render(
       <TestedComponent
-        initialValue={getMs(m.value1Date)}
+        initialValue={testValue}
         mockSetValue={setValue}
         min={getMs(m.greaterMinDate)}
         max={getMs(m.smallerMaxDate)}
@@ -377,7 +378,7 @@ describe('DateInput component', () => {
       const setValue = (value: number) => (testValue = value);
       const { container } = render(
         <TestedComponent
-          initialValue={getMs(m.value1Date)}
+          initialValue={testValue}
           mockSetValue={setValue}
           min={invalidValue}
           max={invalidValue}

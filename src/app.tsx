@@ -10,6 +10,7 @@ import { ForwardedRef } from 'preact/compat';
 import {
   TextInput,
   TextInputRef,
+  CAPS_OPTIONS,
 } from './components-generic/components/text-input.component';
 import { DateInput } from './components-generic/components/date-input.component';
 import {
@@ -36,7 +37,7 @@ const TextInputSample = () => {
       className="custom-class-name another-class-name"
       label="Custom label:"
       placeholder="Insert your text here..."
-      // autocapitalize="words"
+      autocapitalize={CAPS_OPTIONS.WORDS}
       multiline={true}
     />
   );

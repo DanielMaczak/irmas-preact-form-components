@@ -27,15 +27,15 @@ Set of minimalistic form components with a simple premise: maximum features in m
 
 ### Progress
 
-| Component      | Build size | Coverage |
-| -------------- | ---------- | -------- |
-| Button         |            | 0%       |
-| Date Input     | 1KB        | 100%     |
-| Dropdown Input |            | 0%       |
-| Number Input   |            | 0%       |
-| Switch Input   |            | 0%       |
-| Text Input     |            | 0%       |
-| Replace Input  |            | 0%       |
+| Component      | Build size | Coverage | Notes                                                     |
+| -------------- | ---------- | -------- | --------------------------------------------------------- |
+| Button         |            | 0%       |                                                           |
+| Date Input     | 1KB        | 100%     | Missing test of CSS props and focus in Cypress            |
+| Dropdown Input |            | 0%       |                                                           |
+| Number Input   |            | 0%       |                                                           |
+| Switch Input   |            | 0%       |                                                           |
+| Text Input     | 2KB        | 97%      | Missing test of CSS props, focus and multiline in Cypress |
+| Replace Input  |            | 0%       |                                                           |
 
 ## Installation
 
