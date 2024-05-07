@@ -10,8 +10,9 @@ import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
 import { useState } from 'preact/hooks';
 
 //  Internal dependencies
-import { TextInput, CAPS_OPTIONS } from './text-input.component';
+import { TextInput } from './text-input.component';
 import * as m from './text-input.mocks';
+import * as c from '../services/constants.service';
 
 /**
  * @description Encapsulates tested component with state.
@@ -38,7 +39,7 @@ const TestedComponent = ({
   label?: string;
   placeholder?: string;
   enabled?: boolean;
-  autocapitalize?: CAPS_OPTIONS;
+  autocapitalize?: c.CAPS_OPTIONS;
   multiline?: boolean;
 }) => {
   const [value, setValue] = useState(initialValue);

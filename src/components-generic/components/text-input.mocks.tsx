@@ -46,10 +46,6 @@ export const autocapitalizeValues = [
   { option: 99, output: autocapitalizeInput }
 ];
 
-//  Multiline processing
-export const multilineInput2: string = 'line1\nline2';
-export const multilineInput5: string = 'line1\nline2\nline3\nline4\nline5';
-
 //  Freeze constant objects
 Object.freeze(invalidValues);
 Object.freeze(autocapitalizeValues);

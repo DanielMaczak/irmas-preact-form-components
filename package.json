@@ -1,14 +1,40 @@
 {
   "name": "irmas-preact-form-components",
-  "private": true,
-  "version": "0.0.0",
+  "version": "0.0.3",
+  "description": "Set of minimalistic components for Preact with 0 formating. Intended for portable/embedded solutions.",
+  "author": "Daniel Maczak",
+  "homepage": "https://github.com/DanielMaczak/irmas-preact-form-components",
+  "keywords": [
+    "preact",
+    "form",
+    "component",
+    "input",
+    "button",
+    "irma"
+  ],
+  "license": "MIT",
+  "files": [
+    "dist",
+    "README.md"
+  ],
   "type": "module",
+  "main": "./dist/irmas-preact-form-components.umd.js",
+  "module": "./dist/irmas-preact-form-components.es.js",
+  "types": "./dist/irmas-preact-form-components.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/irmas-preact-form-components.d.ts",
+      "import": "./dist/irmas-preact-form-components.es.js",
+      "require": "./dist/irmas-preact-form-components.umd.js"
+    }
+  },
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build",
     "preview": "vite preview",
-    "test": "vitest",
-    "coverage": "vitest run --coverage"
+    "test-e2e": "cypress open",
+    "test-unit": "vitest",
+    "coverage-unit": "vitest run --coverage"
   },
   "dependencies": {
     "preact": "^10.16.0"
@@ -17,9 +43,11 @@
     "@preact/preset-vite": "^2.7.0",
     "@testing-library/preact": "^3.2.3",
     "@vitest/coverage-v8": "^1.4.0",
+    "cypress": "^13.7.3",
     "jsdom": "^24.0.0",
     "typescript": "^5.2.2",
     "vite": "^5.0.8",
+    "vite-plugin-dts": "^3.9.1",
     "vitest": "^1.2.2",
     "vitest-dom": "^0.1.1"
   }

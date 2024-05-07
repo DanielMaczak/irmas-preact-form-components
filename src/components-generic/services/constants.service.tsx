@@ -22,3 +22,11 @@ export const CLASS_TEXTMULTI: string = CLASS_GENERIC + '__text-multi'; // multi-
 export const CLASS_NUM: string = CLASS_GENERIC + '__num';
 export const CLASS_DROPDOWN: string = CLASS_GENERIC + '__dropdown';
 export const CLASS_SWITCH: string = CLASS_GENERIC + '__switch';
+
+//  Text capitalization options
+export enum CAPS_OPTIONS {
+  NONE, // keep at 0 === false
+  CHARS,
+  WORDS,
+  SENTENCES,
+}

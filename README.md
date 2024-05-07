@@ -2,7 +2,6 @@
 
 > [!WARNING]
 > This is a work in progress. I am progressively adding more features, writing unit/integration tests and refactoring for best performance.
-> It will become an NPM package once the majority of the features are in.
 
 ## Contents
 
@@ -39,8 +38,9 @@ Set of minimalistic form components with a simple premise: maximum features in m
 
 ## Installation
 
-> [!NOTE]
-> Will be added after first full release
+```
+npm i irmas-preact-form-components
+```
 
 ## Requirements
 

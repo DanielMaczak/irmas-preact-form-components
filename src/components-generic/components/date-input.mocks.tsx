@@ -11,6 +11,10 @@ export const value2Date: string = '2024-01-31';
 export const invalidValues: any[] = [
   '1706572800000',
   'invalid-date',
+  {},
+  { testProp: 'testValue' },
+  [],
+  ['testValue'],
   Infinity,
   -Infinity,
   NaN,
@@ -48,10 +52,6 @@ export const customRanges = [
 //  - min > max
 export const greaterMinDate: string = '2024-02-01';
 export const smallerMaxDate: string = '2024-01-02';
-
-//  Styling
-export const inheritStyle: string = '--bg-color: 255, 0, 0;';
-export const inheritedColor: string = 'red';
 
 //  Freeze constant objects
 Object.freeze(invalidValues);

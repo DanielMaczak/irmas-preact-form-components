@@ -9,14 +9,6 @@ import { ForwardedRef, forwardRef, useRef } from 'preact/compat';
 import * as c from '../services/constants.service';
 import * as u from '../services/utilities.service';
 
-//  Internal constants
-export enum CAPS_OPTIONS {
-  NONE, // keep at 0 === false
-  CHARS,
-  WORDS,
-  SENTENCES,
-}
-
 /**
  * @description Resizes text input if component is defined as multiline.
  * @param e InputEvent.
@@ -39,16 +31,19 @@ const resizeContainer = (e: Event): void => {
  * @param autocapitalize One of capitalization options.
  * @returns Capitalized text.
  */
-const capitalizeText = (text: string, autocapitalize: CAPS_OPTIONS): string => {
+const capitalizeText = (
+  text: string,
+  autocapitalize: c.CAPS_OPTIONS
+): string => {
   switch (autocapitalize) {
-    case CAPS_OPTIONS.CHARS:
+    case c.CAPS_OPTIONS.CHARS:
       return text.toUpperCase();
-    case CAPS_OPTIONS.WORDS:
+    case c.CAPS_OPTIONS.WORDS:
       return text.replace(
         /\p{L}+(?:'\p{L}+)*/gu,
         word => word[0].toUpperCase() + word.slice(1)
       );
-    case CAPS_OPTIONS.SENTENCES:
+    case c.CAPS_OPTIONS.SENTENCES:
       return text.replace(/^\s*\p{L}|\.\s+\p{L}/gu, startOfSentence =>
         startOfSentence.toUpperCase()
       );
@@ -90,7 +85,7 @@ export const TextInput = (
     label = '',
     placeholder = '',
     enabled = true,
-    autocapitalize = CAPS_OPTIONS.NONE,
+    autocapitalize = c.CAPS_OPTIONS.NONE,
     multiline = false,
   }: {
     value: string;
@@ -101,7 +96,7 @@ export const TextInput = (
     label?: string;
     placeholder?: string;
     enabled?: boolean;
-    autocapitalize?: CAPS_OPTIONS;
+    autocapitalize?: c.CAPS_OPTIONS;
     multiline?: boolean;
   },
   ref: ForwardedRef<HTMLElement>
