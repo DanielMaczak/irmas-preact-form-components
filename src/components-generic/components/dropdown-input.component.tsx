@@ -78,29 +78,27 @@ export const DropdownInput = (
   const dropdownRef = useRef<HTMLDetailsElement | null>(null);
 
   //  Ensure element has valid static ID
-  const idRef = id || label ? u.generateElementId(id) : undefined;
+  const idRef = useRef(id || label ? u.generateElementId(id) : undefined);
 
   //  Generate class strings
-  const labelClasses = u.generateInputClasses(
-    c.CLASS_TYPES.CLASS_LABEL,
-    className
+  const labelClasses = useRef(
+    u.generateInputClasses(c.CLASS_TYPES.CLASS_LABEL, className)
   );
-  const inputClasses = u.generateInputClasses(
-    c.CLASS_TYPES.CLASS_INPUT,
-    c.CLASS_DROPDOWN,
-    className
+  const inputClasses = useRef(
+    u.generateInputClasses(
+      c.CLASS_TYPES.CLASS_INPUT,
+      c.CLASS_DROPDOWN,
+      className
+    )
   );
-  const arrowClasses = u.generateInputClasses(
-    c.CLASS_TYPES.CLASS_ARROW,
-    className
+  const arrowClasses = useRef(
+    u.generateInputClasses(c.CLASS_TYPES.CLASS_ARROW, className)
   );
-  const listClasses = u.generateInputClasses(
-    c.CLASS_TYPES.CLASS_LIST,
-    className
+  const listClasses = useRef(
+    u.generateInputClasses(c.CLASS_TYPES.CLASS_LIST, className)
   );
-  const optionClasses = u.generateInputClasses(
-    c.CLASS_TYPES.CLASS_OPTION,
-    className
+  const optionClasses = useRef(
+    u.generateInputClasses(c.CLASS_TYPES.CLASS_OPTION, className)
   );
 
   /**
@@ -147,7 +145,7 @@ export const DropdownInput = (
     <>
       {label && (
         <label
-          htmlFor={idRef?.current}
+          htmlFor={idRef.current}
           class={labelClasses.current}
           onClick={openDropdown}
         >
@@ -164,7 +162,7 @@ export const DropdownInput = (
         />
       )}
       <details
-        {...(idRef ? { id: idRef.current } : {})}
+        {...(idRef.current ? { id: idRef.current } : {})}
         class={inputClasses.current}
         disabled={!enabled}
         onBlur={closeDropdown}

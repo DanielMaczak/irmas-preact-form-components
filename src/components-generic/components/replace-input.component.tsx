@@ -82,7 +82,9 @@ export const ReplaceInput = ({
   const useComponent: boolean = useMemo(() => Boolean(component), [component]);
 
   //  Generate class strings
-  const fieldsetClasses = u.generateInputClasses(c.CLASS_TYPES.CLASS_FIELDSET);
+  const fieldsetClasses = useRef(
+    u.generateInputClasses(c.CLASS_TYPES.CLASS_FIELDSET)
+  );
 
   //  Element switching
   useEffect(() => {

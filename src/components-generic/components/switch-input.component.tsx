@@ -3,7 +3,7 @@ import '../styles/style.css';
 
 //  External dependencies
 import { Ref } from 'preact';
-import { ForwardedRef, forwardRef } from 'preact/compat';
+import { ForwardedRef, forwardRef, useRef } from 'preact/compat';
 
 //  Internal dependencies
 import * as c from '../services/constants.service';
@@ -57,21 +57,17 @@ export const SwitchInput = (
   ref: ForwardedRef<HTMLElement>
 ) => {
   //  Ensure element has valid static ID
-  const idRef = id || label ? u.generateElementId(id) : undefined;
+  const idRef = useRef(id || label ? u.generateElementId(id) : undefined);
 
   //  Generate class strings
-  const labelClasses = u.generateInputClasses(
-    c.CLASS_TYPES.CLASS_LABEL,
-    className
+  const labelClasses = useRef(
+    u.generateInputClasses(c.CLASS_TYPES.CLASS_LABEL, className)
   );
-  const inputClasses = u.generateInputClasses(
-    c.CLASS_TYPES.CLASS_INPUT,
-    c.CLASS_SWITCH,
-    className
+  const inputClasses = useRef(
+    u.generateInputClasses(c.CLASS_TYPES.CLASS_INPUT, c.CLASS_SWITCH, className)
   );
-  const optionClasses = u.generateInputClasses(
-    c.CLASS_TYPES.CLASS_OPTION,
-    className
+  const optionClasses = useRef(
+    u.generateInputClasses(c.CLASS_TYPES.CLASS_OPTION, className)
   );
 
   //  Determine switch type
@@ -106,12 +102,12 @@ export const SwitchInput = (
   return (
     <>
       {label && (
-        <label htmlFor={idRef?.current} class={labelClasses.current}>
+        <label htmlFor={idRef.current} class={labelClasses.current}>
           {label}
         </label>
       )}
       <fieldset
-        {...(idRef ? { id: idRef.current } : {})}
+        {...(idRef.current ? { id: idRef.current } : {})}
         {...(name ? { name: name } : {})}
         class={inputClasses.current}
         ref={ref as Ref<HTMLFieldSetElement>}

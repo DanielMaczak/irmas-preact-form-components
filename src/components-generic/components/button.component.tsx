@@ -2,7 +2,7 @@
 import '../styles/style.css';
 
 //  External dependencies
-import { useState } from 'preact/compat';
+import { useRef, useState } from 'preact/compat';
 
 //  Internal dependencies
 import * as c from '../services/constants.service';
@@ -59,12 +59,11 @@ export const Button = ({
   const [isActive, activate] = useState<boolean>(true);
 
   //  Ensure element has valid static ID
-  const idRef = id ? u.generateElementId(id) : undefined;
+  const idRef = useRef(id ? u.generateElementId(id) : undefined);
 
   //  Generate class strings
-  const buttonClasses = u.generateInputClasses(
-    c.CLASS_TYPES.CLASS_BUTTON,
-    className
+  const buttonClasses = useRef(
+    u.generateInputClasses(c.CLASS_TYPES.CLASS_BUTTON, className)
   );
 
   /**
@@ -102,7 +101,7 @@ export const Button = ({
   return (
     <button
       type="button"
-      {...(idRef ? { id: idRef.current } : {})}
+      {...(idRef.current ? { id: idRef.current } : {})}
       {...(name ? { name: name } : {})}
       class={buttonClasses.current}
       disabled={!isActive || !enabled}

@@ -5,9 +5,6 @@
  * @version 1.0.0
  */
 
-//  External dependencies
-import { MutableRef, useRef } from 'preact/hooks';
-
 //  Internal dependencies
 import * as c from './constants.service';
 
@@ -33,7 +30,7 @@ export const generateInputClasses = (
     | c.CLASS_TYPES.CLASS_BUTTON
     | c.CLASS_TYPES.CLASS_FIELDSET,
   ...requestedClasses: string[]
-): MutableRef<string> => {
+): string => {
   let classList = c.CLASS_GENERIC + classType; // minimum required return
   requestedClasses
     .join(' ')
@@ -41,7 +38,7 @@ export const generateInputClasses = (
     .forEach(className => {
       className && (classList += ' ' + className + classType);
     });
-  return useRef(classList);
+  return classList;
 };
 
 /**
@@ -64,10 +61,10 @@ const generateRandomId = (): string => {
  * @param id ID provided by user, used without adjustment if given.
  * @returns Mutable reference object containing unique element ID.
  */
-export const generateElementId = (id: string): MutableRef<string> => {
-  if (id) return useRef(id);
+export const generateElementId = (id: string): string => {
+  if (id) return id;
   let randomId: string = generateRandomId();
   while (!randomId || generatedIds.has(randomId)) randomId = generateRandomId();
   generatedIds.add(randomId); // remember new ID
-  return useRef(c.CLASS_GENERIC + '__' + randomId);
+  return c.CLASS_GENERIC + '__' + randomId;
 };

@@ -3,7 +3,7 @@ import '../styles/style.css';
 
 //  External dependencies
 import { Ref } from 'preact';
-import { ForwardedRef, forwardRef } from 'preact/compat';
+import { ForwardedRef, forwardRef, useRef } from 'preact/compat';
 
 //  Internal dependencies
 import * as c from '../services/constants.service';
@@ -71,16 +71,14 @@ export const DateInput = (
   ref: ForwardedRef<HTMLElement>
 ) => {
   //  Ensure element has valid static ID
-  const idRef = id || label ? u.generateElementId(id) : undefined;
+  const idRef = useRef(id || label ? u.generateElementId(id) : undefined);
 
   //  Generate class strings
-  const labelClasses = u.generateInputClasses(
-    c.CLASS_TYPES.CLASS_LABEL,
-    className
+  const labelClasses = useRef(
+    u.generateInputClasses(c.CLASS_TYPES.CLASS_LABEL, className)
   );
-  const inputClasses = u.generateInputClasses(
-    c.CLASS_TYPES.CLASS_INPUT,
-    className
+  const inputClasses = useRef(
+    u.generateInputClasses(c.CLASS_TYPES.CLASS_INPUT, className)
   );
 
   //  Ensure value is within valid min-max
@@ -115,7 +113,7 @@ export const DateInput = (
   return (
     <>
       {label && (
-        <label htmlFor={idRef?.current} class={labelClasses.current}>
+        <label htmlFor={idRef.current} class={labelClasses.current}>
           {label}
         </label>
       )}
@@ -124,7 +122,7 @@ export const DateInput = (
         value={Number.isFinite(value) ? getDateString(value) : ''}
         min={getDateString(min)}
         max={getDateString(max)}
-        {...(idRef ? { id: idRef.current } : {})}
+        {...(idRef.current ? { id: idRef.current } : {})}
         {...(name ? { name: name } : {})}
         class={inputClasses.current}
         disabled={!enabled}

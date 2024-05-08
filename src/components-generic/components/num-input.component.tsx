@@ -78,17 +78,14 @@ export const NumInput = (
   ref: ForwardedRef<HTMLElement>
 ) => {
   //  Ensure element has valid static ID
-  const idRef = id || label ? u.generateElementId(id) : undefined;
+  const idRef = useRef(id || label ? u.generateElementId(id) : undefined);
 
   //  Generate class strings
-  const labelClasses = u.generateInputClasses(
-    c.CLASS_TYPES.CLASS_LABEL,
-    className
+  const labelClasses = useRef(
+    u.generateInputClasses(c.CLASS_TYPES.CLASS_LABEL, className)
   );
-  const inputClasses = u.generateInputClasses(
-    c.CLASS_TYPES.CLASS_INPUT,
-    c.CLASS_NUM,
-    className
+  const inputClasses = useRef(
+    u.generateInputClasses(c.CLASS_TYPES.CLASS_INPUT, c.CLASS_NUM, className)
   );
 
   //  Value references (mutable)
@@ -189,14 +186,14 @@ export const NumInput = (
   return (
     <>
       {label && (
-        <label htmlFor={idRef?.current} class={labelClasses.current}>
+        <label htmlFor={idRef.current} class={labelClasses.current}>
           {label}
         </label>
       )}
       <input
         type="text" // prevent nonsensical behavior on number input
         value={value}
-        {...(idRef ? { id: idRef.current } : {})}
+        {...(idRef.current ? { id: idRef.current } : {})}
         {...(name ? { name: name } : {})}
         class={inputClasses.current}
         disabled={!enabled}
