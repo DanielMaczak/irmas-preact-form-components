@@ -172,7 +172,7 @@ export const DropdownInput = (
         }}
       >
         {/* //  Dropdown input */}
-        <summary class={inputClasses.current}>
+        <summary>
           {showValue ? value.value : null}
           <DropdownArrow className={arrowClasses.current} />
         </summary>

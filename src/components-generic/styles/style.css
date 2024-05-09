@@ -16,7 +16,7 @@
   display: inline-block;
   margin: 0;
   padding: 0;
-  background: inherit;
+  background: none;
   border: none;
   font-family: inherit;
   font-size: inherit;
@@ -79,10 +79,7 @@
 
 .irmaspfc__dropdown__input summary {
   cursor: pointer;
-  transition: margin 0.2s ease-out;
-}
-.irmaspfc__dropdown__input[open] summary {
-  margin-bottom: 0.5rem;
+  list-style: none;
 }
 .irmaspfc__dropdown__input[open] .irmaspfc__arrow {
   rotate: 180deg;

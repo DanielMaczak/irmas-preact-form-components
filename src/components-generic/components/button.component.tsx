@@ -7,6 +7,7 @@ import { useRef, useState } from 'preact/compat';
 //  Internal dependencies
 import * as c from '../services/constants.service';
 import * as u from '../services/utilities.service';
+import { ComponentChildren } from 'preact';
 
 /**
  * @module button.component
@@ -30,6 +31,7 @@ import * as u from '../services/utilities.service';
  * @param singleClick Makes button permanently inactive after first click.
  * @param inactiveAfterClickFor Makes button inactive for X ms after each click.
  * @param inactiveValue Displayed text during inactive period.
+ * @param children Displays passed children inside button.
  * @version 1.0.0
  */
 export const Button = ({
@@ -43,6 +45,7 @@ export const Button = ({
   singleClick = false,
   inactiveAfterClickFor = 0,
   inactiveValue = '',
+  children,
 }: {
   value: string;
   action: () => void;
@@ -54,6 +57,7 @@ export const Button = ({
   singleClick?: boolean;
   inactiveAfterClickFor?: number;
   inactiveValue?: string;
+  children?: ComponentChildren;
 }) => {
   //  State hooks
   const [isActive, activate] = useState<boolean>(true);
@@ -107,6 +111,7 @@ export const Button = ({
       disabled={!isActive || !enabled}
       onClick={getClickAction()}
     >
+      {children}
       {isActive ? value : inactiveValue || value}
     </button>
   );

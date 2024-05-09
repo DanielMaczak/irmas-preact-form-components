@@ -118,7 +118,12 @@ const ButtonSample = () => {
       className="button-class"
       inactiveAfterClickFor={1000}
       inactiveValue={'waiting...'}
-    />
+    >
+      <img
+        src="https://cdn-icons-png.flaticon.com/512/347/347052.png"
+        width="16"
+      />
+    </Button>
   );
 };
 
