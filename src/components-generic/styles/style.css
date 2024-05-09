@@ -77,21 +77,21 @@
 
 /* Individual component styling - DropdownInput */
 
-.irmaspfc__dropdown__input summary {
+.irmaspfc__dropdown__input {
   cursor: pointer;
   list-style: none;
 }
-.irmaspfc__dropdown__input[open] .irmaspfc__arrow {
+.irmaspfc__dropdown__fieldset[open] .irmaspfc__arrow {
   rotate: 180deg;
 }
 
 /* Individual component styling - SwitchInput */
 
-.irmaspfc__switch__input input[type='radio'],
-.irmaspfc__switch__input input[type='checkbox'] {
+.irmaspfc__switch__fieldset input[type='radio'],
+.irmaspfc__switch__fieldset input[type='checkbox'] {
   display: none;
 }
-.irmaspfc__option:has(input[type='radio']:checked),
-.irmaspfc__option:has(input[type='checkbox']:checked) {
+.irmaspfc__switch__option:has(input[type='radio']:checked),
+.irmaspfc__switch__option:has(input[type='checkbox']:checked) {
   background-color: rgba(var(--bg-color-internal), 100%);
 }

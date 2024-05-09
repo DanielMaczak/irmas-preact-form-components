@@ -63,11 +63,19 @@ export const SwitchInput = (
   const labelClasses = useRef(
     u.generateInputClasses(c.CLASS_TYPES.CLASS_LABEL, className)
   );
-  const inputClasses = useRef(
-    u.generateInputClasses(c.CLASS_TYPES.CLASS_INPUT, c.CLASS_SWITCH, className)
+  const fieldsetClasses = useRef(
+    u.generateInputClasses(
+      c.CLASS_TYPES.CLASS_FIELDSET,
+      c.CLASS_SWITCH,
+      className
+    )
   );
   const optionClasses = useRef(
-    u.generateInputClasses(c.CLASS_TYPES.CLASS_OPTION, className)
+    u.generateInputClasses(
+      c.CLASS_TYPES.CLASS_OPTION,
+      c.CLASS_SWITCH,
+      className
+    )
   );
 
   //  Determine switch type
@@ -109,7 +117,7 @@ export const SwitchInput = (
       <fieldset
         {...(idRef.current ? { id: idRef.current } : {})}
         {...(name ? { name: name } : {})}
-        class={inputClasses.current}
+        class={fieldsetClasses.current}
         ref={ref as Ref<HTMLFieldSetElement>}
       >
         {options.map(option => (

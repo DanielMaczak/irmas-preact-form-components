@@ -84,6 +84,13 @@ export const DropdownInput = (
   const labelClasses = useRef(
     u.generateInputClasses(c.CLASS_TYPES.CLASS_LABEL, className)
   );
+  const detailsClasses = useRef(
+    u.generateInputClasses(
+      c.CLASS_TYPES.CLASS_FIELDSET,
+      c.CLASS_DROPDOWN,
+      className
+    )
+  );
   const inputClasses = useRef(
     u.generateInputClasses(
       c.CLASS_TYPES.CLASS_INPUT,
@@ -163,7 +170,7 @@ export const DropdownInput = (
       )}
       <details
         {...(idRef.current ? { id: idRef.current } : {})}
-        class={inputClasses.current}
+        class={detailsClasses.current}
         disabled={!enabled}
         onBlur={closeDropdown}
         ref={node => {
@@ -172,7 +179,7 @@ export const DropdownInput = (
         }}
       >
         {/* //  Dropdown input */}
-        <summary>
+        <summary class={inputClasses.current}>
           {showValue ? value.value : null}
           <DropdownArrow className={arrowClasses.current} />
         </summary>
