@@ -181,6 +181,9 @@ export const DropdownInput = (
         {/* //  Dropdown input */}
         <summary class={inputClasses.current}>
           {showValue ? value.value : null}
+          {value.color ? (
+            <span style={`background: ${value.color};`}></span>
+          ) : null}
           <DropdownArrow className={arrowClasses.current} />
         </summary>
         {/* //  Dropdown options */}
