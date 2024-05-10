@@ -72,9 +72,9 @@ const NumInputSample = () => {
 };
 const DropdownInputSample = () => {
   const options: t.Option[] = [
-    { id: '0', value: 'test0' },
-    { id: '1', value: 'test1' },
-    { id: '2', value: 'test2' },
+    { id: '0', value: 'test0', color: '#ff0000' },
+    { id: '1', value: 'test1', color: '#ff0000' },
+    { id: '2', value: 'test2', color: '#ff0000' },
   ];
   const [value, setValue] = useState(options[0]);
   return (

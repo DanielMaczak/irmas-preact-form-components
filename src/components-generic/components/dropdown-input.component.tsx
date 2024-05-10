@@ -194,7 +194,7 @@ export const DropdownInput = (
             >
               {option.value}
               {option.color ? (
-                <span style={`background-color: rgb(${option.color});`}></span>
+                <span style={`background: ${option.color};`}></span>
               ) : null}
             </li>
           ))}
