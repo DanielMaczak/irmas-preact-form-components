@@ -16,7 +16,7 @@ const resizeContainer = (e: Event): void => {
   if (e.currentTarget instanceof HTMLTextAreaElement) {
     const textArea: HTMLTextAreaElement = e.currentTarget;
     textArea.style.height = '1px'; // ensure resize to smaller
-    textArea.style.height = `${textArea.scrollHeight}px`;
+    textArea.style.height = `${Math.floor(textArea.scrollHeight)}px`;
   }
 };
 
