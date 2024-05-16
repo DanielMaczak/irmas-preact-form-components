@@ -2,8 +2,7 @@
 import '../styles/style.css';
 
 //  External dependencies
-import { Ref } from 'preact';
-import { ForwardedRef, forwardRef, useRef } from 'preact/compat';
+import { ForwardedRef, forwardRef, useEffect, useRef } from 'preact/compat';
 
 //  Internal dependencies
 import * as c from '../services/constants.service';
@@ -101,6 +100,9 @@ export const TextInput = (
   },
   ref: ForwardedRef<HTMLElement>
 ) => {
+  //  Component references (mutable)
+  const textareaRef = useRef<HTMLTextAreaElement | null>(null);
+
   //  Ensure element has valid static ID
   const idRef = useRef(id || label ? u.generateElementId(id) : undefined);
 
@@ -116,6 +118,13 @@ export const TextInput = (
       className
     )
   );
+
+  //  Initial component state
+  useEffect(() => {
+    if (textareaRef.current) {
+      textareaRef.current.dispatchEvent(new Event('input'));
+    }
+  }, []);
 
   //  Value references (mutable)
   const timeoutId = useRef<NodeJS.Timeout | null>(null);
@@ -181,7 +190,10 @@ export const TextInput = (
         autocomplete="on"
         autocapitalize="off" // we provide our own
         rows={1} // set default size
-        ref={ref as Ref<HTMLTextAreaElement>}
+        ref={node => {
+          ref && typeof ref !== 'function' && (ref.current = node);
+          textareaRef.current = node;
+        }}
       />
     </>
   );

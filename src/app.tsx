@@ -24,7 +24,7 @@ import { Button } from './components-generic/components/button.component';
 
 //  DEVELOPMENT OF GENERIC COMPONENTS
 const TextInputSample = () => {
-  const [text, setText] = useState('');
+  const [text, setText] = useState('afsdfdfdfasd\nasdfdsfdfsd\nasdfdsfds');
   const doStuffOnInput = (newText: string) => {
     console.log('storing new text');
     setText(newText);
