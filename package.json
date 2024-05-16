@@ -1,6 +1,6 @@
 {
   "name": "irmas-preact-form-components",
-  "version": "0.0.13",
+  "version": "0.0.14",
   "description": "Set of minimalistic components for Preact with 0 formating. Intended for portable/embedded solutions.",
   "author": "Daniel Maczak",
   "homepage": "https://github.com/DanielMaczak/irmas-preact-form-components",

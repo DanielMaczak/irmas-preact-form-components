@@ -34,7 +34,7 @@ const TestedComponent = ({
   max,
 }: {
   initialValue: any; // to allow tests on the Type
-  mockSetValue?: (value: number) => void;
+  mockSetValue?: (value: number | null) => void;
   id?: string;
   name?: string;
   className?: string;
@@ -197,8 +197,8 @@ describe('DateInput component', () => {
 
   it('should update state to new given date', () => {
     //  Render the component
-    let testValue: number = getMs(m.value1Date);
-    const setValue = (value: number) => (testValue = value);
+    let testValue: number | null = getMs(m.value1Date);
+    const setValue = (value: number | null) => (testValue = value);
     const { container } = render(
       <TestedComponent initialValue={testValue} mockSetValue={setValue} />
     );
@@ -288,8 +288,8 @@ describe('DateInput component', () => {
 
   it('should render correctly with default min-max props', () => {
     //  Render the component
-    let testValue: number = getMs(m.value1Date);
-    const setValue = (value: number) => (testValue = value);
+    let testValue: number | null = getMs(m.value1Date);
+    const setValue = (value: number | null) => (testValue = value);
     const { container } = render(
       <TestedComponent
         initialValue={testValue}
@@ -315,8 +315,8 @@ describe('DateInput component', () => {
   it('should render correctly with custom min-max props', () => {
     for (let customRange of m.customRanges) {
       //  Render the component
-      let testValue: number = getMs(m.value1Date);
-      const setValue = (value: number) => (testValue = value);
+      let testValue: number | null = getMs(m.value1Date);
+      const setValue = (value: number | null) => (testValue = value);
       const { container } = render(
         <TestedComponent
           initialValue={testValue}
@@ -345,8 +345,8 @@ describe('DateInput component', () => {
 
   it('should reset to default min-max if min > max', () => {
     //  Render the component
-    let testValue: number = getMs(m.value1Date);
-    const setValue = (value: number) => (testValue = value);
+    let testValue: number | null = getMs(m.value1Date);
+    const setValue = (value: number | null) => (testValue = value);
     const { container } = render(
       <TestedComponent
         initialValue={testValue}
@@ -374,8 +374,8 @@ describe('DateInput component', () => {
   it('should reset to default min-max if given invalid values', () => {
     for (let invalidValue of m.invalidValues) {
       //  Render the component
-      let testValue: number = getMs(m.value1Date);
-      const setValue = (value: number) => (testValue = value);
+      let testValue: number | null = getMs(m.value1Date);
+      const setValue = (value: number | null) => (testValue = value);
       const { container } = render(
         <TestedComponent
           initialValue={testValue}
