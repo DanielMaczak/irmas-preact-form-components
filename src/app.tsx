@@ -42,14 +42,17 @@ const TextInputSample = () => {
   );
 };
 const DateInputSample = () => {
-  const [date, setDate] = useState(Date.now());
+  const [date, setDate] = useState<number | null>(Date.now());
   return (
     <DateInput
       value={date}
       name="asdf sadf df fds fg f .a;s.sfa;"
       // min={Date.now() + 1000 * 3600 * 24 * 7}
       // max={Date.now() + 1000 * 3600 * 24 * 40}
-      setValue={setDate}
+      setValue={value => {
+        console.log('new value:', value);
+        setDate(value);
+      }}
       className="date-class"
       label="date-label:"
       // enabled={false}

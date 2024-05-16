@@ -58,8 +58,8 @@ export const DateInput = (
     min = MIN_DATE,
     max = MAX_DATE,
   }: {
-    value: number;
-    setValue: (value: number) => void;
+    value: number | null;
+    setValue: (value: number | null) => void;
     id?: string;
     name?: string;
     className?: string;
@@ -85,7 +85,7 @@ export const DateInput = (
   if (!Number.isFinite(min)) min = MIN_DATE;
   if (!Number.isFinite(max)) max = MAX_DATE;
   min > max && (max = MAX_DATE) && (min = MIN_DATE); // MIN_DATE = false
-  if (Number.isFinite(value)) {
+  if (value !== null && Number.isFinite(value)) {
     const limitedValue: number = Math.max(min, Math.min(max, value));
     limitedValue !== value && setValue(limitedValue);
   }
@@ -98,6 +98,11 @@ export const DateInput = (
   const storeValue = (e: Event): void => {
     if (!enabled) return;
     if (e.currentTarget instanceof HTMLInputElement) {
+      //  Check for null case
+      if (e.currentTarget.value === '' && value !== null) {
+        setValue(null);
+        return;
+      }
       //  Convert to number
       const newValue: number = new Date(e.currentTarget.value).valueOf();
       if (Number.isNaN(newValue) || value === newValue) return;
@@ -119,7 +124,9 @@ export const DateInput = (
       )}
       <input
         type="date"
-        value={Number.isFinite(value) ? getDateString(value) : ''}
+        value={
+          value !== null && Number.isFinite(value) ? getDateString(value) : ''
+        }
         min={getDateString(min)}
         max={getDateString(max)}
         {...(idRef.current ? { id: idRef.current } : {})}

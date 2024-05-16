@@ -20,7 +20,6 @@ export const invalidValues: any[] = [
   NaN,
   false,
   undefined,
-  null,
 ];
 
 //  ID assignment
