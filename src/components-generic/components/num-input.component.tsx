@@ -88,9 +88,6 @@ export const NumInput = (
     u.generateInputClasses(c.CLASS_TYPES.CLASS_INPUT, c.CLASS_NUM, className)
   );
 
-  //  Value references (mutable)
-  const timeoutId = useRef<NodeJS.Timeout | null>(null);
-
   //  Ensure value is within min-max
   const limitedValue: number = Math.max(min, Math.min(max, value));
   limitedValue !== value && setValue(limitedValue);
@@ -123,64 +120,71 @@ export const NumInput = (
   };
 
   /**
-   * @description Stores number into state on input change.
+   * @description Secondary check for non-numeric value made of numeric chars.
    * Non-numeric values are caught and reversed to last valid value;
    * this is expensive operation so is only executed on rare cases
    * when minus sign is placed between numbers (dummy user! :).
    * Conversion to number was chosen over parseFloat
    * as parse is less precise in identifying wrong numbers.
-   * Is debounced on input to 50ms to allow key-holding.
    * @param e Number input change event.
    */
-  const storeValue = (e: Event): void => {
-    timeoutId.current && clearTimeout(timeoutId.current);
+  const convertToNumber = (e: Event): void => {
     //  Access element
     if (!(e.currentTarget instanceof HTMLInputElement)) return;
     const input: HTMLInputElement = e.currentTarget;
-    timeoutId.current = setTimeout(() => {
-      //  Allow temporary semi-numeric values
-      if (input.value === '' || input.value === '-') {
-        setValue(0);
-        return;
-      }
-      //  Test for wrong number made of allowed characters
-      let newValue: number = Number(input.value);
-      if (Number.isNaN(newValue)) {
-        const cursorPosition: number = (input.selectionStart ?? 1) - 1;
+    //  Allow temporary semi-numeric values
+    if (input.value === '' || input.value === '-') return;
+    //  Test for wrong number made of allowed characters
+    let newValue: number = Number(input.value);
+    if (Number.isNaN(newValue)) {
+      const cursorPosition: number = (input.selectionStart ?? 1) - 1;
+      input.value = String(value);
+      input.selectionStart = cursorPosition;
+      input.selectionEnd = cursorPosition;
+      return;
+    }
+  };
+
+  /**
+   * @description Stores number into state when user leaves control.
+   * Applies min-max boundaries before value is stored.
+   * @param e Number input change event.
+   */
+  const storeValue = (e: Event): void => {
+    //  Access element
+    if (!(e.currentTarget instanceof HTMLInputElement)) return;
+    const input: HTMLInputElement = e.currentTarget;
+    //  Secondary check if user leaves only semi-numeric value
+    let value: number = Number(input.value);
+    if (Number.isNaN(value)) value = 0;
+    //  Test against min-max
+    const applyMinMax = (minMax: number): void => {
+      //  Ensure we never leave safe INT range
+      if (value > Number.MAX_SAFE_INTEGER) {
+        value = Number.MAX_SAFE_INTEGER;
         input.value = String(value);
-        input.selectionStart = cursorPosition;
-        input.selectionEnd = cursorPosition;
-        return;
+      } else if (value < Number.MIN_SAFE_INTEGER) {
+        value = Number.MIN_SAFE_INTEGER;
+        input.value = String(value);
+        //  Then, if we are, apply local min/max
+      } else if (!invalidClassName) {
+        value = minMax;
+        input.value = String(value);
       }
-      //  Test against min-max
-      const applyMinMax = (minMax: number): void => {
-        //  Ensure we never leave safe INT range
-        if (newValue > Number.MAX_SAFE_INTEGER) {
-          newValue = Number.MAX_SAFE_INTEGER;
-          input.value = String(newValue);
-        } else if (newValue < Number.MIN_SAFE_INTEGER) {
-          newValue = Number.MIN_SAFE_INTEGER;
-          input.value = String(newValue);
-          //  Then, if we are, apply local min/max
-        } else if (!invalidClassName) {
-          newValue = minMax;
-          input.value = String(newValue);
-        }
-        //  Apply formatting
-        if (invalidClassName) {
-          input.classList.add(invalidClassName);
-        }
-      };
-      if (newValue < min) {
-        applyMinMax(min);
-      } else if (newValue > max) {
-        applyMinMax(max);
-      } else if (invalidClassName) {
-        input.classList.remove(invalidClassName);
+      //  Apply formatting
+      if (invalidClassName) {
+        input.classList.add(invalidClassName);
       }
-      //  Store new value
-      setValue(newValue);
-    }, 50);
+    };
+    if (value < min) {
+      applyMinMax(min);
+    } else if (value > max) {
+      applyMinMax(max);
+    } else if (invalidClassName) {
+      input.classList.remove(invalidClassName);
+    }
+    //  Store new value
+    setValue(value);
   };
 
   return (
@@ -200,7 +204,8 @@ export const NumInput = (
         min={min}
         max={max}
         onKeyDown={filterNumeric}
-        onInput={storeValue}
+        onInput={convertToNumber}
+        onBlur={storeValue}
         inputMode="decimal" // support for phones
         ref={ref as Ref<HTMLInputElement>}
       />
