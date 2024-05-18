@@ -131,35 +131,33 @@ export const TextInput = (
 
   /**
    * @description Applies autocapitalize to user input.
-   * Is debounced on input to 350ms to allow key-holding and touch typing.
    * Ensures control retains cursor position.
    * @param e InputEvent.
    */
-  const autocapitalizeInput = (e: Event): void => {
+  const autocapitalizeInput = (textArea: HTMLTextAreaElement): void => {
+    const cursorPosition: number = textArea.selectionStart;
+    textArea.value = capitalizeText(textArea.value, autocapitalize);
+    textArea.selectionStart = cursorPosition;
+    textArea.selectionEnd = cursorPosition;
+  };
+
+  /**
+   * @description Stores value into state.
+   * Is debounced on input to 350ms to allow key-holding and touch typing.
+   * @param e Text input focus/blur event.
+   */
+  const storeValue = (e: Event): void => {
+    if (!enabled) return;
     timeoutId.current && clearTimeout(timeoutId.current);
     //  Access element
     if (!(e.currentTarget instanceof HTMLTextAreaElement)) return;
     const textArea: HTMLTextAreaElement = e.currentTarget;
-    //  Capitalize while retaining cursor position
+    //  Capitalize (if applicable) and store new value
     timeoutId.current = setTimeout(() => {
-      const cursorPosition: number = textArea.selectionStart;
-      textArea.value = capitalizeText(textArea.value, autocapitalize);
-      textArea.selectionStart = cursorPosition;
-      textArea.selectionEnd = cursorPosition;
-    }, 350);
-  };
-
-  /**
-   * @description Stores value into state when switching focus.
-   * @param e Text input focus/blur event.
-   */
-  const storeValue = (e: FocusEvent): void => {
-    if (!enabled) return;
-    if (e.currentTarget instanceof HTMLTextAreaElement) {
-      const textArea: HTMLTextAreaElement = e.currentTarget;
       if (value === textArea.value) return;
+      autocapitalize && autocapitalizeInput(textArea);
       setValue(textArea.value);
-    }
+    }, 350);
   };
 
   return (
@@ -184,9 +182,8 @@ export const TextInput = (
         disabled={!enabled}
         onInput={e => {
           multiline && resizeContainer(e);
-          autocapitalize && autocapitalizeInput(e);
+          storeValue(e);
         }}
-        onBlur={storeValue}
         autocomplete="on"
         autocapitalize="off" // we provide our own
         rows={1} // set default size
