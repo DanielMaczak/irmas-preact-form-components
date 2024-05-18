@@ -132,7 +132,7 @@ export const TextInput = (
   /**
    * @description Applies autocapitalize to user input.
    * Ensures control retains cursor position.
-   * @param e InputEvent.
+   * @param textArea Control to capitalize.
    */
   const autocapitalizeInput = (textArea: HTMLTextAreaElement): void => {
     const cursorPosition: number = textArea.selectionStart;
@@ -144,7 +144,7 @@ export const TextInput = (
   /**
    * @description Stores value into state.
    * Is debounced on input to 350ms to allow key-holding and touch typing.
-   * @param e Text input focus/blur event.
+   * @param e Text input event.
    */
   const storeValue = (e: Event): void => {
     if (!enabled) return;

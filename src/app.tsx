@@ -21,6 +21,7 @@ import { ReplaceInput } from './components-generic/components/replace-input.comp
 import * as t from './components-generic/services/types.service';
 import { SwitchInput } from './components-generic/components/switch-input.component';
 import { Button } from './components-generic/components/button.component';
+import { File } from './components-generic/components/file.component';
 
 //  DEVELOPMENT OF GENERIC COMPONENTS
 const TextInputSample = () => {
@@ -110,14 +111,10 @@ const SwitchInputSample = () => {
 };
 const ButtonSample = () => {
   const [value, setValue] = useState('fancy button');
-  const changeText = () => {
-    setValue('stop touching my buttons!');
-  };
   return (
     <Button
       value={value}
       action={() => console.log('button clicked')}
-      setValue={changeText}
       className="button-class"
       inactiveAfterClickFor={1000}
       inactiveValue={'waiting...'}
@@ -191,6 +188,8 @@ export function App() {
         <SwitchInputSample />
         <br />
         <ButtonSample />
+        <br />
+        <File value="Load file" action={e => console.log(e)} />
         <br />
         <ReplaceTextInputSample />
       </div>

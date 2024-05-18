@@ -6,6 +6,7 @@
 
 //  Basic components
 export { Button } from './components/button.component';
+export { File } from './components/file.component';
 export { DateInput } from './components/date-input.component';
 export { DropdownInput } from './components/dropdown-input.component';
 export { NumInput } from './components/num-input.component';

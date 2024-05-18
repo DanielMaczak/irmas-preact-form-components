@@ -23,7 +23,6 @@ import { ComponentChildren } from 'preact';
  * -  dynamic button text.
  * @param value Hook to value displayed in component.
  * @oaram action Operation when button is clicked.
- * @param setValue Hook to change internal value storage.
  * @param id Custom ID to override randomly generated.
  * @param name Name for submit function.
  * @param className Custom class list to attach to component
@@ -37,7 +36,6 @@ import { ComponentChildren } from 'preact';
 export const Button = ({
   value,
   action,
-  setValue,
   id = '',
   name = '',
   className = '',
@@ -49,7 +47,6 @@ export const Button = ({
 }: {
   value: string;
   action: () => void;
-  setValue?: () => void;
   id?: string;
   name?: string;
   className?: string;
@@ -80,7 +77,6 @@ export const Button = ({
   const getClickAction = (): (() => void) => {
     const runClickActions = (): void => {
       action();
-      setValue !== undefined && setValue();
     };
     const handleInactiveAfterClick = (): void => {
       if (isActive) {
