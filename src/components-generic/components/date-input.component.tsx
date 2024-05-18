@@ -99,7 +99,7 @@ export const DateInput = (
     if (!enabled) return;
     if (e.currentTarget instanceof HTMLInputElement) {
       //  Check for null case
-      if (e.currentTarget.value === '' && value !== null) {
+      if (e.currentTarget.value === '') {
         setValue(null);
         return;
       }
